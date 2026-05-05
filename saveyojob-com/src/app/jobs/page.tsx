@@ -9,19 +9,8 @@ export const metadata: Metadata = {
 };
 
 async function getOccupations() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { SEED_OCCUPATIONS } = await import('../../../data/seed-data');
-    return SEED_OCCUPATIONS;
-  }
-  try {
-    const { createServerClient } = await import('../../../lib/supabase');
-    const supabase = await createServerClient();
-    const { data } = await supabase
-      .from('occupations')
-      .select('slug,title,automation_probability,risk_level,median_annual_wage')
-      .order('automation_probability', { ascending: false });
-    return data ?? [];
-  } catch { return []; }
+  const { SEED_OCCUPATIONS } = await import('../../../data/seed-data');
+  return SEED_OCCUPATIONS;
 }
 
 function riskStyle(level: string | null) {

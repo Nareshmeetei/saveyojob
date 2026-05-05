@@ -1,50 +1,12 @@
-import { createServerClient } from './supabase';
+import { SEED_OCCUPATIONS } from '../data/seed-data';
 import type { Occupation } from './types/database';
 
 export async function getOccupation(slug: string): Promise<Occupation | null> {
-  const supabase = await createServerClient();
-  const { data, error } = await supabase
-    .from('occupations')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-  if (error) return null;
-  return data as Occupation;
+  return (SEED_OCCUPATIONS.find(o => o.slug === slug) ?? null) as Occupation | null;
 }
 
 export async function getAllOccupationSlugs(): Promise<string[]> {
-  const supabase = await createServerClient();
-  const { data } = await supabase
-    .from('occupations')
-    .select('slug')
-    .order('automation_probability', { ascending: false });
-  return (data ?? []).map((o: { slug: string }) => o.slug);
-}
-
-export async function getRelatedOccupations(
-  socCode: string,
-  limit = 6
-): Promise<Occupation[]> {
-  const major = socCode.split('-')[0];
-  const supabase = await createServerClient();
-  const { data } = await supabase
-    .from('occupations')
-    .select('*')
-    .like('soc_code', `${major}-%`)
-    .neq('soc_code', socCode)
-    .order('automation_probability', { ascending: false })
-    .limit(limit);
-  return (data ?? []) as Occupation[];
-}
-
-export async function getTopAtRiskOccupations(limit = 12): Promise<Occupation[]> {
-  const supabase = await createServerClient();
-  const { data } = await supabase
-    .from('occupations')
-    .select('*')
-    .order('automation_probability', { ascending: false })
-    .limit(limit);
-  return (data ?? []) as Occupation[];
+  return SEED_OCCUPATIONS.map(o => o.slug);
 }
 
 export function riskColor(level: string | null): string {

@@ -8,22 +8,13 @@ import GeneratorWizard from '../../../components/generator/GeneratorWizard';
 interface Props { params: Promise<{ slug: string }>; }
 
 async function getOccupation(slug: string) {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { SEED_OCCUPATIONS } = await import('../../../../data/seed-data');
-    return SEED_OCCUPATIONS.find(o => o.slug === slug) ?? null;
-  }
-  const { getOccupation } = await import('../../../../lib/occupations');
-  return getOccupation(slug);
+  const { SEED_OCCUPATIONS } = await import('../../../../data/seed-data');
+  return SEED_OCCUPATIONS.find(o => o.slug === slug) ?? null;
 }
 
 export async function generateStaticParams() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    const { SEED_OCCUPATIONS } = await import('../../../../data/seed-data');
-    return SEED_OCCUPATIONS.map(o => ({ slug: o.slug }));
-  }
-  const { getAllOccupationSlugs } = await import('../../../../lib/occupations');
-  const slugs = await getAllOccupationSlugs();
-  return slugs.map(slug => ({ slug }));
+  const { SEED_OCCUPATIONS } = await import('../../../../data/seed-data');
+  return SEED_OCCUPATIONS.map(o => ({ slug: o.slug }));
 }
 
 export const revalidate = 86400;
