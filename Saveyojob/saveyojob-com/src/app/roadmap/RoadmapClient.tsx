@@ -2,7 +2,7 @@
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Star } from 'lucide-react';
 
 // ── Roadmap data ──────────────────────────────────────────────────────────────
 
@@ -131,93 +131,147 @@ const PHASES: Record<'high' | 'medium' | 'low', Phase[]> = {
   ],
 };
 
+// Domain-specific AI courses shown in "Other Recommended Courses".
+// Must NOT contain any URL that appears in PHASE_COURSES — the filter enforces this but keeping them separate avoids duplicates.
 const COURSES: Record<string, { title: string; platform: string; duration: string; rating: number; url: string }[]> = {
   data: [
-    { title: 'Google Data Analytics Certificate',    platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'IBM Data Analyst Professional',         platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/ibm-data-analyst'                 },
-    { title: 'Microsoft Power BI Data Analyst',       platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/microsoft-power-bi-data-analyst'   },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
   ],
   support: [
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Salesforce Sales Development Rep',      platform: 'Coursera',        duration: '4 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/sales-development-representative'   },
-    { title: 'Google Digital Marketing & E-commerce', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce' },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building Systems with the ChatGPT API',      platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'               },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   writing: [
-    { title: 'ChatGPT Prompt Engineering',            platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
-    { title: 'Google Digital Marketing & E-commerce', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce' },
-    { title: 'Meta Social Media Marketing',           platform: 'Coursera',        duration: '7 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/facebook-social-media-marketing'    },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building Systems with the ChatGPT API',      platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'               },
+    { title: 'Finetuning Large Language Models',           platform: 'DeepLearning.AI', duration: '1 week',   rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/finetuning-large-language-models/'            },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   finance: [
-    { title: 'Excel Skills for Business',             platform: 'Coursera',        duration: '6 months', rating: 4.9, url: 'https://www.coursera.org/specializations/excel'                                      },
-    { title: 'Google Data Analytics Certificate',     platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'Microsoft Power BI Data Analyst',       platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/microsoft-power-bi-data-analyst'   },
+    { title: 'Machine Learning for Trading Specialization', platform: 'Coursera',       duration: '4 months', rating: 4.4, url: 'https://www.coursera.org/specializations/machine-learning-trading'                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   sales: [
-    { title: 'Google Digital Marketing & E-commerce', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce' },
-    { title: 'Meta Social Media Marketing',           platform: 'Coursera',        duration: '7 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/facebook-social-media-marketing'    },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building Systems with the ChatGPT API',      platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'               },
+    { title: 'AI Product Management Specialization',       platform: 'Coursera',        duration: '3 months', rating: 4.6, url: 'https://www.coursera.org/specializations/ai-product-management-duke'                    },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   ops: [
-    { title: 'Google Project Management Certificate', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-project-management'        },
-    { title: 'Supply Chain Management Spec.',         platform: 'Coursera',        duration: '4 months', rating: 4.7, url: 'https://www.coursera.org/specializations/supply-chain-management'                   },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   legal: [
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Google Data Analytics Certificate',     platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'ChatGPT Prompt Engineering',            platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
+    { title: 'Natural Language Processing Specialization', platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/specializations/natural-language-processing'                   },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   hr: [
-    { title: 'People Analytics',                      platform: 'Coursera',        duration: '4 months', rating: 4.6, url: 'https://www.coursera.org/learn/wharton-people-analytics'                            },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Google Project Management Certificate', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-project-management'        },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   design: [
-    { title: 'Google UX Design Certificate',          platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-ux-design'                },
-    { title: 'ChatGPT Prompt Engineering',            platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
-    { title: 'Meta Social Media Marketing',           platform: 'Coursera',        duration: '7 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/facebook-social-media-marketing'    },
+    { title: 'How Diffusion Models Work',                  platform: 'DeepLearning.AI', duration: '1 week',   rating: 4.7, url: 'https://www.deeplearning.ai/short-courses/how-diffusion-models-work/'                   },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Building Systems with the ChatGPT API',      platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'               },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
   ],
   research: [
-    { title: 'Google Data Analytics Certificate',     platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'IBM Data Analyst Professional',         platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/ibm-data-analyst'                 },
-    { title: 'Microsoft Power BI Data Analyst',       platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/microsoft-power-bi-data-analyst'   },
+    { title: 'Natural Language Processing Specialization', platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/specializations/natural-language-processing'                   },
+    { title: 'Deep Learning Specialization',               platform: 'Coursera',        duration: '5 months', rating: 4.8, url: 'https://www.coursera.org/specializations/deep-learning'                                },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   realestate: [
-    { title: 'Google Digital Marketing & E-commerce', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce' },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Excel Skills for Business',             platform: 'Coursera',        duration: '6 months', rating: 4.9, url: 'https://www.coursera.org/specializations/excel'                                      },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
   ],
   transport: [
-    { title: 'Supply Chain Management Spec.',         platform: 'Coursera',        duration: '4 months', rating: 4.7, url: 'https://www.coursera.org/specializations/supply-chain-management'                   },
-    { title: 'Google Project Management Certificate', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-project-management'        },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
   ],
   tech: [
-    { title: 'Machine Learning Specialization',       platform: 'Coursera',        duration: '3 months', rating: 4.9, url: 'https://www.coursera.org/specializations/machine-learning-introduction'             },
-    { title: 'Deep Learning Specialization',          platform: 'Coursera',        duration: '5 months', rating: 4.8, url: 'https://www.coursera.org/specializations/deep-learning'                            },
-    { title: 'ChatGPT Prompt Engineering',            platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
+    { title: 'Deep Learning Specialization',               platform: 'Coursera',        duration: '5 months', rating: 4.8, url: 'https://www.coursera.org/specializations/deep-learning'                                },
+    { title: 'LangChain for LLM App Development',          platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/'  },
+    { title: 'Building Systems with the ChatGPT API',      platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'               },
+    { title: 'Finetuning Large Language Models',           platform: 'DeepLearning.AI', duration: '1 week',   rating: 4.8, url: 'https://www.deeplearning.ai/short-courses/finetuning-large-language-models/'            },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Natural Language Processing Specialization', platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/specializations/natural-language-processing'                   },
   ],
   health: [
-    { title: 'AI in Healthcare Specialization',       platform: 'Coursera',        duration: '4 months', rating: 4.7, url: 'https://www.coursera.org/specializations/ai-healthcare'                            },
-    { title: 'Google Data Analytics Certificate',     platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'Python for Everybody Specialization',   platform: 'Coursera',        duration: '8 months', rating: 4.8, url: 'https://www.coursera.org/specializations/python'                                    },
+    { title: 'AI in Healthcare Specialization',            platform: 'Coursera',        duration: '4 months', rating: 4.7, url: 'https://www.coursera.org/specializations/ai-healthcare'                                },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Deep Learning Specialization',               platform: 'Coursera',        duration: '5 months', rating: 4.8, url: 'https://www.coursera.org/specializations/deep-learning'                                },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   edu: [
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Google Project Management Certificate', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-project-management'        },
-    { title: 'Google Digital Marketing & E-commerce', platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce' },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
+    { title: 'AI Ethics',                                  platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/ai-ethics'                                               },
   ],
   arch: [
-    { title: 'Machine Learning Specialization',       platform: 'Coursera',        duration: '3 months', rating: 4.9, url: 'https://www.coursera.org/specializations/machine-learning-introduction'             },
-    { title: 'Python for Everybody Specialization',   platform: 'Coursera',        duration: '8 months', rating: 4.8, url: 'https://www.coursera.org/specializations/python'                                    },
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
+    { title: 'Deep Learning Specialization',               platform: 'Coursera',        duration: '5 months', rating: 4.8, url: 'https://www.coursera.org/specializations/deep-learning'                                },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Natural Language Processing Specialization', platform: 'Coursera',        duration: '5 months', rating: 4.6, url: 'https://www.coursera.org/specializations/natural-language-processing'                   },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
   ],
   other: [
-    { title: 'AI for Everyone',                       platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                      },
-    { title: 'Google Data Analytics Certificate',     platform: 'Coursera',        duration: '6 months', rating: 4.8, url: 'https://www.coursera.org/professional-certificates/google-data-analytics'            },
-    { title: 'ChatGPT Prompt Engineering',            platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
+    { title: 'Introduction to Generative AI',              platform: 'Coursera',        duration: '1 hour',   rating: 4.7, url: 'https://www.coursera.org/learn/introduction-to-generative-ai'                          },
+    { title: 'Prompt Engineering for ChatGPT',             platform: 'Coursera',        duration: '5 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/prompt-engineering'                                      },
+    { title: 'Generative AI with Large Language Models',   platform: 'Coursera',        duration: '3 weeks',  rating: 4.7, url: 'https://www.coursera.org/learn/generative-ai-with-llms'                                  },
+    { title: 'Building AI Chatbots Without Programming',   platform: 'Coursera',        duration: '4 weeks',  rating: 4.6, url: 'https://www.coursera.org/learn/building-ai-chatbots'                                    },
   ],
 };
+
+// Universal AI progression shown after each plan phase — awareness → practical → certification.
+// No URL here may duplicate a URL in COURSES above.
+const PHASE_COURSES: { title: string; platform: string; duration: string; rating: number; url: string }[][] = [
+  // Phase 1 — AI awareness (short, start immediately)
+  [
+    { title: 'AI for Everyone',               platform: 'Coursera',        duration: '3 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/ai-for-everyone'                                       },
+    { title: 'Generative AI for Everyone',    platform: 'Coursera',        duration: '5 weeks',  rating: 4.8, url: 'https://www.coursera.org/learn/generative-ai-for-everyone'                            },
+  ],
+  // Phase 2 — practical AI skills (hands-on, tool-ready)
+  [
+    { title: 'ChatGPT Prompt Engineering',    platform: 'DeepLearning.AI', duration: '2 weeks',  rating: 4.9, url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'  },
+    { title: 'Google AI Essentials',          platform: 'Coursera',        duration: '1 month',  rating: 4.8, url: 'https://www.coursera.org/learn/google-ai-essentials'                                  },
+  ],
+  // Phase 3 — AI certification (resume-ready credentials)
+  [
+    { title: 'Machine Learning Specialization', platform: 'Coursera',      duration: '3 months', rating: 4.9, url: 'https://www.coursera.org/specializations/machine-learning-introduction'              },
+    { title: 'IBM Applied AI Professional Cert.', platform: 'Coursera',    duration: '4 months', rating: 4.6, url: 'https://www.coursera.org/professional-certificates/ibm-applied-ai'                   },
+  ],
+];
 
 const JOB_LABELS: Record<string, string> = {
   data: 'Data Entry & Admin', support: 'Customer Service', writing: 'Writing & Content',
@@ -283,6 +337,9 @@ export default function RoadmapClient() {
   const phases   = PHASES[level];
   const courses  = COURSES[jobId] ?? COURSES.other;
   const jobLabel = JOB_LABELS[jobId] ?? 'Your Role';
+
+  const shownInPhases = new Set(PHASE_COURSES.flat().map(c => c.url));
+  const otherCourses  = courses.filter(c => !shownInPhases.has(c.url));
 
   return (
     <div className="min-h-screen bg-bg">
@@ -393,38 +450,78 @@ export default function RoadmapClient() {
                   </div>
                 ))}
               </div>
+
+              {/* Phase courses */}
+              <div className="px-5 pb-4 border-t border-line">
+                <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-3 pt-3 mb-2">Start with these</div>
+                <div className="space-y-1.5">
+                  {PHASE_COURSES[i].map((c) => (
+                    <a key={c.url} href={c.url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-3 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden">
+                        <img
+                          src={`https://www.google.com/s2/favicons?domain=${new URL(c.url).hostname}&sz=64`}
+                          alt={c.platform}
+                          width={20}
+                          height={20}
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[12px] font-semibold text-ink truncate">{c.title}</div>
+                        <div className="text-[11px] text-ink-3 flex items-center gap-1">
+                          {c.platform} · {c.duration} · <Star size={10} strokeWidth={0} className="fill-amber-400 text-amber-400 shrink-0" /> {c.rating}
+                        </div>
+                      </div>
+                      <span className="text-[11px] font-bold text-fire shrink-0">Start Free →</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Course recommendations */}
-        <div className="mb-10">
-          <div className="flex items-center gap-4 mb-5">
-            <span className="text-[15px] font-bold text-ink shrink-0">Recommended Courses</span>
-            <div className="flex-1 h-px bg-line" />
-          </div>
-          <div className="space-y-2.5">
-            {courses.map((c, i) => (
-              <motion.a key={c.title}
-                href={c.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + i * 0.08 }}
-                className="flex items-center gap-4 px-5 py-4 bg-surface border border-line rounded-xl hover:border-fire transition-colors duration-150"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="text-[14px] font-semibold text-ink">{c.title}</div>
-                  <div className="text-[12px] text-ink-3 mt-0.5">
-                    {c.platform} · {c.duration} · ★ {c.rating}
+        {/* Other Recommended Courses — courses not already shown in the phases above */}
+        {otherCourses.length > 0 && (
+          <div className="mb-10">
+            <div className="flex items-center gap-4 mb-5">
+              <span className="text-[15px] font-bold text-ink shrink-0">Other Recommended Courses</span>
+              <div className="flex-1 h-px bg-line" />
+            </div>
+            <div className="space-y-2">
+              {otherCourses.map((c, i) => (
+                <motion.a key={c.url}
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 + i * 0.08 }}
+                  className="flex items-center gap-3 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${new URL(c.url).hostname}&sz=64`}
+                      alt={c.platform}
+                      width={24}
+                      height={24}
+                      className="object-contain"
+                    />
                   </div>
-                </div>
-                <span className="text-[12px] font-bold text-fire shrink-0">Enroll →</span>
-              </motion.a>
-            ))}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[13px] font-semibold text-ink truncate">{c.title}</div>
+                    <div className="text-[11px] text-ink-3 mt-0.5 flex items-center gap-1">
+                      {c.platform} · {c.duration} · <Star size={10} strokeWidth={0} className="fill-amber-400 text-amber-400 shrink-0" /> {c.rating}
+                    </div>
+                  </div>
+                  <span className="text-[11px] font-bold text-fire shrink-0">Start Learning →</span>
+                </motion.a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom CTA */}
         <div className="text-center py-8 border-t border-line">

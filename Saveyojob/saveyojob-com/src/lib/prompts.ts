@@ -80,7 +80,6 @@ Return ONLY a JSON object matching this exact structure:
       "duration": "<e.g. '6 weeks'>",
       "cost": "<e.g. 'Free to audit' or '$49/mo'>",
       "url": "<real, working URL to the course>",
-      "icon": "<single relevant emoji>",
       "whyThisOne": "<1 sentence explaining why this course specifically>"
     }
   ],

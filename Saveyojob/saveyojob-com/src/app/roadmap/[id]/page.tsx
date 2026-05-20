@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { LinkIcon } from 'lucide-react';
 
 interface Props { params: Promise<{ id: string }> }
 
@@ -50,7 +51,9 @@ async function SharedRoadmapContent({ id }: { id: string }) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center px-5">
         <div className="text-center max-w-sm">
-          <div className="text-[48px] mb-4">🔗</div>
+          <div className="w-14 h-14 rounded-2xl bg-surface border border-line flex items-center justify-center mb-4 mx-auto">
+            <LinkIcon size={24} strokeWidth={1.5} className="text-ink-3" />
+          </div>
           <h1 className="text-[22px] font-bold text-ink mb-3">Shared link expired</h1>
           <p className="text-[14px] text-ink-2 leading-relaxed mb-6">
             This roadmap link is no longer available. Generate your own free personalized roadmap in 60 seconds.

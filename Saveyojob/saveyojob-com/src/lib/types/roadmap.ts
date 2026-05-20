@@ -45,7 +45,7 @@ export interface RoadmapCourse {
   duration:     string;
   cost?:        string;
   url:          string;
-  icon:         string;
+  icon?:        string;
   whyThisOne:   string;
 }
 
@@ -109,7 +109,7 @@ export const RoadmapDataSchema = z.object({
     duration:    z.string(),
     cost:        z.string().optional(),
     url:         z.string(),
-    icon:        z.string(),
+    icon:        z.string().optional(),
     whyThisOne:  z.string(),
   })),
   alternativePaths: z.array(z.object({

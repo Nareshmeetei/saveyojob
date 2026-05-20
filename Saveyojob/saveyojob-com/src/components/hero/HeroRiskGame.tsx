@@ -185,7 +185,7 @@ function riskMeta(score: number) {
       'Start using AI tools in your workflow this week to demonstrate AI literacy to your employer',
       'Begin an AI or data certificate within 30 days before headcount decisions accelerate',
     ],
-    urgency: '⚠ Companies in your sector are already cutting headcount in this role type. The window to act is 6–12 months.',
+    urgency: 'Companies in your sector are already cutting headcount in this role type. The window to act is 6–12 months.',
   };
   if (score >= 40) return {
     level:   'medium' as const,
@@ -838,7 +838,7 @@ function ResultPhase({ job, displayScore, finalScore, goal, onReset }: {
                   <div className="flex-1 min-w-0">
                     <div className="text-[13px] font-semibold text-ink truncate">{c.title}</div>
                     <div className="text-[11px] text-ink-3 mt-0.5">
-                      {c.platform} · {c.duration} · ★ {c.rating}
+                      {c.platform} · {c.duration} · {c.rating}
                     </div>
                   </div>
                   <span className="text-[11px] font-bold text-fire shrink-0">Enroll →</span>

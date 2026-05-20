@@ -11,14 +11,20 @@ export default function CourseCards({ courses }: CourseCardsProps) {
           href={c.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-start gap-4 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire hover:bg-surface-3 transition-all duration-150 group"
+          className="flex items-start gap-3 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
         >
-          <div className="w-11 h-11 rounded-xl bg-surface-3 border border-line-2 flex items-center justify-center text-xl shrink-0">
-            {c.icon}
+          <div className="w-9 h-9 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
+            <img
+              src={`https://www.google.com/s2/favicons?domain=${new URL(c.url).hostname}&sz=64`}
+              alt={c.platform}
+              width={24}
+              height={24}
+              className="object-contain"
+            />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[14px] font-semibold text-ink mb-0.5 truncate">{c.name}</div>
-            <div className="text-[12px] text-ink-3 mb-1.5">
+            <div className="text-[13px] font-semibold text-ink mb-0.5 truncate">{c.name}</div>
+            <div className="text-[11px] text-ink-3 mb-1.5">
               <span className="text-ink-2 font-medium">{c.platform}</span>
               {c.institution ? ` · ${c.institution}` : ''}
               {` · ${c.duration}`}
@@ -26,8 +32,8 @@ export default function CourseCards({ courses }: CourseCardsProps) {
             </div>
             <div className="text-[12px] text-ink-2 leading-relaxed">{c.whyThisOne}</div>
           </div>
-          <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-ink-3 group-hover:text-fire transition-colors shrink-0 pt-0.5">
-            View →
+          <span className="text-[11px] font-bold text-fire shrink-0 pt-0.5">
+            Enroll →
           </span>
         </a>
       ))}
