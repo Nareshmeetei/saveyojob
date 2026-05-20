@@ -395,9 +395,6 @@ export default async function OccupationPage({ params }: Props) {
             <span className="text-ink-2">{occ.title}</span>
           </nav>
 
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-fire mb-3">
-            AI Risk Assessment · {year}
-          </div>
           <h1 className="text-[40px] sm:text-[52px] font-bold text-ink tracking-tight leading-tight mb-5">
             Will AI Replace<br />{occ.title}s?
           </h1>
