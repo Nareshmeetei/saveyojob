@@ -103,9 +103,9 @@ export default async function JobsPage() {
                       {o.title}
                     </span>
                     {o.risk_level === 'Very High' && (
-                      <span className="relative inline-flex items-center justify-center w-3 h-3 mt-0.5 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ backgroundColor: '#DC2626' }} />
-                        <span className="relative inline-flex w-2 h-2 rounded-full" style={{ backgroundColor: '#DC2626' }} />
+                      <span className="relative inline-flex items-center justify-center w-2 h-2 mt-1 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-35" style={{ backgroundColor: '#DC2626', animationDuration: '2.4s' }} />
+                        <span className="relative inline-flex w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#DC2626' }} />
                       </span>
                     )}
                   </div>
