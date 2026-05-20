@@ -174,6 +174,54 @@ export default async function OccupationPage({ params }: Props) {
           </div>
         </section>
 
+        {/* Recommended Courses */}
+        {occ.affiliate_courses?.length > 0 && (
+          <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-[11px] font-bold uppercase tracking-[0.13em] text-paper-3">Recommended courses</span>
+              <div className="flex-1 h-[1px] bg-wire" />
+            </div>
+            <p className="text-[14px] text-paper-2 mb-6">
+              Build the skills that keep {occ.title}s relevant in an AI-driven economy.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {occ.affiliate_courses.map((course: any, i: number) => (
+                <a
+                  key={i}
+                  href={course.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col gap-2 bg-ink-1 border border-wire rounded-xl p-4 hover:border-acid/50 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[18px] leading-none">{course.icon}</span>
+                    {course.badge && (
+                      <span className={`text-[10px] font-bold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full ${
+                        course.badge === 'AI-Powered'
+                          ? 'bg-acid/10 text-acid'
+                          : course.badge === 'Certification'
+                          ? 'bg-amber-400/10 text-amber-400'
+                          : 'bg-rust/10 text-rust'
+                      }`}>
+                        {course.badge}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-[13px] font-semibold text-paper leading-snug group-hover:text-acid transition-colors">
+                      {course.name}
+                    </div>
+                    <div className="text-[11px] text-paper-3 mt-0.5">{course.platform}</div>
+                  </div>
+                  <div className="text-[11px] font-medium text-paper-3 border-t border-wire pt-2 mt-1">
+                    {course.skill}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* FAQ */}
         <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
           <div className="flex items-center gap-3 mb-6">

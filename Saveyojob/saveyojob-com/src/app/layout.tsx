@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Work_Sans } from 'next/font/google';
+import Footer from '../components/layout/Footer';
 import './globals.css';
 
 const workSans = Work_Sans({
@@ -42,6 +43,9 @@ export const metadata: Metadata = {
     description: 'Free AI career risk assessment + personalized reskilling courses.',
   },
   robots: { index: true, follow: true },
+  verification: {
+    google: 'DOISWswQG9sCTPeak60oFGHnCm-eHqWYtvQiF1nrvKo',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -59,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
         {children}
+        <Footer />
       </body>
     </html>
   );

@@ -108,16 +108,6 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      <footer className="border-t border-line bg-surface py-8 px-5 sm:px-8">
-        <div className="max-w-[680px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-ink-3">
-          <span>© {new Date().getFullYear()} Saveyojob.com</span>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-ink transition-colors">Privacy</Link>
-            <Link href="/about" className="hover:text-ink transition-colors">About</Link>
-            <Link href="/jobs" className="hover:text-ink transition-colors">All Jobs</Link>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }

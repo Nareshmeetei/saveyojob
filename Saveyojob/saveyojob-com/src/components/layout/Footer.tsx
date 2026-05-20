@@ -1,0 +1,43 @@
+import Link from 'next/link';
+import NewsletterCTA from '../newsletter/NewsletterCTA';
+
+const LINKS = [
+  { label: 'Jobs at Risk', href: '/jobs' },
+  { label: 'All Courses',  href: '/courses' },
+  { label: 'Blog',         href: '/blog' },
+  { label: 'About',        href: '/about' },
+  { label: 'Privacy',      href: '/privacy' },
+];
+
+export default function Footer() {
+  return (
+    <footer>
+      <NewsletterCTA />
+      <div className="border-t border-line bg-surface px-5 sm:px-8 py-6">
+        <div className="max-w-[900px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link href="/" className="select-none flex items-center shrink-0">
+            <img
+              src="/saveyojob_logo02.svg"
+              alt="Saveyojob"
+              style={{ height: 26, width: 'auto' }}
+            />
+          </Link>
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-1">
+            {LINKS.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-[12px] text-ink-3 hover:text-ink transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+          <span className="text-[12px] text-ink-3 shrink-0">
+            © {new Date().getFullYear()} Saveyojob.com · Free forever
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
+}

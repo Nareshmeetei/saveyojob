@@ -280,14 +280,11 @@ export default function ToolsDirectory() {
       <div className="max-w-[1100px] mx-auto">
 
         <div className="mb-10">
-          <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-fire block mb-2">
-            Tool directory
-          </span>
           <h2 className="text-[26px] sm:text-[32px] font-bold tracking-[-0.03em] text-ink leading-tight">
-            17 Free Career Tools in One Place
+            Other Tools
           </h2>
           <p className="text-[14px] text-ink-2 mt-2">
-            Resume · Cover Letter · LinkedIn · Interview · Salary · Job Search · AI Risk
+            Explore other smart tools, career guides, and AI learning resources designed to help you stay ahead of AI and Saveyojob.
           </p>
         </div>
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
+import Footer from '../components/layout/Footer';
 import './globals.css';
 
 const outfit = Outfit({
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col bg-ink text-paper antialiased">
         {children}
+        <Footer />
       </body>
     </html>
   );

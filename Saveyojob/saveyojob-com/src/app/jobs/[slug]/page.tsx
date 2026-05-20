@@ -518,30 +518,30 @@ export default async function OccupationPage({ params }: Props) {
             <p className="text-[14px] text-ink-2 mb-6 leading-relaxed">
               These platforms are actively deployed by employers to handle tasks that previously required a trained {occ.title}. Understanding each one helps you decide where to adapt — and which tools to learn first.
             </p>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {tools.map((tool, i) => (
-                <div key={i} className="p-6 bg-surface-2 border border-line rounded-xl">
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-[12px] font-bold text-bg"
-                      style={{ background: riskBorder }}
-                    >
-                      {i + 1}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[15px] font-semibold text-ink mb-2">{tool.name}</div>
-                      <p className="text-[13px] text-ink-2 leading-relaxed mb-5">{tool.what}</p>
-                      <a
-                        href={tool.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[12px] font-semibold text-fire hover:underline"
-                      >
-                        Visit →
-                      </a>
-                    </div>
+                <a
+                  key={i}
+                  href={tool.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${new URL(tool.url).hostname}&sz=64`}
+                      alt={tool.name}
+                      width={24}
+                      height={24}
+                      className="object-contain"
+                    />
                   </div>
-                </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[13px] font-semibold text-ink mb-1">{tool.name}</div>
+                    <p className="text-[12px] text-ink-2 leading-relaxed">{tool.what}</p>
+                  </div>
+                  <span className="text-[11px] font-bold text-fire shrink-0 pt-0.5">Visit →</span>
+                </a>
               ))}
             </div>
           </div>
@@ -642,7 +642,15 @@ export default async function OccupationPage({ params }: Props) {
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
                     >
-                      <span className="text-xl shrink-0">{course.icon}</span>
+                      <div className="w-9 h-9 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden">
+                        <img
+                          src={`https://www.google.com/s2/favicons?domain=${new URL(course.url).hostname}&sz=64`}
+                          alt={course.platform}
+                          width={24}
+                          height={24}
+                          className="object-contain"
+                        />
+                      </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-[13px] font-semibold text-ink truncate">{course.name}</div>
                         <div className="text-[11px] text-ink-3 mt-0.5">{course.platform} · {course.skill}</div>
@@ -848,16 +856,6 @@ export default async function OccupationPage({ params }: Props) {
 
       </main>
 
-      <footer className="border-t border-line bg-surface py-8 px-5 sm:px-8">
-        <div className="max-w-[900px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-ink-3">
-          <span>© {year} Saveyojob.com · Free · No signup required</span>
-          <div className="flex gap-5">
-            <Link href="/jobs/" className="hover:text-ink transition-colors">All Jobs</Link>
-            <Link href="/about" className="hover:text-ink transition-colors">About</Link>
-            <Link href="/privacy" className="hover:text-ink transition-colors">Privacy</Link>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
