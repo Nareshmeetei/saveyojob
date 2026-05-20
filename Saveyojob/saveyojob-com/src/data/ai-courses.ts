@@ -1,5 +1,7 @@
 export type CourseTag = 'Beginner' | 'Prompt Engineering' | 'Career Changer' | 'Industry-Specific' | 'Advanced';
 
+export type JobCategory = 'Healthcare' | 'Finance & Banking' | 'Marketing & Sales' | 'Management' | 'Tech & Engineering' | 'Writing & Legal' | 'HR & Admin';
+
 export interface AiCourse {
   id: string;
   title: string;
@@ -24,6 +26,7 @@ export interface AiCourse {
   educationalLevel: 'Beginner' | 'Intermediate' | 'Advanced';
   instructor: string;
   relatedIds: string[];
+  jobCategories: JobCategory[];
 }
 
 export const AI_COURSES: AiCourse[] = [
@@ -67,6 +70,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Andrew Ng',
     relatedIds: ['generative-ai-for-everyone', 'google-ai-essentials', 'elements-of-ai'],
+    jobCategories: [],
   },
   {
     id: 'generative-ai-for-everyone',
@@ -108,6 +112,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Andrew Ng',
     relatedIds: ['ai-for-everyone', 'chatgpt-prompt-engineering', 'google-prompting-essentials'],
+    jobCategories: ['Marketing & Sales', 'HR & Admin', 'Management'],
   },
   {
     id: 'google-ai-essentials',
@@ -149,6 +154,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Google Career Certificates Team',
     relatedIds: ['ai-for-everyone', 'google-prompting-essentials', 'career-essentials-gen-ai'],
+    jobCategories: ['HR & Admin', 'Marketing & Sales', 'Finance & Banking'],
   },
   {
     id: 'chatgpt-prompt-engineering',
@@ -190,6 +196,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Isa Fulford (OpenAI) + Andrew Ng',
     relatedIds: ['prompt-engineering-chatgpt', 'google-prompting-essentials', 'generative-ai-for-everyone'],
+    jobCategories: ['Tech & Engineering', 'Marketing & Sales', 'Writing & Legal'],
   },
   {
     id: 'prompt-engineering-chatgpt',
@@ -230,6 +237,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Dr. Jules White, Vanderbilt University',
     relatedIds: ['chatgpt-prompt-engineering', 'google-prompting-essentials', 'generative-ai-for-everyone'],
+    jobCategories: ['Marketing & Sales', 'Writing & Legal', 'Management'],
   },
   {
     id: 'google-prompting-essentials',
@@ -271,6 +279,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Google Career Certificates Team',
     relatedIds: ['chatgpt-prompt-engineering', 'prompt-engineering-chatgpt', 'google-ai-essentials'],
+    jobCategories: ['HR & Admin', 'Marketing & Sales', 'Management'],
   },
   {
     id: 'intro-generative-ai-google',
@@ -311,6 +320,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Google Cloud Training Team',
     relatedIds: ['ai-for-everyone', 'google-ai-essentials', 'generative-ai-for-everyone'],
+    jobCategories: [],
   },
   {
     id: 'elements-of-ai',
@@ -352,6 +362,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'University of Helsinki Faculty',
     relatedIds: ['ai-for-everyone', 'intro-to-ai-ibm', 'ibm-ai-foundations'],
+    jobCategories: [],
   },
   {
     id: 'career-essentials-gen-ai',
@@ -393,6 +404,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'Microsoft and LinkedIn Learning Team',
     relatedIds: ['google-ai-essentials', 'ai-for-everyone', 'ibm-applied-ai'],
+    jobCategories: ['Management', 'HR & Admin', 'Finance & Banking'],
   },
   {
     id: 'generative-ai-llms',
@@ -433,6 +445,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'AWS and DeepLearning.AI Team',
     relatedIds: ['machine-learning-specialization', 'deep-learning-specialization', 'ibm-applied-ai'],
+    jobCategories: ['Tech & Engineering'],
   },
   {
     id: 'machine-learning-specialization',
@@ -474,6 +487,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'Andrew Ng',
     relatedIds: ['deep-learning-specialization', 'generative-ai-llms', 'tensorflow-developer'],
+    jobCategories: ['Tech & Engineering'],
   },
   {
     id: 'deep-learning-specialization',
@@ -514,6 +528,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'Andrew Ng',
     relatedIds: ['machine-learning-specialization', 'nlp-specialization', 'tensorflow-developer'],
+    jobCategories: ['Tech & Engineering'],
   },
   {
     id: 'ibm-applied-ai',
@@ -555,6 +570,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Intermediate',
     instructor: 'IBM Skills Network',
     relatedIds: ['ibm-ai-foundations', 'career-essentials-gen-ai', 'google-ai-essentials'],
+    jobCategories: ['Tech & Engineering', 'Finance & Banking'],
   },
   {
     id: 'ibm-ai-foundations',
@@ -595,6 +611,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'IBM Skills Network',
     relatedIds: ['ibm-applied-ai', 'elements-of-ai', 'ai-for-everyone'],
+    jobCategories: ['Healthcare', 'Finance & Banking', 'Management', 'HR & Admin'],
   },
   {
     id: 'tensorflow-developer',
@@ -635,6 +652,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'Laurence Moroney, DeepLearning.AI',
     relatedIds: ['machine-learning-specialization', 'deep-learning-specialization', 'building-systems-chatgpt'],
+    jobCategories: ['Tech & Engineering'],
   },
   {
     id: 'ai-healthcare',
@@ -676,6 +694,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Intermediate',
     instructor: 'Stanford University Faculty',
     relatedIds: ['nlp-specialization', 'ibm-applied-ai', 'ai-product-management'],
+    jobCategories: ['Healthcare'],
   },
   {
     id: 'nlp-specialization',
@@ -717,6 +736,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'Younes Bensouda Mourri + Łukasz Kaiser',
     relatedIds: ['deep-learning-specialization', 'machine-learning-specialization', 'building-systems-chatgpt'],
+    jobCategories: ['Tech & Engineering', 'Writing & Legal', 'Marketing & Sales'],
   },
   {
     id: 'ai-product-management',
@@ -758,6 +778,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Intermediate',
     instructor: 'Duke University Faculty',
     relatedIds: ['ibm-applied-ai', 'career-essentials-gen-ai', 'generative-ai-llms'],
+    jobCategories: ['Management', 'Tech & Engineering'],
   },
   {
     id: 'intro-to-ai-ibm',
@@ -798,6 +819,7 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Beginner',
     instructor: 'IBM Skills Network',
     relatedIds: ['ai-for-everyone', 'ibm-ai-foundations', 'elements-of-ai'],
+    jobCategories: ['Finance & Banking', 'Management', 'HR & Admin'],
   },
   {
     id: 'building-systems-chatgpt',
@@ -838,5 +860,6 @@ export const AI_COURSES: AiCourse[] = [
     educationalLevel: 'Advanced',
     instructor: 'Isa Fulford (OpenAI) + Andrew Ng',
     relatedIds: ['chatgpt-prompt-engineering', 'generative-ai-llms', 'tensorflow-developer'],
+    jobCategories: ['Tech & Engineering'],
   },
 ];

@@ -6,14 +6,14 @@ import CourseGrid from './CourseGrid';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 
 export const metadata: Metadata = {
-  title: '20 Best AI Courses to Future-Proof Your Career',
+  title: 'Learn the AI Skills That Keep You Ahead — Best AI Courses',
   description:
-    'Handpicked AI courses rated 4.6 stars or higher — from Google, Stanford, IBM, DeepLearning.AI, and Microsoft. All free or free to audit. Filter by skill level or career goal.',
+    'The best beginner-to-advanced AI courses, curated to help you stay relevant and grow in the AI era. From Google, Stanford, IBM, DeepLearning.AI, and Microsoft.',
   alternates: { canonical: `${siteUrl}/courses/` },
   openGraph: {
-    title: '20 Best AI Courses to Future-Proof Your Career | Saveyojob.com',
+    title: 'Learn the AI Skills That Keep You Ahead | Saveyojob.com',
     description:
-      'The highest-rated AI courses from Google, Stanford, IBM, and DeepLearning.AI — handpicked for workers at risk of automation. All free or free to audit.',
+      'The best beginner-to-advanced AI courses from Google, Stanford, IBM, and DeepLearning.AI — curated for workers who want to stay relevant in the AI era.',
     url: `${siteUrl}/courses/`,
     type: 'website',
   },
@@ -62,18 +62,15 @@ export default function CoursesPage() {
 
         <div className="mb-10">
           <h1 className="text-[34px] sm:text-[42px] font-bold text-ink tracking-[-0.03em] leading-tight mb-4">
-            20 AI Courses to Future-Proof Your Career
+            Learn the AI Skills That Keep You Ahead
           </h1>
           <p className="text-[16px] text-ink-2 leading-relaxed max-w-[640px] mb-5">
-            Every course here is rated 4.6 stars or higher, taught by Google, Stanford, IBM, Microsoft, or
-            DeepLearning.AI, and chosen for workers who want to stay ahead of AI — not just learn about it.
+            The best beginner-to-advanced AI courses, curated to help you stay relevant and grow in the AI era.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-ink-3">
             <span>4.6★ minimum rating</span>
             <span>·</span>
             <span>Google · Stanford · IBM · Microsoft · DeepLearning.AI</span>
-            <span>·</span>
-            <span>All free or free to audit</span>
           </div>
         </div>
 
