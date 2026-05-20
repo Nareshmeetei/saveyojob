@@ -2,12 +2,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Star, Clock, Search, X } from 'lucide-react';
-import { AI_COURSES, type AiCourse, type CourseTag, type JobCategory } from '../../data/ai-courses';
+import { AI_COURSES, type AiCourse, type JobCategory } from '../../data/ai-courses';
 
-type LevelFilter = 'All' | CourseTag;
-type JobFilter = 'All Jobs' | JobCategory;
-
-const LEVEL_FILTERS: LevelFilter[] = ['All', 'Beginner', 'Prompt Engineering', 'Career Changer', 'Industry-Specific', 'Advanced'];
+type JobFilter  = 'All Jobs' | JobCategory;
+type SortOption = 'default' | 'beginner-first' | 'advanced-first';
 
 const JOB_FILTERS: { label: string; value: JobFilter }[] = [
   { label: 'All Jobs',          value: 'All Jobs'           },
@@ -20,29 +18,37 @@ const JOB_FILTERS: { label: string; value: JobFilter }[] = [
   { label: 'HR & Admin',        value: 'HR & Admin'         },
 ];
 
+const LEVEL_ORDER: Record<string, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+
 export default function CourseGrid() {
-  const [level, setLevel]   = useState<LevelFilter>('All');
   const [job, setJob]       = useState<JobFilter>('All Jobs');
+  const [sort, setSort]     = useState<SortOption>('default');
   const [search, setSearch] = useState('');
 
   const q = search.trim().toLowerCase();
 
   const filtered = AI_COURSES.filter(course => {
-    const levelOk = level === 'All' || course.tags.includes(level as CourseTag);
-    const jobOk   = job === 'All Jobs'
+    const jobOk = job === 'All Jobs'
       || course.jobCategories.length === 0
       || course.jobCategories.includes(job as JobCategory);
     const searchOk = !q
       || course.title.toLowerCase().includes(q)
       || course.provider.toLowerCase().includes(q)
       || course.description.toLowerCase().includes(q);
-    return levelOk && jobOk && searchOk;
+    return jobOk && searchOk;
   });
 
-  const isFiltered = level !== 'All' || job !== 'All Jobs' || q;
+  const sorted = sort === 'default'
+    ? filtered
+    : [...filtered].sort((a, b) => {
+        const aL = LEVEL_ORDER[a.educationalLevel] ?? 2;
+        const bL = LEVEL_ORDER[b.educationalLevel] ?? 2;
+        return sort === 'beginner-first' ? aL - bL : bL - aL;
+      });
+
+  const isFiltered = job !== 'All Jobs' || q;
 
   function clearAll() {
-    setLevel('All');
     setJob('All Jobs');
     setSearch('');
   }
@@ -70,29 +76,9 @@ export default function CourseGrid() {
         )}
       </div>
 
-      {/* Level filter */}
-      <div className="mb-4">
-        <p className="text-[11px] font-semibold text-ink-3 uppercase tracking-[0.08em] mb-2">Skill level</p>
-        <div className="flex flex-wrap gap-2">
-          {LEVEL_FILTERS.map(tag => (
-            <button
-              key={tag}
-              onClick={() => setLevel(tag)}
-              className={`px-3.5 py-1.5 text-[12px] font-medium rounded-full border transition-all duration-150 ${
-                level === tag
-                  ? 'bg-fire text-bg border-fire'
-                  : 'bg-surface border-line text-ink-2 hover:border-fire hover:text-ink'
-              }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Job filter */}
-      <div className="mb-7">
-        <p className="text-[11px] font-semibold text-ink-3 uppercase tracking-[0.08em] mb-2">Your job type</p>
+      <div className="mb-6">
+        <p className="text-[11px] font-semibold text-ink-3 uppercase tracking-[0.08em] mb-2">Filter by job type</p>
         <div className="flex flex-wrap gap-2">
           {JOB_FILTERS.map(({ label, value }) => (
             <button
@@ -110,24 +96,41 @@ export default function CourseGrid() {
         </div>
       </div>
 
-      {/* Count + clear */}
-      <div className="flex items-center justify-between mb-5">
-        <p className="text-[13px] text-ink-3">
-          {filtered.length} of {AI_COURSES.length} courses
+      {/* Results bar — count + sort + clear */}
+      <div className="flex items-center justify-between gap-3 mb-5">
+        <p className="text-[13px] text-ink-3 shrink-0">
+          {sorted.length} of {AI_COURSES.length} courses
         </p>
-        {isFiltered && (
-          <button
-            onClick={clearAll}
-            className="text-[12px] text-ink-3 hover:text-fire transition-colors flex items-center gap-1"
-          >
-            <X size={11} />
-            Clear filters
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <label htmlFor="sort-select" className="text-[12px] text-ink-3 whitespace-nowrap">
+              Sort by level:
+            </label>
+            <select
+              id="sort-select"
+              value={sort}
+              onChange={e => setSort(e.target.value as SortOption)}
+              className="text-[12px] text-ink bg-surface border border-line rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-fire transition-colors cursor-pointer"
+            >
+              <option value="default">All levels</option>
+              <option value="beginner-first">Beginner first</option>
+              <option value="advanced-first">Advanced first</option>
+            </select>
+          </div>
+          {isFiltered && (
+            <button
+              onClick={clearAll}
+              className="text-[12px] text-ink-3 hover:text-fire transition-colors flex items-center gap-1 whitespace-nowrap"
+            >
+              <X size={11} />
+              Clear
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Grid */}
-      {filtered.length === 0 ? (
+      {sorted.length === 0 ? (
         <div className="text-center py-16 text-ink-3">
           <p className="text-[15px] mb-2">No courses match these filters.</p>
           <button onClick={clearAll} className="text-[13px] text-fire hover:underline">
@@ -136,7 +139,7 @@ export default function CourseGrid() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {filtered.map(course => (
+          {sorted.map(course => (
             <CourseCard key={course.id} course={course} />
           ))}
         </div>
@@ -197,12 +200,12 @@ function CourseCard({ course }: { course: AiCourse }) {
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {course.tags.map(tag => (
-          <span key={tag} className="text-[10px] px-2 py-0.5 border border-line rounded-full text-ink-3">
-            {tag}
-          </span>
-        ))}
+      <div className="flex flex-wrap gap-1.5">
+        <span
+          className="text-[10px] px-2 py-0.5 border border-line rounded-full text-ink-3"
+        >
+          {course.educationalLevel}
+        </span>
         {course.jobCategories.map(cat => (
           <span
             key={cat}
@@ -213,10 +216,6 @@ function CourseCard({ course }: { course: AiCourse }) {
           </span>
         ))}
       </div>
-
-      <span className="text-[13px] font-semibold transition-colors" style={{ color: 'var(--color-fire)' }}>
-        Learn more →
-      </span>
     </Link>
   );
 }
