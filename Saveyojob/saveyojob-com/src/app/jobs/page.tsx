@@ -98,9 +98,17 @@ export default async function JobsPage() {
               >
                 {/* Row 1 — title + score */}
                 <div className="flex items-start justify-between gap-3">
-                  <span className="text-[15px] font-semibold text-ink group-hover:text-fire transition-colors leading-snug">
-                    {o.title}
-                  </span>
+                  <div className="flex items-start gap-1.5 min-w-0">
+                    <span className="text-[15px] font-semibold text-ink group-hover:text-fire transition-colors leading-snug">
+                      {o.title}
+                    </span>
+                    {o.risk_level === 'Very High' && (
+                      <span className="relative inline-flex items-center justify-center w-3 h-3 mt-0.5 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-70" style={{ backgroundColor: '#DC2626' }} />
+                        <span className="relative inline-flex w-2 h-2 rounded-full" style={{ backgroundColor: '#DC2626' }} />
+                      </span>
+                    )}
+                  </div>
                   <div className="flex flex-col items-end shrink-0">
                     {score !== null && (
                       <span className="text-[22px] font-bold tabular-nums leading-none" style={{ color: rs.text }}>

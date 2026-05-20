@@ -432,10 +432,10 @@ export default async function OccupationPage({ params }: Props) {
                 color: ((occ.ten_year_growth_pct as number) ?? 0) >= 0 ? 'text-fire' : 'text-critical',
               },
             ].map((s, i) => (
-              <div key={s.label} className={`bg-surface py-5 px-4 text-center ${i > 0 ? 'border-l border-line' : ''}`}>
-                <div className={`text-[28px] font-bold tabular-nums leading-none ${s.color}`}>{s.value}</div>
-                {s.sub && <div className="text-[10px] text-ink-3 mt-1 font-medium">{s.sub}</div>}
-                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-3 mt-1">{s.label}</div>
+              <div key={s.label} className={`bg-surface py-3 sm:py-5 px-2 sm:px-4 text-center ${i > 0 ? 'border-l border-line' : ''}`}>
+                <div className={`text-[20px] sm:text-[28px] font-bold tabular-nums leading-none ${s.color}`}>{s.value}</div>
+                {s.sub && <div className="text-[9px] sm:text-[10px] text-ink-3 mt-1 font-medium leading-tight">{s.sub}</div>}
+                <div className="text-[8px] sm:text-[11px] font-semibold uppercase tracking-[0.06em] sm:tracking-[0.08em] text-ink-3 mt-1 leading-tight">{s.label}</div>
               </div>
             ))}
           </div>

@@ -61,7 +61,7 @@ export default function CoursesPage() {
       <main className="max-w-[960px] mx-auto px-5 sm:px-8 py-12">
 
         <div className="mb-10">
-          <h1 className="text-[34px] sm:text[42px] font-bold text-ink tracking-[-0.03em] leading-tight mb-4">
+          <h1 className="text-[34px] sm:text-[42px] font-bold text-ink tracking-[-0.03em] leading-tight mb-4">
             20 AI Courses to Future-Proof Your Career
           </h1>
           <p className="text-[16px] text-ink-2 leading-relaxed max-w-[640px] mb-5">
