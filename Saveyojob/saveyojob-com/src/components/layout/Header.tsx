@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import LogoLink from '../ui/LogoLink';
 
 const NAV_LINKS = [
   { label: 'Jobs at Risk', href: '/jobs' },
@@ -15,15 +16,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-xl border-b border-line">
       <div className="h-[52px] flex items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="select-none flex items-center">
-          <img
-            src="/saveyojob_logo02.svg"
-            alt="Saveyojob"
-            width={98}
-            height={28}
-            style={{ height: 36, width: 'auto' }}
-          />
-        </Link>
+        <LogoLink height={36} />
 
         <nav className="hidden sm:flex items-center gap-5">
           {NAV_LINKS.map(({ label, href }) => (

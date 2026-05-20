@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import NewsletterCTA from '../newsletter/NewsletterCTA';
+import LogoLink from '../ui/LogoLink';
 
 const LINKS = [
   { label: 'Jobs at Risk', href: '/jobs' },
@@ -15,13 +16,7 @@ export default function Footer() {
       <NewsletterCTA />
       <div className="border-t border-line bg-surface px-5 sm:px-8 py-6">
         <div className="max-w-[900px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <Link href="/" className="select-none flex items-center shrink-0">
-            <img
-              src="/saveyojob_logo02.svg"
-              alt="Saveyojob"
-              style={{ height: 26, width: 'auto' }}
-            />
-          </Link>
+          <LogoLink height={26} />
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-1">
             {LINKS.map(({ label, href }) => (
               <Link
