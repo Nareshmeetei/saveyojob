@@ -6,8 +6,7 @@ import LogoLink from '../ui/LogoLink';
 
 const NAV_LINKS = [
   { label: 'Jobs at Risk', href: '/jobs' },
-  { label: 'All Courses',  href: '/courses' },
-  { label: 'Blog',         href: '/blog' },
+  { label: 'AI Courses',   href: '/courses' },
 ];
 
 export default function Header() {

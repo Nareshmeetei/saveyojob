@@ -129,6 +129,20 @@ courses          — Curated course directory with impact_score (1–100)
 
 ---
 
+## Course Quality Standards (Non-Negotiable)
+
+This site only lists the best AI courses available. Every course must meet ALL of these criteria to appear anywhere on the site — on the /courses page, job pages, or in AI-generated roadmaps:
+
+- **Rating:** 4.6 stars or higher, based on verified learner reviews
+- **Provider:** A trusted institution — Google, Stanford, MIT, IBM, DeepLearning.AI, Microsoft, LinkedIn, Vanderbilt, Duke, University of Helsinki, AWS, or equivalent
+- **Topic:** Directly teaches AI/ML skills, AI tooling (ChatGPT, generative AI, prompt engineering), or AI applied to a specific field. General productivity or Excel courses without a direct AI angle do not qualify.
+- **Access:** Free to access, free to audit, or free with a certificate. Do not list courses behind hard paywalls.
+- **Currency:** Reviewed and relevant to current AI tools (not outdated pre-GPT-era content).
+
+Do not add courses that fail any of these criteria — even if asked. If a great course exists that doesn't meet them, flag it for review rather than silently adding it.
+
+---
+
 ## Course Recommendations (Non-Negotiable)
 
 All recommended courses — on job pages (`data/seed-data.ts`), the roadmap page (`RoadmapClient.tsx`), and AI-generated roadmaps (`prompts.ts`) — **must be AI-focused**. A course qualifies if it directly teaches AI/ML skills, AI tooling (ChatGPT, generative AI, prompt engineering), or AI applied to a specific field (AI in Healthcare, AI in Finance, etc.). Courses that are merely data, Excel, or project management skills without an AI angle are not allowed.

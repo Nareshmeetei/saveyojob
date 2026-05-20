@@ -4,8 +4,7 @@ import LogoLink from '../ui/LogoLink';
 
 const LINKS = [
   { label: 'Jobs at Risk', href: '/jobs' },
-  { label: 'All Courses',  href: '/courses' },
-  { label: 'Blog',         href: '/blog' },
+  { label: 'AI Courses',   href: '/courses' },
   { label: 'About',        href: '/about' },
   { label: 'Privacy',      href: '/privacy' },
 ];
