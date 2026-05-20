@@ -2,22 +2,59 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '../../components/layout/Header';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
+
 export const metadata: Metadata = {
-  title: 'About Saveyojob.com — Free AI Career Risk Tool',
+  title: 'About Saveyojob.com — Free AI Job Risk Tool, Methodology & Data Sources',
   description:
-    'Saveyojob.com is a free tool that tells you exactly which tasks in your job are being automated — and gives you a personalized reskilling roadmap.',
+    'Saveyojob.com scores any job\'s AI automation risk using Oxford University research and BLS data, then generates a free personalized reskilling roadmap. No signup. Built for the 92 million workers at risk by 2030.',
+  alternates: { canonical: `${siteUrl}/about/` },
+  openGraph: {
+    title: 'About Saveyojob.com — How We Calculate AI Job Risk',
+    description:
+      'We use Oxford University automation research, BLS occupational data, and O*NET task databases to score AI displacement risk for 800+ jobs — then generate a free personalized reskilling roadmap.',
+    url: `${siteUrl}/about/`,
+    type: 'website',
+  },
+};
+
+const ABOUT_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': `${siteUrl}/about/`,
+  url: `${siteUrl}/about/`,
+  name: 'About Saveyojob.com',
+  description:
+    'Saveyojob.com is a free AI career risk tool that scores automation probability for 800+ occupations and generates personalized reskilling roadmaps based on Oxford University, BLS, and O*NET data.',
+  mainEntity: {
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: 'Saveyojob.com',
+    url: siteUrl,
+    foundingDate: '2024',
+    description:
+      'Free AI job risk assessment platform. Uses Oxford University automation research, BLS occupational employment data, and O*NET task databases to produce task-level AI displacement scores and personalized reskilling roadmaps.',
+    knowsAbout: [
+      'AI job displacement',
+      'occupational automation risk',
+      'career reskilling',
+      'future of work',
+      'machine learning automation',
+    ],
+  },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }}
+      />
       <Header />
       <main className="max-w-[720px] mx-auto px-5 sm:px-8 py-16">
 
         <div className="mb-12">
-          <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-fire block mb-3">
-            About
-          </span>
           <h1 className="text-[36px] sm:text-[42px] font-bold tracking-[-0.03em] text-ink leading-tight mb-5">
             We help workers stay ahead of AI.
           </h1>
@@ -32,8 +69,8 @@ export default function AboutPage() {
             <h2 className="text-[20px] font-bold text-ink mb-3">The problem we&apos;re solving</h2>
             <p className="text-[15px] text-ink-2 leading-relaxed mb-3">
               51% of American workers actively worry AI will replace their job. 92 million jobs are projected
-              to be displaced globally by 2030 (WEF). Yet most people have no idea which parts of their
-              specific job are at risk — let alone what to do about it.
+              to be displaced globally by 2030 (World Economic Forum). Yet most people have no idea which
+              parts of their specific job are at risk — let alone what to do about it.
             </p>
             <p className="text-[15px] text-ink-2 leading-relaxed">
               Every existing tool gives a generic risk score with no guidance. Nobody had built a
@@ -43,7 +80,7 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-[20px] font-bold text-ink mb-3">What we do</h2>
+            <h2 className="text-[20px] font-bold text-ink mb-3">How it works</h2>
             <div className="space-y-4">
               {[
                 {
@@ -74,15 +111,19 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-[20px] font-bold text-ink mb-3">Our data sources</h2>
+            <h2 className="text-[20px] font-bold text-ink mb-3">Data sources &amp; methodology</h2>
             <p className="text-[15px] text-ink-2 leading-relaxed mb-3">
-              Risk scores are based on automation probability research from Oxford University (Frey &amp; Osborne),
-              McKinsey Global Institute, and the World Economic Forum. Salary data comes from the US Bureau of
-              Labor Statistics. AI tool assessments are updated regularly as the technology evolves.
+              Automation probability scores are derived from Oxford University research — specifically
+              Frey &amp; Osborne (2013), &quot;The Future of Employment: How Susceptible Are Jobs to
+              Computerisation?&quot; — the most widely cited academic study on occupation-level AI displacement risk.
+              Salary data and 10-year employment projections come from the U.S. Bureau of Labor Statistics (BLS).
+              Task breakdowns and skill importance data are sourced from O*NET, the U.S. Department of Labor&apos;s
+              occupational database. Methodology is cross-referenced with McKinsey Global Institute research on
+              automation potential across work activities.
             </p>
             <p className="text-[15px] text-ink-2 leading-relaxed">
-              The personalized roadmap is generated by Claude (Anthropic), one of the most capable AI
-              systems available, using a specialized prompt trained on career transition research.
+              Reskilling roadmaps are generated by Claude (Anthropic), using a specialized prompt informed
+              by career transition research and tailored to your role, experience level, goals, and time availability.
             </p>
           </section>
 
@@ -107,7 +148,6 @@ export default function AboutPage() {
         </div>
 
       </main>
-
     </>
   );
 }

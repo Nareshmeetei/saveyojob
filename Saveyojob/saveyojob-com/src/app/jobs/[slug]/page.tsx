@@ -275,16 +275,24 @@ function riskBorderColor(level: string | null): string {
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const occ = await getOccupation(slug);
   if (!occ) return {};
   const score = occ.automation_probability ? Math.round(occ.automation_probability * 100) : null;
   const year  = new Date().getFullYear();
+  const url   = `${siteUrl}/jobs/${slug}/`;
   return {
     title: `Will AI Replace ${occ.title}s? ${score}% Risk Score + Career Roadmap (${year})`,
     description: `${occ.title}s face a ${score}% AI automation risk (Oxford University research). See which tasks AI automates first, the tools driving it, skills to build, ${year} salary data ($${occ.median_annual_wage?.toLocaleString()}), and a free personalised reskilling plan.`,
+    alternates: { canonical: url },
     openGraph: {
+      title: `Will AI Replace ${occ.title}s? ${score}% Automation Risk`,
+      description: `${occ.title}s face a ${score}% AI automation risk based on Oxford University research. Task-by-task breakdown, AI tools driving automation, and a free reskilling roadmap.`,
+      url,
+      type: 'article',
       images: [`/api/og?job=${encodeURIComponent(occ.title)}&score=${score}&level=${occ.risk_level}`],
     },
     keywords: [

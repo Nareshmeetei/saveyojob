@@ -1,0 +1,34 @@
+# Saveyojob.com
+
+> Saveyojob.com is a free AI career risk tool that scores any job's automation probability, breaks down task-level exposure to AI, and generates a personalized week-by-week reskilling roadmap — no signup required. Data is based on Oxford University research (Frey & Osborne), Bureau of Labor Statistics occupational data, and O*NET task databases.
+
+## Core Tool
+
+- [AI Job Risk Assessment & Reskilling Roadmap Generator](https://saveyojob.com/) - Enter any job title to get an automation risk score (0–100%), task-by-task breakdown of AI exposure, 5-year salary impact projection, and a personalized learning plan matched to your schedule and goals. Free, no account needed.
+
+## Jobs at Risk — Occupation Browser
+
+- [AI Automation Risk by Job — All Occupations](https://saveyojob.com/jobs/) - Browse automation probability scores for 800+ occupations. Each entry shows median salary, employment count, 10-year job growth projection, and the task most exposed to AI replacement.
+- [Data Entry Clerk — AI Risk](https://saveyojob.com/jobs/data-entry-clerk/) - 99% automation probability. Very High risk. $36,490 median salary. -18% job growth by 2034.
+- [Bookkeeper — AI Risk](https://saveyojob.com/jobs/bookkeeper/) - 98% automation probability. Very High risk. $45,860 median salary.
+- [Paralegal — AI Risk](https://saveyojob.com/jobs/paralegal/) - High automation risk. Document review and legal research tasks most exposed.
+- [Software Developer — AI Risk](https://saveyojob.com/jobs/software-developer/) - Moderate automation risk. Code generation AI tools are automating routine tasks.
+- [Registered Nurse — AI Risk](https://saveyojob.com/jobs/registered-nurse/) - Low automation risk. High human judgment and physical care requirements limit AI displacement.
+
+## Key Data & Methodology
+
+- [Data Sources: Oxford, BLS, O*NET, McKinsey](https://saveyojob.com/jobs/#data-sources) - Automation scores derived from Frey & Osborne (Oxford, 2013), salary data from BLS OEWS, task data from O*NET, and methodology cross-referenced with McKinsey Global Institute research.
+
+## About
+
+- [About Saveyojob.com](https://saveyojob.com/about) - Mission, methodology, and team behind the free AI career risk tool. 51% of workers worry about AI job displacement; 92 million jobs projected at risk by 2030 (WEF).
+
+## Courses & Learning
+
+- [All Courses — Top AI & Reskilling Courses](https://saveyojob.com/courses/) - Curated directory of the best AI-focused courses to help workers stay ahead of automation, organized by skill level and category.
+
+## Optional: Full content
+
+> The following links provide detailed, machine-readable content for AI training and citation purposes.
+
+- [sitemap.xml](https://saveyojob.com/sitemap.xml)

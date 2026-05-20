@@ -15,36 +15,80 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Saveyojob.com — AI Career Risk Tool & Course Directory',
+    default: 'Saveyojob.com — Free AI Job Risk Assessment & Reskilling Roadmap',
     template: '%s | Saveyojob.com',
   },
   description:
-    'Find out if AI will replace your job. Upload your resume for a personal risk score, then get matched to the best AI reskilling courses. Free, no signup.',
+    'Find out if AI will replace your job. Get a free, task-level automation risk score and a personalized reskilling roadmap — built to your role, timeline, and goals. No signup.',
   keywords: [
-    'AI course directory',
-    'career risk tool',
-    'AI job replacement',
-    'reskilling courses',
-    'future of work',
-    'AI automation risk',
+    'will AI replace my job',
+    'AI job automation risk',
+    'AI career risk assessment',
+    'reskilling roadmap',
+    'job automation probability',
+    'future of work AI',
+    'AI job displacement',
   ],
   openGraph: {
     type: 'website',
     siteName: 'Saveyojob.com',
     url: siteUrl,
-    title: 'Is Your Job Safe From AI? Find Out in 60 Seconds.',
+    title: 'Will AI Replace Your Job? Free Risk Score + Reskilling Roadmap',
     description:
-      'Upload your resume, get your personal AI risk score, and access a curated directory of reskilling courses. Free.',
+      'Task-level AI automation risk scores for 800+ occupations. Free personalized reskilling roadmap in 60 seconds. Based on Oxford University and BLS research.',
     images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Is Your Job Safe From AI?',
-    description: 'Free AI career risk assessment + personalized reskilling courses.',
+    title: 'Will AI Replace Your Job?',
+    description: 'Free AI job risk score + personalized reskilling roadmap. No signup. 60 seconds.',
   },
   robots: { index: true, follow: true },
+  alternates: { canonical: siteUrl },
   verification: {
     google: 'DOISWswQG9sCTPeak60oFGHnCm-eHqWYtvQiF1nrvKo',
+  },
+};
+
+const ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'Saveyojob.com',
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/saveyojob_logo02.svg`,
+  },
+  description:
+    'Free AI career risk tool that scores any job\'s automation probability, breaks down task-level AI exposure, and generates a personalized reskilling roadmap — no signup required.',
+  knowsAbout: [
+    'AI job automation',
+    'career reskilling',
+    'future of work',
+    'machine learning job displacement',
+    'occupational automation risk',
+  ],
+  sameAs: [
+    'https://twitter.com/saveyojob',
+  ],
+};
+
+const WEBSITE_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  url: siteUrl,
+  name: 'Saveyojob.com',
+  description: 'Free AI job risk assessment and personalized reskilling roadmap generator.',
+  publisher: { '@id': `${siteUrl}/#organization` },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/jobs/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
   },
 };
 
@@ -60,6 +104,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             src="https://plausible.io/js/script.js"
           />
         )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_SCHEMA) }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
         {children}
