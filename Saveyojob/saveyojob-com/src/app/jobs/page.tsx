@@ -134,7 +134,7 @@ export default async function JobsPage() {
                 {/* Row 3 — most at-risk task */}
                 {task && (
                   <div className="text-[11px] text-ink-3 pt-2 border-t border-line leading-snug">
-                    <span className="font-medium text-ink-2">Most exposed:</span> {task}
+                    <span className="font-medium text-ink-2">AI will replace this first:</span> {task}
                   </div>
                 )}
               </Link>
