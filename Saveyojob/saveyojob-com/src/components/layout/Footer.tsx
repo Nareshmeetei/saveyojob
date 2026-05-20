@@ -34,7 +34,7 @@ export default function Footer() {
             ))}
           </nav>
           <span className="text-[12px] text-ink-3 shrink-0">
-            © {new Date().getFullYear()} Saveyojob.com · Free forever
+            © {new Date().getFullYear()} Saveyojob.com
           </span>
         </div>
       </div>

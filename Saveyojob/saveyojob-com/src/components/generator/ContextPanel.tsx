@@ -98,7 +98,7 @@ export default function ContextPanel({ state }: ContextPanelProps) {
       </div>
 
       <div className={`text-[12px] font-semibold text-fire transition-opacity duration-300 ${hasAny ? 'opacity-100' : 'opacity-0'}`}>
-        Free forever · No account needed
+        No account needed
       </div>
     </div>
   );

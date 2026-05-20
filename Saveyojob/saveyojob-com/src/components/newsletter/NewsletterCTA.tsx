@@ -54,7 +54,7 @@ export default function NewsletterCTA() {
         )}
 
         <p className="text-[11px] text-ink-3 mt-5 tracking-wide">
-          No spam. Unsubscribe anytime. Free forever.
+          No spam. Unsubscribe anytime.
         </p>
 
       </div>
