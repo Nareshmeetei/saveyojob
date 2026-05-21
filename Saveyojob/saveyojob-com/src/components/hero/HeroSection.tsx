@@ -1,6 +1,27 @@
+import { createClient } from '@supabase/supabase-js';
 import HeroRiskGame from './HeroRiskGame';
 
-export default function HeroSection() {
+async function getRoadmapCount(): Promise<number> {
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    );
+    const { count } = await supabase
+      .from('roadmaps')
+      .select('*', { count: 'exact', head: true });
+    return count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+export default async function HeroSection() {
+  const count = await getRoadmapCount();
+  const displayCount = count > 0
+    ? count.toLocaleString('en-US')
+    : null;
+
   return (
     <section id="hero" className="pt-10 sm:pt-14 pb-16 px-5 sm:px-8 text-center">
       <div className="max-w-[720px] mx-auto">
@@ -18,26 +39,38 @@ export default function HeroSection() {
         {/* Gamified risk calculator */}
         <HeroRiskGame />
 
-        {/* Social proof */}
-        <p className="text-[13px] text-ink-3 mt-6">
-          14,312 professionals have checked the score and upskilled themselves.
-        </p>
+        {/* Social proof — only shown when real count exists */}
+        {displayCount && (
+          <p className="text-[13px] text-ink-3 mt-6">
+            {displayCount} professionals have checked their AI risk score.
+          </p>
+        )}
 
         {/* Stats bar */}
         <div className="mt-10 max-w-[640px] mx-auto grid grid-cols-3 rounded-xl overflow-hidden border border-line bg-surface">
           <div className="py-3 sm:py-4 px-3 sm:px-6">
-            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">92M</div>
-            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">jobs at risk by 2030</div>
+            {/* WEF Future of Jobs Report 2023: 83M jobs displaced by 2027 */}
+            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">83M</div>
+            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">jobs displaced by 2027¹</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6 border-x border-line">
-            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">51%</div>
-            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">workers worried about AI</div>
+            {/* Pew Research 2024: 52% more concerned than excited about AI at work */}
+            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">52%</div>
+            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">more worried than excited about AI²</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6">
+            {/* LinkedIn Economic Graph 2024: AI skills command 25%+ salary premium */}
             <div className="text-[22px] sm:text-[28px] font-extrabold text-fire leading-none tracking-tight">+25%</div>
-            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">salary for AI skills</div>
+            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">salary for AI skills³</div>
           </div>
         </div>
+
+        {/* Footnotes */}
+        <p className="text-[10px] text-ink-3 mt-3 leading-relaxed max-w-[560px] mx-auto">
+          ¹ World Economic Forum, Future of Jobs Report 2023 &nbsp;·&nbsp;
+          ² Pew Research Center, 2024 &nbsp;·&nbsp;
+          ³ LinkedIn Economic Graph, 2024
+        </p>
 
       </div>
     </section>

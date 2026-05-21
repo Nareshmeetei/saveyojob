@@ -4,12 +4,12 @@ import { useRef, useEffect, useState } from 'react';
 import { FileText, MessageSquare, PenLine, BookOpen, Phone, Wrench, type LucideIcon } from 'lucide-react';
 
 const JOBS: { Icon: LucideIcon; title: string; risk: number; reason: string }[] = [
-  { Icon: FileText,      title: 'Data Entry',       risk: 94, reason: 'LLMs and OCR tools now process and classify documents at 10× human speed.' },
-  { Icon: MessageSquare, title: 'Customer Support',  risk: 89, reason: 'AI chatbots handle 80% of tier-1 tickets with near-human resolution rates.' },
-  { Icon: PenLine,       title: 'Proofreading',      risk: 85, reason: 'Grammar AI catches errors more reliably and at a fraction of the cost.' },
-  { Icon: BookOpen,      title: 'Bookkeeping',       risk: 83, reason: 'Automated reconciliation and categorization removes the core of the role.' },
-  { Icon: Phone,         title: 'Receptionists',     risk: 81, reason: 'AI scheduling, call routing, and intake forms replace front-desk workflows.' },
-  { Icon: Wrench,        title: 'Mfg / Assembly',    risk: 79, reason: 'Robotics and computer vision now handle precision tasks at near-zero error rates.' },
+  { Icon: FileText,      title: 'Data Entry',       risk: 99, reason: 'LLMs and OCR tools now process, classify, and validate documents faster and more accurately than manual entry.' },
+  { Icon: MessageSquare, title: 'Customer Support',  risk: 70, reason: 'AI handles routine enquiries and ticket routing, reducing demand for entry-level support roles.' },
+  { Icon: PenLine,       title: 'Proofreading',      risk: 84, reason: 'Grammar and style AI catches errors reliably and at a fraction of the per-word cost.' },
+  { Icon: BookOpen,      title: 'Bookkeeping',       risk: 98, reason: 'Automated reconciliation and transaction categorisation removes the core of the role.' },
+  { Icon: Phone,         title: 'Receptionists',     risk: 96, reason: 'AI scheduling, call routing, and digital intake forms replace many front-desk workflows.' },
+  { Icon: Wrench,        title: 'Mfg / Assembly',    risk: 88, reason: 'Industrial robotics and computer vision continue to take over repetitive assembly tasks.' },
 ];
 
 function riskColor(r: number): string {
@@ -103,7 +103,7 @@ export default function CriticalSix() {
             </h2>
           </div>
           <p className="text-[13px] text-ink-2 max-w-[260px] leading-relaxed">
-            Hover a card to see why. Source: McKinsey Global Institute, 2024.
+            Hover a card to see why. Source: Frey &amp; Osborne (2013), Oxford University.
           </p>
         </div>
 

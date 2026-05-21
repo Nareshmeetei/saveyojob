@@ -7,7 +7,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 export const metadata: Metadata = {
   title: 'About Saveyojob.com — Free AI Job Risk Tool, Methodology & Data Sources',
   description:
-    'Saveyojob.com scores any job\'s AI automation risk using Oxford University research and BLS data, then generates a free personalized reskilling roadmap. No signup. Built for the 92 million workers at risk by 2030.',
+    'Saveyojob.com scores any job\'s AI automation risk using Oxford University research and BLS data, then generates a free personalized reskilling roadmap. No signup. Built for the 83 million workers at risk of displacement by 2027.',
   alternates: { canonical: `${siteUrl}/about/` },
   openGraph: {
     title: 'About Saveyojob.com — How We Calculate AI Job Risk',
@@ -68,9 +68,10 @@ export default function AboutPage() {
           <section>
             <h2 className="text-[20px] font-bold text-ink mb-3">The problem we&apos;re solving</h2>
             <p className="text-[15px] text-ink-2 leading-relaxed mb-3">
-              51% of American workers actively worry AI will replace their job. 92 million jobs are projected
-              to be displaced globally by 2030 (World Economic Forum). Yet most people have no idea which
-              parts of their specific job are at risk — let alone what to do about it.
+              52% of Americans are more concerned than excited about AI in the workplace (Pew Research, 2024).
+              The World Economic Forum&apos;s Future of Jobs Report 2023 projects 83 million jobs will be
+              displaced globally by 2027. Yet most people have no idea which parts of their specific job
+              are at risk — let alone what to do about it.
             </p>
             <p className="text-[15px] text-ink-2 leading-relaxed">
               Every existing tool gives a generic risk score with no guidance. Nobody had built a

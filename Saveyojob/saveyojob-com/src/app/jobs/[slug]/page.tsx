@@ -72,14 +72,14 @@ const AI_TOOLS_BY_SLUG: Record<string, { name: string; what: string; url: string
     { name: 'Claude',                         what: 'Writes investor memos, earnings summaries and industry overview reports from structured prompts in minutes',                                url: 'https://claude.ai' },
   ],
   'data-entry-clerk': [
-    { name: 'UiPath',                  what: 'Robotic Process Automation that mirrors every human data-entry keystroke at 10× speed with zero fatigue or error rate',                                                   url: 'https://www.uipath.com' },
+    { name: 'UiPath',                  what: 'Robotic Process Automation that automates repetitive data-entry workflows, running continuously without fatigue',                                                   url: 'https://www.uipath.com' },
     { name: 'Automation Anywhere',     what: 'Automates entire end-to-end data processing workflows from document ingestion to system posting',                                                                         url: 'https://www.automationanywhere.com' },
     { name: 'Microsoft Power Automate',what: 'Extracts data from emails, PDFs and forms and routes it into downstream systems automatically',                                                                          url: 'https://powerautomate.microsoft.com' },
     { name: 'Google Document AI',      what: 'Reads, classifies and extracts structured information from scanned forms and invoices without human review',                                                              url: 'https://cloud.google.com/document-ai' },
     { name: 'ABBYY FlexiCapture',      what: 'Captures and validates data from unstructured documents at enterprise scale — the technology directly replacing manual data entry',                                       url: 'https://www.abbyy.com/flexicapture/' },
   ],
   'customer-service-representative': [
-    { name: 'Intercom Fin',       what: 'Resolves more than 50% of customer support queries without any human involvement, handling escalations only when genuinely needed',                                            url: 'https://www.intercom.com/fin' },
+    { name: 'Intercom Fin',       what: 'Resolves a large share of customer support queries automatically, handling escalations only when a human is genuinely needed',                                            url: 'https://www.intercom.com/fin' },
     { name: 'Zendesk AI',         what: 'Automatically triages every inbound ticket, predicts customer intent and drafts agent replies — reducing handle time dramatically',                                            url: 'https://www.zendesk.com/service/ai/' },
     { name: 'Salesforce Einstein',what: 'Predicts customer needs, surfaces next-best actions and auto-generates personalised case resolutions at scale',                                                                url: 'https://www.salesforce.com/artificial-intelligence/' },
     { name: 'Google CCAI',        what: 'Powers voice and chat virtual agents that handle entire customer interactions end-to-end across phone, web and messaging',                                                     url: 'https://cloud.google.com/contact-center' },
@@ -87,7 +87,7 @@ const AI_TOOLS_BY_SLUG: Record<string, { name: string; what: string; url: string
   ],
   'hr-specialist': [
     { name: 'HireVue',                  what: 'Screens video interviews using AI assessment, replacing the first round of human review and shortlisting candidates automatically',                                      url: 'https://www.hirevue.com' },
-    { name: 'Eightfold.ai',             what: 'Matches candidates to open roles, predicts employee attrition and automates workforce planning with near-zero human input',                                              url: 'https://eightfold.ai' },
+    { name: 'Eightfold.ai',             what: 'Matches candidates to open roles, predicts employee attrition and automates workforce planning across large organisations',                                              url: 'https://eightfold.ai' },
     { name: 'Workday AI',               what: 'Automates onboarding workflows, benefits administration, compliance reporting and routine employee-relations tasks',                                                     url: 'https://www.workday.com/en-us/artificial-intelligence.html' },
     { name: 'Paradox (Olivia)',         what: 'Schedules interviews, answers candidate questions and sends offer letters entirely autonomously — a full recruiting coordinator in software',                             url: 'https://www.paradox.ai' },
     { name: 'LinkedIn Talent Insights', what: 'Generates real-time labour market intelligence and competitive compensation benchmarks, replacing manual research hours',                                                url: 'https://business.linkedin.com/talent-solutions/talent-insights' },
@@ -100,7 +100,7 @@ const AI_TOOLS_BY_SLUG: Record<string, { name: string; what: string; url: string
     { name: 'Runway ML',           what: 'Creates and edits video content and images for production at a fraction of the cost and time of traditional design workflows',                                                url: 'https://runwayml.com' },
   ],
   'software-developer': [
-    { name: 'GitHub Copilot',        what: 'Writes and completes code in real time — GitHub reports Copilot now accounts for roughly 46% of code written at firms that have adopted it',                               url: 'https://github.com/features/copilot' },
+    { name: 'GitHub Copilot',        what: 'Writes and completes code in real time — used by millions of developers to accelerate output and reduce boilerplate',                               url: 'https://github.com/features/copilot' },
     { name: 'Cursor',                what: 'AI-native code editor that refactors entire codebases, writes documentation and generates complete features from natural-language prompts',                                  url: 'https://www.cursor.com' },
     { name: 'Claude',                what: 'Generates boilerplate, writes unit tests, explains legacy code and proposes architecture decisions across any language or stack',                                            url: 'https://claude.ai' },
     { name: 'Amazon CodeWhisperer',  what: 'Suggests context-aware code completions and proactively identifies security vulnerabilities within AWS and multi-cloud environments',                                       url: 'https://aws.amazon.com/q/developer/' },
