@@ -300,7 +300,7 @@ export default function SalaryCalculatorClient() {
                       <p className="text-[11px] text-ink-3 mt-0.5">{c.platform} · {c.skill}</p>
                     </div>
                     <a
-                      href={`/api/affiliate/redirect?url=${encodeURIComponent(c.url)}&platform=${encodeURIComponent(c.platform)}&course=${encodeURIComponent(c.name)}`}
+                      href={c.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[11px] font-medium text-fire hover:brightness-110 transition-colors flex-shrink-0 mt-0.5"
@@ -311,7 +311,7 @@ export default function SalaryCalculatorClient() {
                 ))}
               </div>
               <a
-                href={`/jobs/${occupation.slug}`}
+                href={`/jobs/${occupation.slug}#courses`}
                 className="inline-flex items-center gap-1.5 mt-4 text-[12px] text-ink-3 hover:text-ink transition-colors"
               >
                 <BookOpen size={12} strokeWidth={1.5} />

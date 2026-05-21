@@ -634,7 +634,7 @@ export default async function OccupationPage({ params }: Props) {
 
             {/* Affiliate courses if available */}
             {(occ.affiliate_courses?.length ?? 0) > 0 && (
-              <div>
+              <div id="courses">
                 <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 mb-3">
                   Recommended courses
                 </div>
