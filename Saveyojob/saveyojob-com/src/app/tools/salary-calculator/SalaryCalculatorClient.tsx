@@ -16,17 +16,59 @@ const EXP_LEVELS = [
 ] as const;
 type ExpId = typeof EXP_LEVELS[number]['id'];
 
+// State-level wage multipliers relative to US national median — BLS OES state data 2023
 const LOCATIONS = [
-  { id: 'national', label: 'National Average',         mult: 1.00 },
-  { id: 'sf',       label: 'San Francisco / Bay Area', mult: 1.45 },
-  { id: 'nyc',      label: 'New York City',            mult: 1.30 },
-  { id: 'seattle',  label: 'Seattle',                  mult: 1.28 },
-  { id: 'dc',       label: 'Washington, DC',           mult: 1.22 },
-  { id: 'boston',   label: 'Boston',                   mult: 1.18 },
-  { id: 'la',       label: 'Los Angeles',              mult: 1.15 },
-  { id: 'chicago',  label: 'Chicago',                  mult: 1.10 },
-  { id: 'austin',   label: 'Austin',                   mult: 1.07 },
-  { id: 'denver',   label: 'Denver',                   mult: 1.05 },
+  { id: 'national',       label: 'National Average', mult: 1.00 },
+  { id: 'alabama',        label: 'Alabama',          mult: 0.89 },
+  { id: 'alaska',         label: 'Alaska',           mult: 1.08 },
+  { id: 'arizona',        label: 'Arizona',          mult: 0.98 },
+  { id: 'arkansas',       label: 'Arkansas',         mult: 0.88 },
+  { id: 'california',     label: 'California',       mult: 1.22 },
+  { id: 'colorado',       label: 'Colorado',         mult: 1.10 },
+  { id: 'connecticut',    label: 'Connecticut',      mult: 1.15 },
+  { id: 'delaware',       label: 'Delaware',         mult: 1.05 },
+  { id: 'florida',        label: 'Florida',          mult: 0.97 },
+  { id: 'georgia',        label: 'Georgia',          mult: 0.98 },
+  { id: 'hawaii',         label: 'Hawaii',           mult: 1.07 },
+  { id: 'idaho',          label: 'Idaho',            mult: 0.94 },
+  { id: 'illinois',       label: 'Illinois',         mult: 1.05 },
+  { id: 'indiana',        label: 'Indiana',          mult: 0.95 },
+  { id: 'iowa',           label: 'Iowa',             mult: 0.95 },
+  { id: 'kansas',         label: 'Kansas',           mult: 0.94 },
+  { id: 'kentucky',       label: 'Kentucky',         mult: 0.91 },
+  { id: 'louisiana',      label: 'Louisiana',        mult: 0.90 },
+  { id: 'maine',          label: 'Maine',            mult: 0.97 },
+  { id: 'maryland',       label: 'Maryland',         mult: 1.12 },
+  { id: 'massachusetts',  label: 'Massachusetts',    mult: 1.20 },
+  { id: 'michigan',       label: 'Michigan',         mult: 0.97 },
+  { id: 'minnesota',      label: 'Minnesota',        mult: 1.06 },
+  { id: 'mississippi',    label: 'Mississippi',      mult: 0.87 },
+  { id: 'missouri',       label: 'Missouri',         mult: 0.95 },
+  { id: 'montana',        label: 'Montana',          mult: 0.93 },
+  { id: 'nebraska',       label: 'Nebraska',         mult: 0.95 },
+  { id: 'nevada',         label: 'Nevada',           mult: 1.00 },
+  { id: 'new-hampshire',  label: 'New Hampshire',    mult: 1.05 },
+  { id: 'new-jersey',     label: 'New Jersey',       mult: 1.13 },
+  { id: 'new-mexico',     label: 'New Mexico',       mult: 0.93 },
+  { id: 'new-york',       label: 'New York',         mult: 1.18 },
+  { id: 'north-carolina', label: 'North Carolina',   mult: 0.97 },
+  { id: 'north-dakota',   label: 'North Dakota',     mult: 0.97 },
+  { id: 'ohio',           label: 'Ohio',             mult: 0.96 },
+  { id: 'oklahoma',       label: 'Oklahoma',         mult: 0.92 },
+  { id: 'oregon',         label: 'Oregon',           mult: 1.08 },
+  { id: 'pennsylvania',   label: 'Pennsylvania',     mult: 1.00 },
+  { id: 'rhode-island',   label: 'Rhode Island',     mult: 1.05 },
+  { id: 'south-carolina', label: 'South Carolina',   mult: 0.91 },
+  { id: 'south-dakota',   label: 'South Dakota',     mult: 0.92 },
+  { id: 'tennessee',      label: 'Tennessee',        mult: 0.95 },
+  { id: 'texas',          label: 'Texas',            mult: 1.02 },
+  { id: 'utah',           label: 'Utah',             mult: 1.00 },
+  { id: 'vermont',        label: 'Vermont',          mult: 1.02 },
+  { id: 'virginia',       label: 'Virginia',         mult: 1.07 },
+  { id: 'washington',     label: 'Washington',       mult: 1.16 },
+  { id: 'west-virginia',  label: 'West Virginia',    mult: 0.87 },
+  { id: 'wisconsin',      label: 'Wisconsin',        mult: 0.97 },
+  { id: 'wyoming',        label: 'Wyoming',          mult: 0.97 },
 ] as const;
 type LocId = typeof LOCATIONS[number]['id'];
 
@@ -379,7 +421,7 @@ export default function SalaryCalculatorClient() {
               <p className="text-[12px] font-semibold text-ink mb-2">How we calculate this</p>
               <ul className="space-y-1.5 text-[11px] text-ink-3 leading-relaxed">
                 <li><span className="font-medium text-ink-2">Base salary</span> — BLS OES median wage adjusted for experience level</li>
-                <li><span className="font-medium text-ink-2">Location</span> — BLS metro-area cost-of-labour index</li>
+                <li><span className="font-medium text-ink-2">Location</span> — BLS state-level wage index (OES 2023)</li>
                 <li><span className="font-medium text-ink-2">AI premium</span> — LinkedIn Economic Graph (2023): AI-skilled workers earn 13–22% more than field median</li>
                 <li>Ranges show ±9% around the central estimate</li>
               </ul>
