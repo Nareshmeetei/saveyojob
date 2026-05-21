@@ -121,8 +121,10 @@ export default function SalaryCalculatorClient() {
   const [locId, setLocId] = useState<LocId>('national');
   const [query, setQuery] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [locOpen, setLocOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const locRef = useRef<HTMLDivElement>(null);
 
   const filtered = SEED_OCCUPATIONS.filter(o =>
     o.title.toLowerCase().includes(query.toLowerCase())
@@ -136,6 +138,9 @@ export default function SalaryCalculatorClient() {
     function handleClick(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (locRef.current && !locRef.current.contains(e.target as Node)) {
+        setLocOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClick);
@@ -225,20 +230,32 @@ export default function SalaryCalculatorClient() {
         </div>
 
         {/* Location */}
-        <div>
+        <div ref={locRef} className="relative">
           <label className="block text-[12px] font-medium text-ink-2 mb-1.5">Location</label>
-          <div className="relative">
-            <select
-              value={locId}
-              onChange={e => setLocId(e.target.value as LocId)}
-              className="appearance-none bg-surface border border-line rounded-xl px-4 pr-9 py-3 text-[14px] text-ink outline-none focus:border-fire cursor-pointer min-w-[210px]"
-            >
-              {LOCATIONS.map(l => (
-                <option key={l.id} value={l.id}>{l.label}</option>
-              ))}
-            </select>
-            <ChevronDown size={14} strokeWidth={1.5} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-3 pointer-events-none" />
-          </div>
+          <button
+            type="button"
+            onClick={() => setLocOpen(o => !o)}
+            className={`flex items-center justify-between gap-3 w-full min-w-[210px] bg-surface border rounded-xl px-4 py-3 text-[14px] text-ink outline-none transition-colors ${locOpen ? 'border-fire' : 'border-line hover:border-fire'}`}
+          >
+            <span>{location.label}</span>
+            <ChevronDown size={14} strokeWidth={1.5} className={`text-ink-3 flex-shrink-0 transition-transform duration-150 ${locOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {locOpen && (
+            <div className="absolute top-full left-0 right-0 z-20 mt-1 bg-surface border border-line rounded-xl overflow-hidden">
+              <ul className="max-h-[260px] overflow-y-auto">
+                {LOCATIONS.map(l => (
+                  <li key={l.id}>
+                    <button
+                      onMouseDown={e => { e.preventDefault(); setLocId(l.id); setLocOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 text-[13px] hover:bg-bg transition-colors ${l.id === locId ? 'text-fire font-medium' : 'text-ink'}`}
+                    >
+                      {l.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
