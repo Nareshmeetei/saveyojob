@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "The Job Market Is Changing Fast. Don't Get Left Behind.",
     description:
       'See how AI could impact your role and learn the skills professionals are using to stay employable and grow faster.',
-    images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
