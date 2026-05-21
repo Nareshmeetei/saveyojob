@@ -191,13 +191,16 @@ Every word on this site — UI labels, headings, body copy, tooltips, error mess
 ## Commands
 
 ```bash
-npm run dev      # Dev server → localhost:3000
+npm run dev      # Dev server → localhost:3000 (run from saveyojob-com/)
 npm run build    # Production build
 npm run start    # Production server
 
-# Deploy
-cd saveyojob-com && vercel          # Preview
-cd saveyojob-com && vercel --prod   # Production → saveyojob.com
+# Deploy — MUST run from the git root D:\PROJECTS\Saveyojob, NOT from inside saveyojob-com/
+# Vercel rootDirectory is set to "Saveyojob/saveyojob-com" in the project settings.
+# Running vercel from inside saveyojob-com/ will fail with a path error.
+cd D:\PROJECTS\Saveyojob
+vercel --prod --yes --scope nareshmeeteis-projects   # Production → saveyojob.com
+vercel --yes --scope nareshmeeteis-projects          # Preview
 ```
 
 ---
