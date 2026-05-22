@@ -29,7 +29,7 @@ export default function ResumeBuilderPage() {
             Resume Builder
           </h1>
           <p className="text-[16px] text-ink-2 leading-relaxed max-w-[560px]">
-            Fill in your details and watch your resume build in real time. Copy to Google Docs or Word, or save as a PDF — no account needed.
+            Fill in your details and watch your resume build in real time. Download as a Word doc or save as a PDF — no account needed.
           </p>
         </div>
 
