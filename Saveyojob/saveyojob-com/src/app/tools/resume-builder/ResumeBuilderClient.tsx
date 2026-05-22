@@ -183,12 +183,16 @@ export default function ResumeBuilderClient() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  function handlePrint() {
-    const w = window.open('', '_blank');
-    if (!w) return;
-    w.document.write(toHTML(f));
-    w.document.close();
-    setTimeout(() => { w.print(); }, 400);
+  function handleDownload() {
+    const blob = new Blob([toHTML(f)], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${f.contact.name ? f.contact.name.replace(/\s+/g, '-').toLowerCase() : 'resume'}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   const { contact: c, summary, exps, edus, skills } = f;
@@ -379,12 +383,12 @@ export default function ResumeBuilderClient() {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={handlePrint}
+              onClick={handleDownload}
               disabled={!hasContent}
               className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <Printer size={12} strokeWidth={1.5} />
-              PDF
+              Download
             </button>
             <button
               onClick={copy}
@@ -483,7 +487,7 @@ export default function ResumeBuilderClient() {
         </div>
 
         <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
-          "Copy text" to paste into Google Docs or Word. "PDF" opens a clean, print-ready version.
+          "Copy text" to paste into Google Docs or Word. "Download" saves a clean HTML file — open it in your browser and print to PDF.
         </p>
       </div>
 
