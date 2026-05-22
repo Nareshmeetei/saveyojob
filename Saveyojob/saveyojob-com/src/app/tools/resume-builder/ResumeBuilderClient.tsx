@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Check, Printer, Plus, Trash2, FileText, Upload, FileDown } from 'lucide-react';
+import { Printer, Plus, Trash2, FileText, Upload, FileDown } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -313,7 +313,6 @@ function toHTML(f: Fields, layout: Layout): string {
 
 export default function ResumeBuilderClient() {
   const [f, setF] = useState<Fields>(INIT);
-  const [copied, setCopied] = useState(false);
   const [layout, setLayout] = useState<Layout>('classic');
 
   function setC(k: keyof Contact, v: string) {
@@ -345,11 +344,6 @@ export default function ResumeBuilderClient() {
       if (typeof result === 'string') setC('photo', result);
     };
     reader.readAsDataURL(file);
-  }
-  async function copy() {
-    await navigator.clipboard.writeText(toPlainText(f));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   }
   function handleDownloadPDF() {
     const iframe = document.createElement('iframe');
@@ -551,10 +545,6 @@ export default function ResumeBuilderClient() {
             <button onClick={handleDownloadWord} disabled={!hasContent} className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
               <FileDown size={12} strokeWidth={1.5} /> Word
             </button>
-            <button onClick={copy} disabled={!hasContent} className="flex items-center gap-1.5 text-[12px] font-medium text-fire hover:brightness-110 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              {copied ? <Check size={13} strokeWidth={1.5} /> : <Copy size={13} strokeWidth={1.5} />}
-              {copied ? 'Copied!' : 'Copy text'}
-            </button>
           </div>
         </div>
 
@@ -581,7 +571,7 @@ export default function ResumeBuilderClient() {
         </div>
 
         <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
-          "PDF" opens the print dialog — choose "Save as PDF". "Word" downloads a .doc file for Word or Google Docs. "Copy text" pastes plain text into any editor.
+          "PDF" opens the print dialog — choose "Save as PDF". "Word" downloads a .doc file for Word or Google Docs.
         </p>
       </div>
 
