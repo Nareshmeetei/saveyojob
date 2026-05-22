@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Check, Printer, Plus, Trash2, FileText } from 'lucide-react';
+import { Copy, Check, Printer, Plus, Trash2, FileText, Upload, FileDown } from 'lucide-react';
 
 interface Contact {
   name: string; email: string; phone: string;
-  location: string; linkedin: string;
+  location: string; linkedin: string; photo: string;
 }
 
 interface Exp {
@@ -38,7 +38,7 @@ function emptyEdu(): Edu {
 }
 
 const INIT: Fields = {
-  contact: { name: '', email: '', phone: '', location: '', linkedin: '' },
+  contact: { name: '', email: '', phone: '', location: '', linkedin: '', photo: '' },
   summary: '',
   exps: [emptyExp()],
   edus: [emptyEdu()],
@@ -132,6 +132,9 @@ function toHTML(f: Fields): string {
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #1a1a1a; max-width: 760px; margin: 40px auto; padding: 0 40px; line-height: 1.5; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .header-left { flex: 1; min-width: 0; }
+  .header-photo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0; margin-left: 24px; }
   h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; }
   .contact { font-size: 12px; color: #555; margin-bottom: 24px; }
   .section { margin-bottom: 18px; }
@@ -148,8 +151,13 @@ function toHTML(f: Fields): string {
 </style>
 </head>
 <body>
-  ${c.name ? `<h1>${c.name}</h1>` : ''}
-  ${(contactLine || linkedinIcon) ? `<p class="contact">${contactLine}${linkedinIcon}</p>` : ''}
+  <div class="header">
+    <div class="header-left">
+      ${c.name ? `<h1>${c.name}</h1>` : ''}
+      ${(contactLine || linkedinIcon) ? `<p class="contact">${contactLine}${linkedinIcon}</p>` : ''}
+    </div>
+    ${c.photo ? `<img src="${c.photo}" class="header-photo" alt="Profile photo" />` : ''}
+  </div>
   ${summary ? `<div class="section"><div class="section-label">Summary</div><p>${summary}</p></div>` : ''}
   ${filledExps.length ? `<div class="section"><div class="section-label">Experience</div>${expHTML}</div>` : ''}
   ${filledEdus.length ? `<div class="section"><div class="section-label">Education</div>${eduHTML}</div>` : ''}
@@ -183,18 +191,45 @@ export default function ResumeBuilderClient() {
     setF(s => ({ ...s, edus: s.edus.map(e => e.id === id ? { ...e, ...patch } : e) }));
   }
 
+  function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const result = ev.target?.result;
+      if (typeof result === 'string') setC('photo', result);
+    };
+    reader.readAsDataURL(file);
+  }
+
   async function copy() {
     await navigator.clipboard.writeText(toPlainText(f));
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
 
-  function handleDownload() {
-    const blob = new Blob([toHTML(f)], { type: 'text/html' });
+  function handleDownloadPDF() {
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
+    document.body.appendChild(iframe);
+    const doc = iframe.contentWindow?.document;
+    if (!doc) { document.body.removeChild(iframe); return; }
+    doc.open();
+    doc.write(toHTML(f));
+    doc.close();
+    setTimeout(() => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      setTimeout(() => document.body.removeChild(iframe), 500);
+    }, 300);
+  }
+
+  function handleDownloadWord() {
+    const blob = new Blob([toHTML(f)], { type: 'application/msword' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${f.contact.name ? f.contact.name.replace(/\s+/g, '-').toLowerCase() : 'resume'}.html`;
+    a.download = `${f.contact.name ? f.contact.name.replace(/\s+/g, '-').toLowerCase() : 'resume'}.doc`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -228,6 +263,36 @@ export default function ResumeBuilderClient() {
             <Field label="LinkedIn" className="sm:col-span-2">
               <input value={c.linkedin} onChange={e => setC('linkedin', e.target.value)} placeholder="linkedin.com/in/janesmith" />
             </Field>
+            <div className="sm:col-span-2">
+              <p className="text-[12px] font-medium text-ink-2 mb-1.5">
+                Professional photo <span className="text-ink-3 font-normal">(optional)</span>
+              </p>
+              <div className="flex items-center gap-3">
+                {c.photo ? (
+                  <>
+                    <img src={c.photo} alt="Preview" className="w-11 h-11 rounded-full object-cover border border-line" />
+                    <button
+                      type="button"
+                      onClick={() => setC('photo', '')}
+                      className="text-[12px] text-ink-3 hover:text-accent transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </>
+                ) : (
+                  <label className="cursor-pointer flex items-center gap-2 text-[13px] font-semibold text-fire hover:brightness-110 transition-colors">
+                    <Upload size={14} strokeWidth={1.5} />
+                    Upload photo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={handlePhotoUpload}
+                    />
+                  </label>
+                )}
+              </div>
+            </div>
           </div>
         </FormSection>
 
@@ -389,12 +454,20 @@ export default function ResumeBuilderClient() {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={handleDownload}
+              onClick={handleDownloadPDF}
               disabled={!hasContent}
               className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
               <Printer size={12} strokeWidth={1.5} />
-              Download
+              PDF
+            </button>
+            <button
+              onClick={handleDownloadWord}
+              disabled={!hasContent}
+              className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <FileDown size={12} strokeWidth={1.5} />
+              Word
             </button>
             <button
               onClick={copy}
@@ -413,31 +486,40 @@ export default function ResumeBuilderClient() {
           ) : (
             <div className="space-y-4">
               {/* Header */}
-              <div className="pb-3 border-b border-line">
-                {c.name && (
-                  <p className="text-[20px] font-bold text-ink tracking-tight leading-tight mb-1">{c.name}</p>
-                )}
-                {[c.email, c.phone, c.location, c.linkedin].some(Boolean) && (
-                  <div className="flex items-center gap-2 flex-wrap mt-0.5">
-                    {[c.email, c.phone, c.location].filter(Boolean).length > 0 && (
-                      <span className="text-[11px] text-ink-3 leading-relaxed">
-                        {[c.email, c.phone, c.location].filter(Boolean).join(' · ')}
-                      </span>
-                    )}
-                    {c.linkedin && (
-                      <a
-                        href={c.linkedin.startsWith('http') ? c.linkedin : `https://${c.linkedin}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:opacity-70 transition-opacity"
-                        title={c.linkedin}
-                      >
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                      </a>
-                    )}
-                  </div>
+              <div className="pb-3 border-b border-line flex items-start gap-3">
+                <div className="flex-1 min-w-0">
+                  {c.name && (
+                    <p className="text-[20px] font-bold text-ink tracking-tight leading-tight mb-1">{c.name}</p>
+                  )}
+                  {[c.email, c.phone, c.location, c.linkedin].some(Boolean) && (
+                    <div className="flex items-center gap-2 flex-wrap mt-0.5">
+                      {[c.email, c.phone, c.location].filter(Boolean).length > 0 && (
+                        <span className="text-[11px] text-ink-3 leading-relaxed">
+                          {[c.email, c.phone, c.location].filter(Boolean).join(' · ')}
+                        </span>
+                      )}
+                      {c.linkedin && (
+                        <a
+                          href={c.linkedin.startsWith('http') ? c.linkedin : `https://${c.linkedin}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:opacity-70 transition-opacity"
+                          title={c.linkedin}
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {c.photo && (
+                  <img
+                    src={c.photo}
+                    alt="Profile"
+                    className="w-14 h-14 rounded-full object-cover shrink-0 border border-line"
+                  />
                 )}
               </div>
 
@@ -510,7 +592,7 @@ export default function ResumeBuilderClient() {
         </div>
 
         <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
-          "Copy text" to paste into Google Docs or Word. "Download" saves a clean HTML file — open it in your browser and print to PDF.
+          "PDF" opens the print dialog — choose "Save as PDF". "Word" downloads a .doc file for Word or Google Docs. "Copy text" pastes plain text into any editor.
         </p>
       </div>
 
