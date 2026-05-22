@@ -27,8 +27,8 @@ export default async function HeroSection() {
       <div className="max-w-[720px] mx-auto">
 
         {/* Headline */}
-        <h1 className="text-[clamp(36px,8.5vw,60px)] font-extrabold leading-[0.92] tracking-[-0.04em] text-ink mb-5">
-          AI Is Changing Jobs Fast
+        <h1 className="text-[clamp(22px,5vw,42px)] font-extrabold leading-[0.92] tracking-[-0.04em] text-ink mb-5 whitespace-nowrap">
+          Check How Risky Your Job Is
         </h1>
 
         {/* Subhead */}
