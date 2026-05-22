@@ -54,6 +54,52 @@ const BULLET_HINTS = [
   'e.g. Trained 40+ staff on new system — cut average onboarding time by 2 weeks',
 ];
 
+const SAMPLE: Fields = {
+  contact: {
+    name: 'Alex Johnson',
+    email: 'alex@example.com',
+    phone: '415-555-0182',
+    location: 'San Francisco, CA',
+    linkedin: 'linkedin.com/in/alexjohnson',
+    photo: '',
+  },
+  summary: 'Results-driven Marketing Manager with 8+ years in B2B SaaS. Specialise in demand generation programs that consistently exceed pipeline targets. Known for turning data into decisions that reduce CAC and accelerate revenue growth.',
+  exps: [
+    {
+      id: 'sx1',
+      title: 'Senior Marketing Manager',
+      company: 'Acme Corp',
+      location: 'San Francisco, CA',
+      startDate: 'Jan 2021',
+      endDate: '',
+      isCurrent: true,
+      bullets: [
+        'Grew organic traffic 3× in 12 months by redesigning content strategy',
+        'Reduced CPA by 34% through A/B testing and landing page optimisation',
+        'Led a cross-functional team of 5 to ship 3 major campaigns on time',
+        'Managed $2M annual marketing budget with 18% year-over-year savings',
+      ],
+    },
+    {
+      id: 'sx2',
+      title: 'Marketing Manager',
+      company: 'StartupXYZ',
+      location: 'New York, NY',
+      startDate: 'Mar 2018',
+      endDate: 'Dec 2020',
+      isCurrent: false,
+      bullets: [
+        'Launched email nurture program that increased MQL conversion by 22%',
+        'Built partnerships with 12 industry publications to expand brand reach',
+        '',
+        '',
+      ],
+    },
+  ],
+  edus: [{ id: 'se1', degree: 'BSc Marketing', school: 'UC Berkeley', year: '2018' }],
+  skills: 'Paid Search, Google Analytics, SQL, A/B Testing, Team Leadership, Salesforce, HubSpot, Budget Management, Content Strategy',
+};
+
 const LI_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`;
 
 // ── Plain text export ──────────────────────────────────────────
@@ -516,18 +562,20 @@ export default function ResumeBuilderClient() {
         <LayoutPicker value={layout} onChange={setLayout} />
 
         {/* Preview card */}
-        <div className={`bg-surface border border-line rounded-xl overflow-hidden transition-opacity duration-200 ${hasContent ? '' : 'opacity-40'}`}>
+        <div className="bg-surface border border-line rounded-xl overflow-hidden">
+          {!hasContent && (
+            <div className="flex items-center gap-2 px-4 py-2 bg-fire/[0.05] border-b border-line">
+              <span className="w-1.5 h-1.5 rounded-full bg-fire/50 shrink-0" />
+              <span className="text-[11px] text-ink-3">Sample preview — fill in your details on the left</span>
+            </div>
+          )}
           <div className="overflow-auto max-h-[500px] lg:max-h-[78vh]">
-            {!hasContent ? (
-              <div className="p-5">
-                <p className="text-[13px] text-ink-3 italic">Fill in your details on the left and your resume will appear here.</p>
-              </div>
-            ) : layout === 'classic' ? (
-              <ClassicPreview f={f} />
+            {layout === 'classic' ? (
+              <ClassicPreview f={hasContent ? f : SAMPLE} />
             ) : layout === 'modern' ? (
-              <ModernPreview f={f} />
+              <ModernPreview f={hasContent ? f : SAMPLE} />
             ) : (
-              <ExecutivePreview f={f} />
+              <ExecutivePreview f={hasContent ? f : SAMPLE} />
             )}
           </div>
         </div>
