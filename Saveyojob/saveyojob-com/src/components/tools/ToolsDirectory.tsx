@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FileCheck, Zap, FileText,
+  FileCheck, Zap, FileText, LayoutTemplate,
   Mail, AtSign, AlignLeft,
   MessageSquare, Mic, Send,
   TrendingUp, BarChart3, MailOpen,
@@ -31,6 +31,14 @@ const CATEGORIES: Category[] = [
     id: 'resume',
     label: 'Resume',
     tools: [
+      {
+        id: 'resume-builder',
+        name: 'Resume Builder',
+        tagline: 'Fill in your details → a recruiter-ready resume with live preview, copy to Word or save as PDF',
+        tag: 'Resume',
+        Icon: LayoutTemplate,
+        href: '/tools/resume-builder',
+      },
       {
         id: 'ats-checker',
         name: 'ATS Resume Checker',
