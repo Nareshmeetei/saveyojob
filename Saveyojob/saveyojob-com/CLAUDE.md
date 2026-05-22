@@ -181,15 +181,17 @@ Every implementation must be exact. Small details matter — alignment, spacing,
 
 ## Course Quality Standards (Non-Negotiable)
 
-This site only lists the best AI courses available. Every course must meet ALL of these criteria to appear anywhere on the site — on the /courses page, job pages, or in AI-generated roadmaps:
+Saveyojob only lists the highest-quality AI courses available — courses that worried workers can trust to genuinely improve their careers, increase their earning, and move into better job positions. Every course must meet ALL of these criteria to appear anywhere on the site — on the /courses page, job pages, or in AI-generated roadmaps:
 
-- **Rating:** 4.6 stars or higher, based on verified learner reviews
-- **Provider:** A trusted institution — Google, Stanford, MIT, IBM, DeepLearning.AI, Microsoft, LinkedIn, Vanderbilt, Duke, University of Helsinki, AWS, or equivalent
-- **Topic:** Directly teaches AI/ML skills, AI tooling (ChatGPT, generative AI, prompt engineering), or AI applied to a specific field. General productivity or Excel courses without a direct AI angle do not qualify.
+- **Rating:** Highest possible — 4.6 stars or higher with a large number of verified learner reviews (thousands, not dozens). Low review counts disqualify a course even if the rating is high.
+- **Provider:** A platform people already trust — Coursera, edX, LinkedIn Learning, Google, DeepLearning.AI, IBM, Microsoft, Stanford, MIT, AWS, or equivalent. Unknown or unvetted platforms are not allowed.
+- **Topic:** Directly teaches AI/ML skills, AI tooling (ChatGPT, generative AI, prompt engineering), or AI applied to a specific job field (AI in Healthcare, AI in Finance, etc.). General productivity, Excel, or soft-skills courses without a direct AI angle do not qualify.
+- **Career impact:** The course must have a clear, tangible payoff — a certificate from a recognized institution, skills that lead to a promotion or salary increase, or expertise that makes the learner more valuable in their field. Courses that teach theory with no practical outcome do not qualify.
 - **Access:** Free to access, free to audit, or free with a certificate. Do not list courses behind hard paywalls.
-- **Currency:** Reviewed and relevant to current AI tools (not outdated pre-GPT-era content).
+- **Currency:** Content is current and relevant to today's AI tools (post-GPT era). Outdated pre-GPT-era content does not qualify.
+- **Dream-goal alignment:** Each course must help the target audience — worried workers afraid of losing their jobs to AI — move toward a better version of their career. Ask: does this course help someone earn more, get promoted, or future-proof their role? If not, it does not belong here.
 
-Do not add courses that fail any of these criteria — even if asked. If a great course exists that doesn't meet them, flag it for review rather than silently adding it.
+Do not add courses that fail any of these criteria — even if asked. If a potentially good course doesn't meet them, flag it for review rather than silently adding it.
 
 ---
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Star, Clock, CheckCircle, Users, ExternalLink, ChevronRight } from 'lucide-react';
 import Header from '../../../components/layout/Header';
+import CourseCard from '../../../components/courses/CourseCard';
 import { AI_COURSES } from '../../../data/ai-courses';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
@@ -35,9 +36,9 @@ export async function generateMetadata(
 }
 
 const LEVEL_STYLE: Record<string, { text: string; bg: string }> = {
-  'Beginner':     { text: '#097BA0', bg: 'rgba(9,123,160,0.08)' },
-  'Intermediate': { text: '#D4783C', bg: 'rgba(212,120,60,0.08)' },
-  'Advanced':     { text: '#7C3AED', bg: 'rgba(124,58,237,0.08)' },
+  Beginner:     { text: '#16A34A', bg: 'rgba(22,163,74,0.10)'  },
+  Intermediate: { text: '#A37F0A', bg: 'rgba(163,127,10,0.10)' },
+  Advanced:     { text: '#C45347', bg: 'rgba(196,83,71,0.10)'  },
 };
 
 export default async function CoursePage(
@@ -47,7 +48,24 @@ export default async function CoursePage(
   const course = AI_COURSES.find(c => c.id === slug);
   if (!course) notFound();
 
-  const related = AI_COURSES.filter(c => course.relatedIds.includes(c.id));
+  const picked = new Set<string>(course.relatedIds);
+  picked.add(course.id);
+  const relatedById = AI_COURSES.filter(c => course.relatedIds.includes(c.id));
+
+  const relatedByCategory = AI_COURSES.filter(c => {
+    if (picked.has(c.id)) return false;
+    const match = c.jobCategories.some(cat => course.jobCategories.includes(cat));
+    if (match) picked.add(c.id);
+    return match;
+  });
+
+  const relatedFallback = AI_COURSES.filter(c => {
+    if (picked.has(c.id)) return false;
+    picked.add(c.id);
+    return true;
+  });
+
+  const related = [...relatedById, ...relatedByCategory, ...relatedFallback].slice(0, 6);
   const ls = LEVEL_STYLE[course.educationalLevel] ?? { text: '#7AAAB8', bg: 'rgba(122,170,184,0.10)' };
 
   const courseSchema = {
@@ -156,7 +174,7 @@ export default async function CoursePage(
               <span className="text-[13px] text-ink-2">{course.duration}</span>
             </div>
             <span
-              className="text-[11px] font-bold uppercase tracking-[0.07em] px-2.5 py-1 rounded"
+              className="inline-flex items-center text-[11px] font-semibold uppercase tracking-[0.06em] px-[10px] py-[4px] rounded-full"
               style={{ color: ls.text, background: ls.bg }}
             >
               {course.educationalLevel}
@@ -252,32 +270,9 @@ export default async function CoursePage(
         {related.length > 0 && (
           <div className="pt-8 border-t border-line">
             <h2 className="text-[20px] font-bold text-ink mb-5">Related courses</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {related.map(r => (
-                <Link
-                  key={r.id}
-                  href={`/courses/${r.id}/`}
-                  className="flex flex-col p-4 bg-surface border border-line rounded-xl hover:border-fire transition-all duration-150 group"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <img
-                      src={`https://www.google.com/s2/favicons?domain=${r.domain}&sz=32`}
-                      alt={r.platform}
-                      width={16}
-                      height={16}
-                      className="rounded-sm shrink-0"
-                    />
-                    <span className="text-[11px] text-ink-3">{r.platform}</span>
-                  </div>
-                  <h3 className="text-[13px] font-semibold text-ink group-hover:text-fire transition-colors leading-snug mb-2 flex-1">
-                    {r.title}
-                  </h3>
-                  <div className="flex items-center gap-1">
-                    <Star size={10} style={{ fill: '#F59E0B', color: '#F59E0B' }} />
-                    <span className="text-[11px] font-semibold text-ink">{r.rating}</span>
-                    <span className="text-[11px] text-ink-3">· {r.duration}</span>
-                  </div>
-                </Link>
+                <CourseCard key={r.id} course={r} />
               ))}
             </div>
           </div>
