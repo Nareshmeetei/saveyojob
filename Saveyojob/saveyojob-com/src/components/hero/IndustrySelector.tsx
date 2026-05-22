@@ -18,8 +18,8 @@ const INDUSTRIES = [
 ];
 
 const riskLabel: Record<string, { text: string; color: string }> = {
-  high:   { text: 'High risk industry',   color: '#DC2626' },
-  medium: { text: 'Medium risk industry', color: '#B45309' },
+  high:   { text: 'High risk industry',   color: '#C45347' },
+  medium: { text: 'Medium risk industry', color: '#D4783C' },
   low:    { text: 'Lower risk industry',  color: '#0369A1' },
 };
 
@@ -64,9 +64,9 @@ export default function IndustrySelector({ onSelect }: IndustrySelectorProps) {
                   borderColor: '#0C526D',
                   color:       '#F2F2F2',
                 } : {
-                  background:  '#F4F6F8',
-                  borderColor: '#D1D5DB',
-                  color:       '#374151',
+                  background:  '#EEF5F7',
+                  borderColor: '#C5DDE4',
+                  color:       '#081E28',
                 }}
               >
                 {label}

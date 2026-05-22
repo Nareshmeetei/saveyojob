@@ -130,7 +130,7 @@ export default function GeneratorWizard({ prefilledJob }: { prefilledJob?: strin
           <div className="text-[14px] text-ink-2 mb-6">{errorMsg}</div>
           <button
             onClick={reset}
-            className="px-6 py-3 bg-fire text-bg font-bold rounded-xl text-[15px] hover:brightness-105"
+            className="px-[22px] py-[10px] bg-fire text-bg font-semibold rounded-full text-[13px] tracking-[0.04em] hover:brightness-105"
           >
             Try Again
           </button>
@@ -155,17 +155,17 @@ export default function GeneratorWizard({ prefilledJob }: { prefilledJob?: strin
           </p>
 
           {/* Stats bar */}
-          <div className="max-w-[500px] mx-auto grid grid-cols-3 border border-line rounded-xl overflow-hidden mb-12">
+          <div className="max-w-[500px] mx-auto grid grid-cols-3 border border-line rounded-[20px] overflow-hidden mb-12">
             <div className="py-4 px-3">
-              <div className="text-[28px] font-extrabold text-ink leading-none">92M</div>
+              <div className="text-[28px] font-extrabold font-mono text-ink leading-none">92M</div>
               <div className="text-[11px] text-ink-3 mt-1">jobs at risk by 2030</div>
             </div>
             <div className="py-4 px-3 border-x border-line">
-              <div className="text-[28px] font-extrabold text-ink leading-none">51%</div>
+              <div className="text-[28px] font-extrabold font-mono text-ink leading-none">51%</div>
               <div className="text-[11px] text-ink-3 mt-1">of workers worried about AI</div>
             </div>
             <div className="py-4 px-3">
-              <div className="text-[28px] font-extrabold text-fire leading-none">+25%</div>
+              <div className="text-[28px] font-extrabold font-mono text-fire leading-none">+25%</div>
               <div className="text-[11px] text-ink-3 mt-1">salary for AI-skilled workers</div>
             </div>
           </div>
@@ -174,11 +174,12 @@ export default function GeneratorWizard({ prefilledJob }: { prefilledJob?: strin
 
       {/* Generator card */}
       <div className="px-4 sm:px-6 pb-16">
-        <div className="max-w-[680px] mx-auto border border-line rounded-xl overflow-hidden bg-surface">
+        <div className="max-w-[680px] mx-auto border border-line rounded-[20px] overflow-hidden bg-surface shadow-low">
+          <div className="h-[3px] bg-fire" />
           {/* Card header */}
           <div className="bg-surface-2 border-b border-line px-6 sm:px-7 py-5 flex items-center justify-between">
             <span className="text-[15px] font-bold text-ink">Build my roadmap</span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.10em] text-ink-3">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-3">
               Step {step} of 4 · 60 seconds
             </span>
           </div>
@@ -236,8 +237,8 @@ export default function GeneratorWizard({ prefilledJob }: { prefilledJob?: strin
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             {HOW_IT_WORKS.map(item => (
-              <div key={item.n} className="bg-surface-2 border border-line rounded-xl p-6">
-                <div className="text-[22px] font-extrabold text-fire mb-3 leading-none">
+              <div key={item.n} className="bg-surface-2 border border-line rounded-[20px] p-6">
+                <div className="text-[22px] font-extrabold font-mono text-fire mb-3 leading-none">
                   {item.n}
                 </div>
                 <div className="text-[16px] font-bold text-ink mb-2">{item.title}</div>

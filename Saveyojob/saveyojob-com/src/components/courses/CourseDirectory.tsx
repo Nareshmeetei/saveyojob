@@ -28,8 +28,8 @@ const SEED_COURSES: Course[] = [
 const FILTERS = ['All', 'High Impact', 'AI / ML', 'Data Analysis', 'AI Tools', 'Programming'];
 
 function impactLabel(score: number): { text: string; color: string } {
-  if (score >= 85) return { text: 'High Impact',   color: '#DC2626' };
-  if (score >= 65) return { text: 'Medium Impact', color: '#B45309' };
+  if (score >= 85) return { text: 'High Impact',   color: '#C45347' };
+  if (score >= 65) return { text: 'Medium Impact', color: '#D4783C' };
   return                 { text: 'Lower Impact',   color: '#0369A1' };
 }
 
@@ -135,9 +135,9 @@ export default function CourseDirectory() {
                   borderColor: '#0C526D',
                   color:       '#F2F2F2',
                 } : {
-                  background:  '#F4F6F8',
-                  borderColor: '#D1D5DB',
-                  color:       '#374151',
+                  background:  '#EEF5F7',
+                  borderColor: '#C5DDE4',
+                  color:       '#081E28',
                 }}
               >
                 {f}

@@ -11,9 +11,9 @@ export default function CourseCards({ courses }: CourseCardsProps) {
           href={c.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-start gap-3 p-4 bg-surface-2 border border-line rounded-xl hover:border-fire transition-colors duration-150"
+          className="flex items-start gap-3 p-4 bg-surface-2 border border-line rounded-[20px] shadow-low hover:shadow-mid hover:border-fire transition-all duration-150"
         >
-          <div className="w-9 h-9 rounded-lg bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
+          <div className="w-9 h-9 rounded-xl bg-surface-3 border border-line flex items-center justify-center shrink-0 overflow-hidden mt-0.5">
             <img
               src={`https://www.google.com/s2/favicons?domain=${new URL(c.url).hostname}&sz=64`}
               alt={c.platform}

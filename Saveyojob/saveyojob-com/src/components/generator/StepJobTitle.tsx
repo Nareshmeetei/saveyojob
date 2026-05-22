@@ -75,11 +75,11 @@ export default function StepJobTitle({ value, onChange, onNext, occupations }: S
           placeholder="e.g. Paralegal, Financial Analyst…"
           autoComplete="off"
           spellCheck={false}
-          className="w-full bg-surface-2 border-[1.5px] border-line rounded-xl px-5 py-4 text-[17px] text-ink placeholder:text-ink-2 outline-none transition-all duration-150 focus:border-fire focus:bg-surface-3"
+          className="w-full bg-surface-2 border-[1.5px] border-line rounded-xl px-5 py-4 text-[17px] text-ink placeholder:text-ink-2 outline-none transition-all duration-150 focus:border-fire focus:bg-surface-3 focus:shadow-[0_0_0_3px_rgba(12,82,109,0.10)]"
         />
 
         {showSuggestions && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-surface-2 border border-line-2 rounded-xl z-30 overflow-hidden max-h-[280px] overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-surface-2 border border-line-2 rounded-[20px] z-30 overflow-hidden max-h-[280px] overflow-y-auto">
             {hits.map((o, i) => {
               const idx = o.title.toLowerCase().indexOf(query.toLowerCase());
               return (
@@ -109,7 +109,7 @@ export default function StepJobTitle({ value, onChange, onNext, occupations }: S
       <button
         onClick={() => { if (query.trim().length >= 2) { onChange(query.trim()); onNext(); } }}
         disabled={query.trim().length < 2}
-        className="w-full py-4 px-6 bg-fire text-bg text-[16px] font-bold rounded-xl transition-all duration-150 hover:brightness-105 hover:-translate-y-[1px] disabled:opacity-30 disabled:cursor-not-allowed disabled:translate-y-0"
+        className="w-full py-[10px] px-[22px] bg-fire text-bg text-[13px] font-semibold rounded-full tracking-[0.04em] transition-all duration-150 hover:brightness-105 hover:-translate-y-[1px] disabled:opacity-30 disabled:cursor-not-allowed disabled:translate-y-0"
       >
         Continue →
       </button>

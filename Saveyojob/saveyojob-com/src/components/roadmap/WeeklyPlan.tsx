@@ -7,8 +7,8 @@ export default function WeeklyPlan({ plan }: WeeklyPlanProps) {
     <div className="flex flex-col">
       {plan.map((item, i) => (
         <div key={i} className="flex gap-4 pb-6 last:pb-0">
-          <div className="flex flex-col items-center w-7 shrink-0">
-            <div className="w-7 h-7 rounded-full border-[1.5px] border-fire bg-fire/10 flex items-center justify-center text-[12px] font-bold text-fire shrink-0">
+          <div className="flex flex-col items-center w-8 shrink-0">
+            <div className="w-8 h-8 rounded-full border-[2px] border-fire bg-fire/10 flex items-center justify-center text-[12px] font-semibold font-mono text-fire shrink-0">
               {i + 1}
             </div>
             {i < plan.length - 1 && (

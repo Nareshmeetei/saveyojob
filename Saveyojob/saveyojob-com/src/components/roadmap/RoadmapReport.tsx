@@ -23,7 +23,7 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   return (
     <section>
       <div className="flex items-center gap-3 mb-5">
-        <span className="text-[11px] font-bold uppercase tracking-[0.13em] text-ink-3 whitespace-nowrap">
+        <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3 whitespace-nowrap">
           {label}
         </span>
         <div className="flex-1 h-[1px] bg-line" />
@@ -77,7 +77,7 @@ export default function RoadmapReport({
         </Section>
 
         {data.positiveOutlook && (
-          <div className="border border-fire/20 border-l-[3px] border-l-fire rounded-xl px-5 py-4 bg-fire/[0.04]">
+          <div className="border border-fire/20 border-l-[3px] border-l-fire rounded-[20px] px-5 py-4 bg-fire/[0.04]">
             <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-fire mb-2">
               Your outlook
             </div>

@@ -24,10 +24,10 @@ async function getOccupations() {
 }
 
 const RISK_STYLE: Record<string, { text: string; bg: string }> = {
-  'Very High': { text: '#DC2626', bg: 'rgba(220,38,38,0.09)' },
-  'High':      { text: '#D97706', bg: 'rgba(217,119,6,0.08)'  },
+  'Very High': { text: '#C45347', bg: 'rgba(196,83,71,0.09)' },
+  'High':      { text: '#D4783C', bg: 'rgba(212,120,60,0.08)'  },
   'Moderate':  { text: '#CA8A04', bg: 'rgba(202,138,4,0.08)'  },
-  'Low':       { text: '#16A34A', bg: 'rgba(22,163,74,0.08)'  },
+  'Low':       { text: '#097BA0', bg: 'rgba(9,123,160,0.08)'  },
 };
 
 function formatEmployment(n: number): string {
@@ -81,11 +81,11 @@ export default async function JobsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-12">
           {occupations.map((o: any) => {
-            const rs    = RISK_STYLE[o.risk_level ?? ''] ?? { text: '#6B7280', bg: 'rgba(107,114,128,0.08)' };
+            const rs    = RISK_STYLE[o.risk_level ?? ''] ?? { text: '#7AAAB8', bg: 'rgba(122,170,184,0.10)' };
             const score = o.automation_probability ? Math.round(o.automation_probability * 100) : null;
             const task  = topRiskyTask(o.tasks ?? []);
             const growthPct: number | null = o.ten_year_growth_pct ?? null;
-            const growthColor = growthPct == null ? '' : growthPct >= 0 ? '#16A34A' : '#DC2626';
+            const growthColor = growthPct == null ? '' : growthPct >= 0 ? '#097BA0' : '#C45347';
             const growthLabel = growthPct != null
               ? `${growthPct > 0 ? '+' : ''}${growthPct}% by 2034`
               : null;
@@ -104,8 +104,8 @@ export default async function JobsPage() {
                     </span>
                     {o.risk_level === 'Very High' && (
                       <span className="relative inline-flex items-center justify-center w-2 h-2 mt-1 shrink-0">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-35" style={{ backgroundColor: '#DC2626', animationDuration: '2.4s' }} />
-                        <span className="relative inline-flex w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#DC2626' }} />
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-35" style={{ backgroundColor: '#C45347', animationDuration: '2.4s' }} />
+                        <span className="relative inline-flex w-1.5 h-1.5 rounded-full" style={{ backgroundColor: '#C45347' }} />
                       </span>
                     )}
                   </div>

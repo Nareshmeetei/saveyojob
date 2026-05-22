@@ -13,8 +13,8 @@ const JOBS: { Icon: LucideIcon; title: string; risk: number; reason: string }[] 
 ];
 
 function riskColor(r: number): string {
-  if (r >= 90) return '#DC2626';
-  if (r >= 80) return '#B45309';
+  if (r >= 90) return '#C45347';
+  if (r >= 80) return '#D4783C';
   return '#0369A1';
 }
 

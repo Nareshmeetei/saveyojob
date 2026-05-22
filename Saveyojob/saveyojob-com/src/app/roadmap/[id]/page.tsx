@@ -89,7 +89,7 @@ async function SharedRoadmapContent({ id }: { id: string }) {
           </div>
           <div
             className="text-[72px] font-extrabold tabular-nums leading-none mb-2"
-            style={{ color: (data.riskScore ?? 0) >= 70 ? '#DC2626' : (data.riskScore ?? 0) >= 40 ? '#D97706' : '#16A34A' }}
+            style={{ color: (data.riskScore ?? 0) >= 70 ? '#C45347' : (data.riskScore ?? 0) >= 40 ? '#D4783C' : '#097BA0' }}
           >
             {data.riskScore ?? '—'}
           </div>

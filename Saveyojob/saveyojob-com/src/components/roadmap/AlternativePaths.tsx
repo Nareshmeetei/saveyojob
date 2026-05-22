@@ -7,7 +7,7 @@ export default function AlternativePaths({ paths }: AlternativePathsProps) {
   return (
     <div className="flex flex-col gap-4">
       {paths.map((p, i) => (
-        <div key={i} className="bg-surface-2 border border-line rounded-xl p-5">
+        <div key={i} className="bg-surface-2 border border-line rounded-[20px] p-5">
           <div className="flex items-start justify-between gap-3 mb-2">
             <div className="text-[16px] font-bold text-ink">{p.title}</div>
             <Badge label={p.riskLevel + ' Risk'} risk={p.riskLevel} />

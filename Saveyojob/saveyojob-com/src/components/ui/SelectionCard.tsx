@@ -22,8 +22,8 @@ export default function SelectionCard({
       className={clsx(
         'w-full text-left px-5 py-4 rounded-xl border-[1.5px] transition-all duration-150 relative',
         selected
-          ? 'border-fire bg-fire/[0.06] text-ink'
-          : 'border-line bg-surface-2 text-ink-2 hover:border-line-2 hover:bg-surface-3 hover:text-ink'
+          ? 'border-fire bg-fire/[0.06] shadow-low text-ink'
+          : 'border-line bg-surface text-ink-2 hover:border-line-2 hover:bg-surface-2 hover:text-ink'
       )}
     >
       {selected && (

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import LogoLink from '../ui/LogoLink';
 
@@ -11,6 +12,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 bg-surface/95 backdrop-blur-xl border-b border-line">
@@ -18,15 +20,18 @@ export default function Header() {
         <LogoLink height={36} />
 
         <nav className="hidden sm:flex items-center gap-5">
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className="text-[13px] font-medium text-ink-2 hover:text-ink transition-colors"
-            >
-              {label}
-            </Link>
-          ))}
+          {NAV_LINKS.map(({ label, href }) => {
+            const active = pathname === href || pathname.startsWith(href + '/');
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`text-[13px] font-medium transition-colors hover:text-fire ${active ? 'text-fire' : 'text-ink-2'}`}
+              >
+                {label}
+              </Link>
+            );
+          })}
           <Link
             href="/#hero"
             className="text-[13px] font-semibold bg-fire text-bg px-4 py-1.5 rounded-full hover:brightness-105 transition-all duration-150"
@@ -54,16 +59,19 @@ export default function Header() {
 
       {open && (
         <nav className="sm:hidden border-t border-line bg-surface px-5 py-3 flex flex-col gap-1">
-          {NAV_LINKS.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className="text-[15px] font-medium text-ink-2 hover:text-ink py-2.5 transition-colors"
-              onClick={() => setOpen(false)}
-            >
-              {label}
-            </Link>
-          ))}
+          {NAV_LINKS.map(({ label, href }) => {
+            const active = pathname === href || pathname.startsWith(href + '/');
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`text-[15px] font-medium py-2.5 transition-colors hover:text-fire ${active ? 'text-fire' : 'text-ink-2'}`}
+                onClick={() => setOpen(false)}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </nav>
       )}
     </header>

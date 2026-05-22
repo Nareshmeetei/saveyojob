@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saveyojob Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-primary:   #0C526D;
+    --color-secondary: #61D4FB;
+    --color-accent:    #F7998D;
+    --color-ink:       #081E28;
+    --color-mid:       #4A7A8A;
+    --color-subtle:    #C5DDE4;
+    --color-surface:   #EDEDED;
+    --color-white:     #F2F2F2;
+
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --type-display:  clamp(40px, 5vw, 56px);
+    --type-headline: clamp(22px, 3vw, 30px);
+    --type-body:     15px;
+    --type-caption:  12px;
+
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md:  16px;
+    --space-lg:  24px;
+    --space-xl:  40px;
+    --space-2xl: 64px;
+
+    --radius-sm:   6px;
+    --radius-md:   12px;
+    --radius-lg:   20px;
+    --radius-pill: 9999px;
+
+    --shadow-low:  0 1px 4px rgba(8,30,40,0.08);
+    --shadow-mid:  0 4px 16px rgba(8,30,40,0.10);
+    --shadow-high: 0 12px 40px rgba(8,30,40,0.16);
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+
+  /* Layout */
+  .ds-wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-2xl) var(--space-xl); }
+  .ds-section { margin-bottom: var(--space-2xl); }
+  .ds-section-label {
+    font-family: var(--font-mono);
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mid);
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+  .ds-section-label::after { content: ''; flex: 1; height: 1px; background: var(--color-subtle); }
+  .ds-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .ds-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-lg); }
+  .ds-flex   { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: flex-start; }
+
+  /* Header */
+  .ds-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-subtle);
+    margin-bottom: var(--space-2xl);
+  }
+  .ds-logo {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 52px);
+    color: var(--color-primary);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .ds-logo span { color: var(--color-accent); }
+  .ds-header-meta { text-align: right; }
+  .ds-header-meta h2 {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--color-mid);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .ds-header-meta p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-subtle);
+    margin-top: 4px;
+  }
+
+  /* Color swatches */
+  .swatch-row {
+    display: flex;
+    gap: 3px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 80px;
+    box-shadow: var(--shadow-mid);
+  }
+  .swatch { flex: 1; position: relative; cursor: default; transition: flex 0.4s var(--ease-out); }
+  .swatch:hover { flex: 2.5; }
+  .swatch-label {
+    position: absolute;
+    bottom: var(--space-sm);
+    left: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.9);
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .swatch-label.dark { color: rgba(8,30,40,0.65); }
+  .swatch:hover .swatch-label { opacity: 1; }
+  .color-token-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+  .color-token { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .color-token-swatch { height: 56px; border-radius: var(--radius-md); box-shadow: var(--shadow-low); }
+  .color-token-name { font-family: var(--font-mono); font-size: 11px; color: var(--color-mid); }
+  .color-token-hex  { font-size: 14px; font-weight: 700; color: var(--color-ink); }
+  .color-token-role { font-size: 12px; color: var(--color-mid); }
+
+  /* Typography */
+  .type-specimen { margin-bottom: var(--space-lg); }
+  .type-display-sample {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: var(--type-display);
+    color: var(--color-primary);
+    line-height: 1.05;
+    letter-spacing: -2px;
+  }
+  .type-display-sample .accent-word { color: var(--color-accent); }
+  .type-headline-sample {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--type-headline);
+    color: var(--color-ink);
+    line-height: 1.2;
+    margin-bottom: var(--space-sm);
+  }
+  .type-body-sample { font-size: var(--type-body); color: var(--color-mid); max-width: 480px; line-height: 1.6; }
+  .type-mono-sample { font-family: var(--font-mono); font-size: 28px; color: var(--color-secondary); letter-spacing: -0.5px; }
+  .type-label-sample {
+    font-family: var(--font-sans);
+    font-size: var(--type-caption);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mid);
+  }
+
+  /* Stat Pill */
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-white);
+    border: 1.5px solid var(--color-subtle);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-low);
+    gap: var(--space-md);
+    min-width: 260px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .stat-pill:hover { box-shadow: var(--shadow-mid); border-color: var(--color-secondary); }
+  .stat-pill-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+  .stat-pill-ring { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+  .stat-pill-ring svg { transform: rotate(-90deg); }
+  .ring-track { fill: none; stroke: var(--color-subtle); stroke-width: 3.5; }
+  .ring-fill  { fill: none; stroke-width: 3.5; stroke-linecap: round; transition: stroke-dashoffset 0.8s var(--ease-out); }
+  .ring-primary   .ring-fill { stroke: var(--color-primary); }
+  .ring-secondary .ring-fill { stroke: var(--color-secondary); }
+  .ring-accent    .ring-fill { stroke: var(--color-accent); }
+  .stat-pill-value {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--color-primary);
+  }
+
+  /* Progress Bar */
+  .progress-row { margin-bottom: var(--space-md); }
+  .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--space-xs); }
+  .progress-name { font-weight: 600; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-ink); }
+  .progress-sub  { font-size: 12px; color: var(--color-mid); margin-top: 1px; }
+  .progress-val  { font-family: var(--font-mono); font-size: 13px; color: var(--color-primary); font-weight: 500; }
+  .progress-track { height: 10px; background: var(--color-subtle); border-radius: var(--radius-pill); overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: var(--radius-pill); background: var(--color-primary); width: 0%; transition: width 0.8s var(--ease-out); }
+  .progress-fill.secondary { background: var(--color-secondary); }
+  .progress-fill.accent    { background: var(--color-accent); }
+
+  /* Metric Card */
+  .metric-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-low);
+    transition: box-shadow 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+  }
+  .metric-card:hover { box-shadow: var(--shadow-mid); transform: translateY(-2px); }
+  .metric-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-lg); }
+  .metric-card-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-mid); }
+  .metric-card-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-secondary); animation: pulse-dot 2s ease-out infinite; }
+  .metric-card-dot.accent { background: var(--color-accent); animation: pulse-dot-accent 2s ease-out infinite; }
+  @keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0 rgba(97,212,251,0.4); }
+    70%  { box-shadow: 0 0 0 6px rgba(97,212,251,0); }
+    100% { box-shadow: 0 0 0 0 rgba(97,212,251,0); }
+  }
+  @keyframes pulse-dot-accent {
+    0%   { box-shadow: 0 0 0 0 rgba(247,153,141,0.4); }
+    70%  { box-shadow: 0 0 0 6px rgba(247,153,141,0); }
+    100% { box-shadow: 0 0 0 0 rgba(247,153,141,0); }
+  }
+  .metric-card-value { font-family: var(--font-mono); font-size: 36px; font-weight: 600; color: var(--color-primary); line-height: 1; margin-bottom: var(--space-xs); }
+  .metric-card-unit  { font-size: 14px; font-weight: 400; color: var(--color-mid); margin-left: 4px; }
+  .metric-card-sub   { font-size: 12px; color: var(--color-mid); }
+  .metric-card-change { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; color: var(--color-secondary); margin-top: var(--space-sm); }
+  .metric-card-change.down { color: var(--color-accent); }
+
+  /* Toast */
+  .toast {
+    background: var(--color-primary);
+    color: rgba(255,255,255,0.92);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    border-left: 3px solid var(--color-secondary);
+    box-shadow: var(--shadow-high);
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: var(--space-md);
+    max-width: 420px;
+    animation: slideIn 0.4s var(--ease-out);
+  }
+  .toast.accent { border-left-color: var(--color-accent); }
+  @keyframes slideIn {
+    from { transform: translateY(-12px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+  .toast-time { font-family: var(--font-mono); font-size: 11px; color: var(--color-secondary); margin-bottom: var(--space-xs); display: block; }
+  .toast.accent .toast-time { color: var(--color-accent); }
+  .toast-body { font-size: 13px; line-height: 1.5; }
+  .toast-dismiss { background: none; border: none; color: rgba(255,255,255,0.35); cursor: pointer; font-size: 18px; line-height: 1; padding: 0; flex-shrink: 0; margin-top: 2px; transition: color 0.15s; }
+  .toast-dismiss:hover { color: white; }
+
+  /* Dial */
+  .dial-wrap {
+    display: flex; flex-direction: column; align-items: center;
+    background: var(--color-white);
+    border: 1px solid var(--color-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--space-lg) var(--space-lg);
+    box-shadow: var(--shadow-low);
+  }
+  .dial-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-mid); margin-top: var(--space-md); margin-bottom: var(--space-xs); text-align: center; }
+  .dial-time  { font-family: var(--font-mono); font-size: 42px; font-weight: 600; color: var(--color-ink); letter-spacing: -1px; text-align: center; line-height: 1; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: var(--space-sm);
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    cursor: pointer; border: none;
+    transition: all 0.2s var(--ease-out);
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--color-primary); color: white; box-shadow: 0 2px 10px rgba(12,82,109,0.22); }
+  .btn-primary:hover { background: var(--color-ink); box-shadow: 0 4px 18px rgba(12,82,109,0.32); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--color-primary); border: 1.5px solid var(--color-primary); }
+  .btn-secondary:hover { background: var(--color-subtle); }
+  .btn-accent { background: var(--color-accent); color: white; box-shadow: 0 2px 10px rgba(247,153,141,0.28); }
+  .btn-accent:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 4px 18px rgba(247,153,141,0.38); }
+  .btn-ghost { background: transparent; color: var(--color-mid); padding: 10px 16px; }
+  .btn-ghost:hover { background: var(--color-subtle); color: var(--color-primary); }
+
+  /* Badges */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .badge-primary   { background: rgba(12,82,109,0.10);  color: var(--color-primary); }
+  .badge-secondary { background: rgba(97,212,251,0.18); color: #097BA0; }
+  .badge-accent    { background: rgba(247,153,141,0.18);color: #C45347; }
+  .badge-neutral   { background: var(--color-subtle);   color: var(--color-mid); }
+
+  /* Input */
+  .input-wrap { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .input-label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-mid); }
+  .input-field {
+    background: var(--color-white);
+    border: 1.5px solid var(--color-subtle);
+    border-radius: var(--radius-md);
+    padding: 10px var(--space-md);
+    font-family: var(--font-sans); font-size: var(--type-body); color: var(--color-ink);
+    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+  }
+  .input-field:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(12,82,109,0.10); }
+  .input-field::placeholder { color: var(--color-subtle); }
+
+  /* Control Panel */
+  .control-panel {
+    background: var(--color-white);
+    border: 1px solid var(--color-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-mid);
+    position: relative; overflow: hidden;
+  }
+  .control-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--color-primary); }
+  .cp-header { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+  .cp-back   { font-size: 20px; color: var(--color-primary); cursor: pointer; line-height: 1; }
+  .cp-title  { font-family: var(--font-sans); font-weight: 700; font-size: 28px; color: var(--color-ink); letter-spacing: -0.5px; }
+  .cp-content { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); }
+  .cp-left, .cp-right { display: flex; flex-direction: column; gap: var(--space-lg); }
+
+  /* Dark Surface */
+  .dark-surface { background: var(--color-primary); border-radius: var(--radius-lg); padding: var(--space-xl); }
+  .dark-surface .metric-card { background: rgba(255,255,255,0.06); border-color: rgba(97,212,251,0.15); }
+  .dark-surface .metric-card-label   { color: rgba(97,212,251,0.7); }
+  .dark-surface .metric-card-value   { color: var(--color-secondary); }
+  .dark-surface .metric-card-unit    { color: rgba(255,255,255,0.45); }
+  .dark-surface .metric-card-sub     { color: rgba(255,255,255,0.4); }
+  .dark-surface .metric-card-change  { color: var(--color-secondary); }
+  .dark-surface .metric-card-change.down { color: var(--color-accent); }
+  .dark-surface .metric-card:hover   { border-color: rgba(97,212,251,0.35); transform: translateY(-2px); }
+
+  /* Product Card */
+  .product-card { background: var(--color-surface); border: 1px solid var(--color-subtle); border-radius: var(--radius-lg); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-lg); }
+  .product-card-eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-mid); }
+  .product-card-headline { font-family: var(--font-sans); font-weight: 800; font-size: 36px; line-height: 1.08; color: var(--color-ink); letter-spacing: -1px; }
+  .product-card-headline .accent-word { color: var(--color-primary); }
+  .product-card-specs { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+  .product-card-cta   { display: flex; gap: var(--space-sm); align-items: center; }
+  .product-card-shipping { font-size: 12px; color: var(--color-mid); }
+
+  /* Spacing demo */
+  .spacing-demo { display: flex; flex-direction: column; gap: 10px; }
+  .spacing-row  { display: flex; align-items: center; gap: var(--space-md); }
+  .spacing-bar  { height: 20px; background: var(--color-primary); border-radius: var(--radius-sm); flex-shrink: 0; }
+  .spacing-meta { display: flex; gap: var(--space-lg); }
+  .spacing-token { font-family: var(--font-mono); font-size: 11px; color: var(--color-primary); font-weight: 600; min-width: 32px; }
+  .spacing-value { font-family: var(--font-mono); font-size: 11px; color: var(--color-mid); }
+
+  /* Radius demo */
+  .radius-demo { display: flex; gap: var(--space-md); align-items: center; flex-wrap: wrap; }
+  .radius-block { width: 64px; height: 64px; background: var(--color-primary); display: flex; align-items: center; justify-content: center; }
+  .radius-block span { font-family: var(--font-mono); font-size: 9px; color: white; }
+
+  /* Footer */
+  .ds-footer { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-xl); border-top: 1px solid var(--color-subtle); margin-top: var(--space-2xl); }
+  .ds-footer p { font-family: var(--font-mono); font-size: 11px; color: var(--color-mid); }
+  .ds-footer-dots { display: flex; gap: 6px; }
+  .ds-footer-dot  { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<div class="ds-wrap">
+
+  <!-- HEADER -->
+  <header class="ds-header">
+    <div>
+      <div class="ds-logo">Saveyojob<span>.</span></div>
+    </div>
+    <div class="ds-header-meta">
+      <h2>Design System — v1.0</h2>
+      <p>3-Color · Sans-Serif · No Gradients</p>
+    </div>
+  </header>
+
+  <!-- 01 COLOR -->
+  <section class="ds-section">
+    <div class="ds-section-label">01 — Color</div>
+    <div class="swatch-row">
+      <div class="swatch" style="background:#0C526D"><span class="swatch-label">--color-primary · #0C526D</span></div>
+      <div class="swatch" style="background:#61D4FB"><span class="swatch-label dark">--color-secondary · #61D4FB</span></div>
+      <div class="swatch" style="background:#F7998D"><span class="swatch-label">--color-accent · #F7998D</span></div>
+    </div>
+    <div class="color-token-grid">
+      <div class="color-token">
+        <div class="color-token-swatch" style="background:#0C526D"></div>
+        <div class="color-token-name">--color-primary</div>
+        <div class="color-token-hex">#0C526D</div>
+        <div class="color-token-role">Brand anchor · actions · dark surfaces</div>
+      </div>
+      <div class="color-token">
+        <div class="color-token-swatch" style="background:#61D4FB"></div>
+        <div class="color-token-name">--color-secondary</div>
+        <div class="color-token-hex">#61D4FB</div>
+        <div class="color-token-role">Live data · selected · highlights</div>
+      </div>
+      <div class="color-token">
+        <div class="color-token-swatch" style="background:#F7998D"></div>
+        <div class="color-token-name">--color-accent</div>
+        <div class="color-token-hex">#F7998D</div>
+        <div class="color-token-role">Alerts · warnings · below-goal states</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 TYPOGRAPHY -->
+  <section class="ds-section">
+    <div class="ds-section-label">02 — Typography</div>
+    <div class="type-specimen">
+      <div class="type-display-sample">Save your job.<br><span class="accent-word">Start here.</span></div>
+      <div style="font-size:11px;color:var(--color-mid);font-family:var(--font-mono);margin-top:10px">DM Sans 800 · clamp(40–56px) · Display</div>
+    </div>
+    <div class="type-specimen">
+      <div class="type-headline-sample">Smart Home Control Panel</div>
+      <div class="type-body-sample">A unified interface for energy monitoring, device control, and environmental goals. Every reading is live. Every interaction is intentional.</div>
+      <div style="font-size:11px;color:var(--color-mid);font-family:var(--font-mono);margin-top:8px">DM Sans 700 (headline) · DM Sans 400 (body)</div>
+    </div>
+    <div style="display:flex;gap:var(--space-xl);align-items:baseline;flex-wrap:wrap;">
+      <div>
+        <div class="type-mono-sample">03:45:19</div>
+        <div style="font-size:11px;color:var(--color-mid);font-family:var(--font-mono);margin-top:4px">JetBrains Mono 500 · 28px · Data readouts</div>
+      </div>
+      <div>
+        <div class="type-label-sample">System Efficiency</div>
+        <div style="font-size:11px;color:var(--color-mid);font-family:var(--font-mono);margin-top:4px">DM Sans 600 · 12px · 0.1em tracked · Labels</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 STAT PILL -->
+  <section class="ds-section">
+    <div class="ds-section-label">03 — Stat Pill</div>
+    <div class="ds-flex">
+      <div class="stat-pill">
+        <div class="stat-pill-label">System Efficiency</div>
+        <div class="stat-pill-ring ring-secondary">
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle class="ring-track" cx="24" cy="24" r="19"/>
+            <circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="38.2"/>
+          </svg>
+          <div class="stat-pill-value" style="color:var(--color-primary)">68%</div>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">Energy Saving</div>
+        <div class="stat-pill-ring ring-accent">
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle class="ring-track" cx="24" cy="24" r="19"/>
+            <circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="88.4"/>
+          </svg>
+          <div class="stat-pill-value" style="color:var(--color-accent)">26%</div>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">Your Goals</div>
+        <div class="stat-pill-ring ring-primary">
+          <svg width="48" height="48" viewBox="0 0 48 48">
+            <circle class="ring-track" cx="24" cy="24" r="19"/>
+            <circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="51.3"/>
+          </svg>
+          <div class="stat-pill-value">57%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 PROGRESS BARS -->
+  <section class="ds-section">
+    <div class="ds-section-label">04 — Progress Bars</div>
+    <div style="max-width:520px;display:flex;flex-direction:column;gap:var(--space-lg)">
+      <div class="progress-row">
+        <div class="progress-header">
+          <div><div class="progress-name">Panels</div><div class="progress-sub">Weekly Average Charge</div></div>
+          <div class="progress-val">190KWH</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" data-width="82%"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-header">
+          <div><div class="progress-name">Smart Home</div><div class="progress-sub">Self Sufficiency</div></div>
+          <div class="progress-val">71%</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill secondary" data-width="71%"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-header">
+          <div><div class="progress-name">Radiators</div><div class="progress-sub">Water Savings</div></div>
+          <div class="progress-val" style="color:var(--color-accent)">51%</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill accent" data-width="51%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 METRIC CARDS + DIAL -->
+  <section class="ds-section">
+    <div class="ds-section-label">05 — Metric Cards &amp; Dial</div>
+    <div class="ds-grid-3">
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-card-label">Live Output</div>
+          <div class="metric-card-dot"></div>
+        </div>
+        <div class="metric-card-value">190<span class="metric-card-unit">KWH</span></div>
+        <div class="metric-card-sub">Weekly average charge</div>
+        <div class="metric-card-change">↑ 12% vs last week</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-card-label">Self Sufficiency</div>
+          <div class="metric-card-dot"></div>
+        </div>
+        <div class="metric-card-value">71<span class="metric-card-unit">%</span></div>
+        <div class="metric-card-sub">Smart home systems</div>
+        <div class="metric-card-change">↑ 5% vs last month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-card-header">
+          <div class="metric-card-label">Water Savings</div>
+          <div class="metric-card-dot accent"></div>
+        </div>
+        <div class="metric-card-value" style="color:var(--color-accent)">51<span class="metric-card-unit">%</span></div>
+        <div class="metric-card-sub">Radiator efficiency</div>
+        <div class="metric-card-change down">↓ 3% below goal</div>
+      </div>
+    </div>
+    <div style="margin-top:var(--space-lg)">
+      <div class="dial-wrap" style="max-width:280px">
+        <svg width="200" height="110" viewBox="0 0 200 110"><g id="ticks"></g><circle cx="100" cy="100" r="7" fill="var(--color-primary)"/><circle cx="100" cy="100" r="3" fill="white"/></svg>
+        <div class="dial-label">Saveyojob</div>
+        <div class="dial-time" id="dial-time">--:--:--</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 NOTIFICATIONS -->
+  <section class="ds-section">
+    <div class="ds-section-label">06 — Notifications</div>
+    <div style="display:flex;flex-direction:column;gap:var(--space-md);align-items:flex-start">
+      <div class="toast">
+        <div>
+          <span class="toast-time">2:43PM</span>
+          <div class="toast-body">We adjusted some settings in preparation for the Daylight Savings time change coming up tonight at 2AM. Good stuff — you'll get an extra hour of sleep!</div>
+        </div>
+        <button class="toast-dismiss">×</button>
+      </div>
+      <div class="toast accent">
+        <div>
+          <span class="toast-time">Now</span>
+          <div class="toast-body">Energy saving is at 26% — below your 40% weekly goal. Consider reducing radiator output between 10PM–6AM.</div>
+        </div>
+        <button class="toast-dismiss">×</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 BUTTONS + BADGES -->
+  <section class="ds-section">
+    <div class="ds-section-label">07 — Buttons &amp; Badges</div>
+    <div class="ds-flex" style="margin-bottom:var(--space-lg)">
+      <button class="btn btn-primary">Adjust Settings</button>
+      <button class="btn btn-secondary">View Report</button>
+      <button class="btn btn-accent">Set New Goal</button>
+      <button class="btn btn-ghost">Dismiss</button>
+    </div>
+    <div class="ds-flex">
+      <span class="badge badge-primary">● Live</span>
+      <span class="badge badge-secondary">↑ Active</span>
+      <span class="badge badge-accent">⚠ Below Goal</span>
+      <span class="badge badge-neutral">Pending</span>
+    </div>
+  </section>
+
+  <!-- 08 INPUTS -->
+  <section class="ds-section">
+    <div class="ds-section-label">08 — Inputs</div>
+    <div class="ds-grid-2">
+      <div class="input-wrap">
+        <label class="input-label">Target KWH</label>
+        <input class="input-field" type="text" placeholder="e.g. 200" value="190">
+      </div>
+      <div class="input-wrap">
+        <label class="input-label">Efficiency Goal</label>
+        <input class="input-field" type="text" placeholder="e.g. 75%">
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 CONTROL PANEL COMPOSITE -->
+  <section class="ds-section">
+    <div class="ds-section-label">09 — Control Panel (Composite)</div>
+    <div class="control-panel">
+      <div class="cp-header">
+        <div class="cp-back">←</div>
+        <div class="cp-title">Control Panel</div>
+      </div>
+      <div class="cp-content">
+        <div class="cp-left">
+          <div class="progress-row">
+            <div class="progress-header">
+              <div><div class="progress-name">Panels</div><div class="progress-sub">Weekly Average Charge</div></div>
+              <div class="progress-val">190KWH</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill" data-width="82%"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-header">
+              <div><div class="progress-name">Smart Home</div><div class="progress-sub">Self Sufficiency</div></div>
+              <div class="progress-val">71%</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill secondary" data-width="71%"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-header">
+              <div><div class="progress-name">Radiators</div><div class="progress-sub">Water Savings</div></div>
+              <div class="progress-val" style="color:var(--color-accent)">51%</div>
+            </div>
+            <div class="progress-track"><div class="progress-fill accent" data-width="51%"></div></div>
+          </div>
+        </div>
+        <div class="cp-right">
+          <div class="stat-pill">
+            <div class="stat-pill-label">System Efficiency</div>
+            <div class="stat-pill-ring ring-secondary">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle class="ring-track" cx="24" cy="24" r="19"/><circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="38.2"/></svg>
+              <div class="stat-pill-value" style="color:var(--color-primary)">68%</div>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-pill-label">Energy Saving</div>
+            <div class="stat-pill-ring ring-accent">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle class="ring-track" cx="24" cy="24" r="19"/><circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="88.4"/></svg>
+              <div class="stat-pill-value" style="color:var(--color-accent)">26%</div>
+            </div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-pill-label">Your Goals</div>
+            <div class="stat-pill-ring ring-primary">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle class="ring-track" cx="24" cy="24" r="19"/><circle class="ring-fill" cx="24" cy="24" r="19" stroke-dasharray="119.4" stroke-dashoffset="51.3"/></svg>
+              <div class="stat-pill-value">57%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 DARK SURFACE -->
+  <section class="ds-section">
+    <div class="ds-section-label">10 — Dark Surface</div>
+    <div class="dark-surface">
+      <div class="ds-grid-3">
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-label">Live Output</div>
+            <div class="metric-card-dot"></div>
+          </div>
+          <div class="metric-card-value">190<span class="metric-card-unit">KWH</span></div>
+          <div class="metric-card-sub">Weekly avg charge</div>
+          <div class="metric-card-change">↑ 12% this week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-label">Sufficiency</div>
+            <div class="metric-card-dot"></div>
+          </div>
+          <div class="metric-card-value">71<span class="metric-card-unit">%</span></div>
+          <div class="metric-card-sub">Smart home</div>
+          <div class="metric-card-change">↑ On track</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-card-header">
+            <div class="metric-card-label">Water</div>
+            <div class="metric-card-dot accent"></div>
+          </div>
+          <div class="metric-card-value" style="color:var(--color-accent)">51<span class="metric-card-unit">%</span></div>
+          <div class="metric-card-sub">Radiator savings</div>
+          <div class="metric-card-change down">↓ Below goal</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 PRODUCT CARD -->
+  <section class="ds-section">
+    <div class="ds-section-label">11 — Product Card</div>
+    <div class="product-card" style="max-width:480px">
+      <div class="product-card-eyebrow">KNOB by Work Louder · Pre-Order 4.4.24</div>
+      <div class="product-card-headline">Arriving on<br>your desk<br><span class="accent-word">this fall.</span></div>
+      <div class="product-card-specs">
+        <span class="badge badge-primary">ISO // ANSI</span>
+        <span class="badge badge-secondary">Bluetooth</span>
+        <span class="badge badge-neutral">PC // Mac</span>
+      </div>
+      <div class="product-card-cta">
+        <button class="btn btn-primary">Pre-Order Now</button>
+        <span class="product-card-shipping">Ships Fall 2024</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 SPACING + RADIUS -->
+  <section class="ds-section">
+    <div class="ds-section-label">12 — Spacing &amp; Radius</div>
+    <div class="spacing-demo" style="margin-bottom:var(--space-xl);max-width:480px">
+      <div class="spacing-row"><div class="spacing-bar" style="width:4px"></div><div class="spacing-meta"><span class="spacing-token">xs</span><span class="spacing-value">4px</span></div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:8px"></div><div class="spacing-meta"><span class="spacing-token">sm</span><span class="spacing-value">8px</span></div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:16px"></div><div class="spacing-meta"><span class="spacing-token">md</span><span class="spacing-value">16px</span></div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:24px"></div><div class="spacing-meta"><span class="spacing-token">lg</span><span class="spacing-value">24px</span></div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:40px"></div><div class="spacing-meta"><span class="spacing-token">xl</span><span class="spacing-value">40px</span></div></div>
+      <div class="spacing-row"><div class="spacing-bar" style="width:64px"></div><div class="spacing-meta"><span class="spacing-token">2xl</span><span class="spacing-value">64px</span></div></div>
+    </div>
+    <div class="radius-demo">
+      <div class="radius-block" style="border-radius:6px"><span>sm·6</span></div>
+      <div class="radius-block" style="border-radius:12px"><span>md·12</span></div>
+      <div class="radius-block" style="border-radius:20px"><span>lg·20</span></div>
+      <div class="radius-block" style="border-radius:9999px;width:88px"><span>pill</span></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ds-footer">
+    <p>Saveyojob Design System · v1.0</p>
+    <div class="ds-footer-dots">
+      <div class="ds-footer-dot" style="background:var(--color-primary)"></div>
+      <div class="ds-footer-dot" style="background:var(--color-secondary)"></div>
+      <div class="ds-footer-dot" style="background:var(--color-accent)"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Animate progress bars
+    setTimeout(() => {
+      document.querySelectorAll('.progress-fill[data-width]').forEach(el => {
+        el.style.width = el.dataset.width;
+      });
+    }, 200);
+
+    // Live clock
+    function tick() {
+      const el = document.getElementById('dial-time');
+      if (!el) return;
+      const now = new Date();
+      el.textContent = [now.getHours(), now.getMinutes(), now.getSeconds()]
+        .map(n => String(n).padStart(2, '0')).join(':');
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Draw dial ticks
+    const g = document.getElementById('ticks');
+    if (g) {
+      const cx = 100, cy = 100, r = 90, total = 36;
+      for (let i = 0; i < total; i++) {
+        const angle = (Math.PI / total) * i;
+        const isMajor = i % 3 === 0;
+        const len = isMajor ? 12 : 7;
+        const x1 = cx + r * Math.cos(Math.PI + angle);
+        const y1 = cy + r * Math.sin(Math.PI + angle);
+        const x2 = cx + (r - len) * Math.cos(Math.PI + angle);
+        const y2 = cy + (r - len) * Math.sin(Math.PI + angle);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', isMajor ? '#0C526D' : '#C5DDE4');
+        line.setAttribute('stroke-width', isMajor ? '2' : '1');
+        line.setAttribute('stroke-linecap', 'round');
+        line.style.opacity = '0';
+        line.style.transition = `opacity 0.3s ${i * 18}ms`;
+        g.appendChild(line);
+        requestAnimationFrame(() => { line.style.opacity = '1'; });
+      }
+    }
+
+    // Toast dismiss
+    document.querySelectorAll('.toast-dismiss').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const toast = btn.closest('.toast');
+        toast.style.transition = 'all 0.25s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(10px)';
+        setTimeout(() => toast.remove(), 250);
+      });
+    });
+  });
+</script>
+</body>
+</html>

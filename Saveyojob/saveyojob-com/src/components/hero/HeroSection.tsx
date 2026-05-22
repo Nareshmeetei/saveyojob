@@ -47,20 +47,20 @@ export default async function HeroSection() {
         )}
 
         {/* Stats bar */}
-        <div className="mt-10 max-w-[780px] mx-auto grid grid-cols-3 rounded-xl overflow-hidden border border-line bg-surface">
+        <div className="mt-10 max-w-[780px] mx-auto grid grid-cols-3 rounded-[20px] overflow-hidden border border-line bg-surface">
           <div className="py-3 sm:py-4 px-3 sm:px-6">
             {/* WEF Future of Jobs Report 2023: 83M jobs displaced by 2027 */}
-            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">83M</div>
+            <div className="text-[22px] sm:text-[28px] font-extrabold font-mono text-ink leading-none tracking-tight">83M</div>
             <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">jobs displaced by 2027</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6 border-x border-line">
             {/* Pew Research 2024: 52% more concerned than excited about AI at work */}
-            <div className="text-[22px] sm:text-[28px] font-extrabold text-ink leading-none tracking-tight">+52%</div>
+            <div className="text-[22px] sm:text-[28px] font-extrabold font-mono text-ink leading-none tracking-tight">+52%</div>
             <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">worried than excited about AI</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6">
             {/* LinkedIn Economic Graph 2024: AI skills command 25%+ salary premium */}
-            <div className="text-[22px] sm:text-[28px] font-extrabold text-fire leading-none tracking-tight">+25%</div>
+            <div className="text-[22px] sm:text-[28px] font-extrabold font-mono text-fire leading-none tracking-tight">+25%</div>
             <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">salary for AI skills</div>
           </div>
         </div>

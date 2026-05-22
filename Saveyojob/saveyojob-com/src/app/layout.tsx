@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Work_Sans } from 'next/font/google';
+import { Work_Sans, JetBrains_Mono } from 'next/font/google';
 import Footer from '../components/layout/Footer';
 import './globals.css';
 
@@ -7,6 +7,13 @@ const workSans = Work_Sans({
   variable: '--font-work-sans',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains-mono',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
   display: 'swap',
 });
 
@@ -95,7 +102,7 @@ const WEBSITE_SCHEMA = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
   return (
-    <html lang="en" className={`${workSans.variable} h-full`}>
+    <html lang="en" className={`${workSans.variable} ${jetbrainsMono.variable} h-full`}>
       <head>
         {plausibleDomain && (
           <script

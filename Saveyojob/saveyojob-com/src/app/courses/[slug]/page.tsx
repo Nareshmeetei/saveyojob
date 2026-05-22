@@ -35,8 +35,8 @@ export async function generateMetadata(
 }
 
 const LEVEL_STYLE: Record<string, { text: string; bg: string }> = {
-  'Beginner':     { text: '#16A34A', bg: 'rgba(22,163,74,0.08)' },
-  'Intermediate': { text: '#D97706', bg: 'rgba(217,119,6,0.08)' },
+  'Beginner':     { text: '#097BA0', bg: 'rgba(9,123,160,0.08)' },
+  'Intermediate': { text: '#D4783C', bg: 'rgba(212,120,60,0.08)' },
   'Advanced':     { text: '#7C3AED', bg: 'rgba(124,58,237,0.08)' },
 };
 
@@ -48,7 +48,7 @@ export default async function CoursePage(
   if (!course) notFound();
 
   const related = AI_COURSES.filter(c => course.relatedIds.includes(c.id));
-  const ls = LEVEL_STYLE[course.educationalLevel] ?? { text: '#6B7280', bg: 'rgba(107,114,128,0.08)' };
+  const ls = LEVEL_STYLE[course.educationalLevel] ?? { text: '#7AAAB8', bg: 'rgba(122,170,184,0.10)' };
 
   const courseSchema = {
     '@context': 'https://schema.org',
@@ -161,7 +161,7 @@ export default async function CoursePage(
             >
               {course.educationalLevel}
             </span>
-            <span className="text-[13px] font-semibold" style={{ color: '#16A34A' }}>
+            <span className="text-[13px] font-semibold" style={{ color: '#097BA0' }}>
               {course.price}
             </span>
           </div>
@@ -189,7 +189,7 @@ export default async function CoursePage(
               <ul className="space-y-3">
                 {course.whatYouLearn.map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <CheckCircle size={16} className="shrink-0 mt-0.5" style={{ color: '#16A34A' }} />
+                    <CheckCircle size={16} className="shrink-0 mt-0.5" style={{ color: '#097BA0' }} />
                     <span className="text-[14px] text-ink-2 leading-snug">{item}</span>
                   </li>
                 ))}

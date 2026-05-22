@@ -27,16 +27,16 @@ const JOBS: Job[] = [
 ];
 
 const OTHER_JOBS: Job[] = [
-  { id: 'legal',     label: 'Legal & Paralegal',      risk: 71, Icon: Scale,     color: '#DC2626' },
-  { id: 'hr',        label: 'HR & Recruiting',         risk: 68, Icon: Users,     color: '#B45309' },
-  { id: 'design',    label: 'Graphic & UI Design',     risk: 65, Icon: Palette,   color: '#B45309' },
-  { id: 'research',  label: 'Market Research',         risk: 72, Icon: BarChart2, color: '#DC2626' },
-  { id: 'realestate',label: 'Real Estate',             risk: 58, Icon: Home,      color: '#B45309' },
-  { id: 'transport', label: 'Transport & Logistics',   risk: 65, Icon: Truck,     color: '#B45309' },
+  { id: 'legal',     label: 'Legal & Paralegal',      risk: 71, Icon: Scale,     color: '#C45347' },
+  { id: 'hr',        label: 'HR & Recruiting',         risk: 68, Icon: Users,     color: '#D4783C' },
+  { id: 'design',    label: 'Graphic & UI Design',     risk: 65, Icon: Palette,   color: '#D4783C' },
+  { id: 'research',  label: 'Market Research',         risk: 72, Icon: BarChart2, color: '#C45347' },
+  { id: 'realestate',label: 'Real Estate',             risk: 58, Icon: Home,      color: '#D4783C' },
+  { id: 'transport', label: 'Transport & Logistics',   risk: 65, Icon: Truck,     color: '#D4783C' },
   { id: 'tech',      label: 'Software Development',    risk: 35, Icon: Code2,     color: '#0369A1' },
   { id: 'health',    label: 'Healthcare & Medical',    risk: 28, Icon: Heart,     color: '#0369A1' },
-  { id: 'edu',       label: 'Education & Teaching',    risk: 45, Icon: GraduationCap, color: '#B45309' },
-  { id: 'arch',      label: 'Architecture & Eng.',     risk: 42, Icon: Building2, color: '#B45309' },
+  { id: 'edu',       label: 'Education & Teaching',    risk: 45, Icon: GraduationCap, color: '#D4783C' },
+  { id: 'arch',      label: 'Architecture & Eng.',     risk: 42, Icon: Building2, color: '#D4783C' },
 ];
 
 // ── Course recommendations ─────────────────────────────────────────────────────
@@ -176,8 +176,8 @@ function riskMeta(score: number) {
   if (score >= 70) return {
     level:   'high' as const,
     text:    'High Risk',
-    color:   '#DC2626',
-    bg:      'rgba(220,38,38,0.09)',
+    color:   '#C45347',
+    bg:      'rgba(196,83,71,0.09)',
     alarm:   true,
     why:     'The core tasks in your role are already being automated at scale. AI tools can perform them faster, cheaper, and without fatigue — and companies are actively deploying them now, not in five years.',
     actions: [
@@ -190,8 +190,8 @@ function riskMeta(score: number) {
   if (score >= 40) return {
     level:   'medium' as const,
     text:    'Medium Risk',
-    color:   '#D97706',
-    bg:      'rgba(217,119,6,0.08)',
+    color:   '#D4783C',
+    bg:      'rgba(212,120,60,0.08)',
     alarm:   false,
     why:     'Parts of your role are routine enough for AI to handle. The repetitive, process-heavy tasks are already being offloaded — but your judgment and client relationships offer real protection for now.',
     actions: [
@@ -204,8 +204,8 @@ function riskMeta(score: number) {
   return {
     level:   'low' as const,
     text:    'Lower Risk',
-    color:   '#16A34A',
-    bg:      'rgba(22,163,74,0.08)',
+    color:   '#097BA0',
+    bg:      'rgba(9,123,160,0.08)',
     alarm:   false,
     why:     "Your role relies on skills AI consistently struggles with — complex physical tasks, deep emotional intelligence, or multi-variable real-world judgment. You're in a strong position relative to automation risk.",
     actions: [
@@ -297,12 +297,12 @@ export default function HeroRiskGame({ prefilledJobId }: { prefilledJobId?: stri
     if (lower.includes('nurse') || lower.includes('health') || lower.includes('medical'))
       return { id: 'health',  label: 'Healthcare & Medical',  risk: 28, Icon: Heart,         color: '#0369A1' };
     if (lower.includes('design') || lower.includes('ux') || lower.includes('graphic'))
-      return { id: 'design',  label: 'Graphic & UI Design',   risk: 65, Icon: Palette,       color: '#B45309' };
+      return { id: 'design',  label: 'Graphic & UI Design',   risk: 65, Icon: Palette,       color: '#D4783C' };
     if (lower.includes('legal') || lower.includes('law') || lower.includes('paralegal'))
-      return { id: 'legal',   label: 'Legal & Paralegal',     risk: 71, Icon: Scale,         color: '#DC2626' };
+      return { id: 'legal',   label: 'Legal & Paralegal',     risk: 71, Icon: Scale,         color: '#C45347' };
     if (lower.includes('hr') || lower.includes('human') || lower.includes('recruit'))
-      return { id: 'hr',      label: 'HR & Recruiting',       risk: 68, Icon: Users,         color: '#B45309' };
-    return   { id: 'other',   label: 'Professional Role',     risk: 62, Icon: FileText,      color: '#B45309' };
+      return { id: 'hr',      label: 'HR & Recruiting',       risk: 68, Icon: Users,         color: '#D4783C' };
+    return   { id: 'other',   label: 'Professional Role',     risk: 62, Icon: FileText,      color: '#D4783C' };
   }
 
   function processResume(file: File) {
@@ -449,7 +449,7 @@ function PickPhase({ onPick, onUploadClick }: { onPick: (j: Job) => void; onUplo
       label: otherInput.trim(),
       risk:  62,
       Icon:  FileText,
-      color: '#B45309',
+      color: '#D4783C',
     };
     onPick(customJob);
     setDropOpen(false);
@@ -572,7 +572,7 @@ function JobTile({ job, index, onPick }: { job: Job; index: number; onPick: (j: 
       onHoverEnd={() => setHov(false)}
       className="text-left p-4 rounded-xl border flex flex-col gap-2.5 w-full cursor-pointer transition-colors duration-150"
       style={{
-        borderColor: hov ? job.color + '55' : '#D1D5DB',
+        borderColor: hov ? job.color + '55' : '#C5DDE4',
         background:  hov ? job.color + '06' : '#F2F2F2',
         boxShadow:   hov ? `0 4px 16px ${job.color}18` : 'none',
       }}
@@ -619,7 +619,7 @@ function QuestionPhase({ phase, step, job, onQ1, onQ2, onQ3, onBack }: QuestionP
         <div className="flex-1 flex gap-1.5">
           {[1, 2, 3].map(n => (
             <div key={n} className="flex-1 h-1 rounded-full transition-all duration-300"
-              style={{ background: n <= step ? job.color : '#D1D5DB' }} />
+              style={{ background: n <= step ? job.color : '#C5DDE4' }} />
           ))}
         </div>
         <span className="text-[11px] text-ink-3 shrink-0 tabular-nums">{step} / 3</span>
@@ -637,7 +637,7 @@ function QuestionPhase({ phase, step, job, onQ1, onQ2, onQ3, onBack }: QuestionP
             whileTap={{ scale: 0.99 }}
             onClick={() => handleSelect(i)}
             onMouseEnter={e => (e.currentTarget.style.borderColor = job.color + '55')}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = '#D1D5DB')}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = '#C5DDE4')}
             className="text-left p-4 rounded-xl border border-line bg-surface hover:bg-[rgba(12,82,109,0.03)] transition-all duration-150 group w-full"
           >
             <div className="flex items-center justify-between">
@@ -708,7 +708,7 @@ function ScoreRing({ score, color }: { score: number; color: string }) {
     <div className="relative shrink-0" style={{ width: SIZE, height: SIZE }}>
       <svg width={SIZE} height={SIZE} style={{ transform: 'rotate(-90deg)' }}>
         <circle cx={SIZE / 2} cy={SIZE / 2} r={R}
-          fill="none" stroke="#D1D5DB" strokeWidth={SW} />
+          fill="none" stroke="#C5DDE4" strokeWidth={SW} />
         <circle cx={SIZE / 2} cy={SIZE / 2} r={R}
           fill="none" stroke={color} strokeWidth={SW}
           strokeLinecap="round"
@@ -734,17 +734,17 @@ function AlarmDot() {
   return (
     <div className="relative w-3.5 h-3.5 flex items-center justify-center shrink-0">
       <motion.div className="absolute rounded-full"
-        style={{ width: 14, height: 14, background: '#DC2626' }}
+        style={{ width: 14, height: 14, background: '#C45347' }}
         animate={{ scale: [0.4, 1, 2.2], opacity: [0, 0.55, 0] }}
         transition={{ duration: 2.2, repeat: Infinity, times: [0, 0.25, 1], ease: 'easeOut' }}
       />
       <motion.div className="absolute rounded-full"
-        style={{ width: 14, height: 14, background: '#DC2626' }}
+        style={{ width: 14, height: 14, background: '#C45347' }}
         animate={{ scale: [0.4, 1, 2.2], opacity: [0, 0.55, 0] }}
         transition={{ duration: 2.2, repeat: Infinity, times: [0, 0.25, 1], ease: 'easeOut', delay: 1.1 }}
       />
       <motion.div className="w-2.5 h-2.5 rounded-full shrink-0"
-        style={{ background: '#DC2626' }}
+        style={{ background: '#C45347' }}
         animate={{ opacity: [1, 0.6, 1] }}
         transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -766,9 +766,9 @@ function ResultPhase({ job, displayScore, finalScore, goal, onReset }: {
       {/* Alarm banner — high risk only */}
       {meta.alarm && (
         <div className="flex items-center gap-2.5 px-5 py-3"
-          style={{ background: 'rgba(220,38,38,0.07)', borderBottom: '1px solid rgba(220,38,38,0.18)' }}>
+          style={{ background: 'rgba(196,83,71,0.07)', borderBottom: '1px solid rgba(196,83,71,0.18)' }}>
           <AlarmDot />
-          <span className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: '#DC2626' }}>
+          <span className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: '#C45347' }}>
             Immediate Action Required
           </span>
         </div>

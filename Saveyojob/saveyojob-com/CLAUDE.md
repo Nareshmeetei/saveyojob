@@ -103,29 +103,79 @@ courses          — Curated course directory with impact_score (1–100)
 
 ## Design System (Non-Negotiable)
 
-**Font:** Work Sans only — weights 300–800. No other fonts.
+**Version:** v1.1 — 3-Color · Sans-Serif · No Gradients
 
-**Colors (CSS variables):**
-```
---color-bg        # Page background
---color-surface   # Card backgrounds
---color-line      # Borders
---color-ink       # Primary text
---color-ink-2     # Secondary text
---color-ink-3     # Muted text
---color-fire      # Brand teal #0C526D — buttons, CTAs
---color-critical/warn/safe  # Risk indicators
-```
+### Fonts
 
-**Rules:**
-- Icons: Lucide React only, `strokeWidth={1.5}`
+| Role | Font | Weights |
+|------|------|---------|
+| Display / Headline / UI | `Work Sans` | 300–800 |
+| Data / Monospace | `JetBrains Mono` | 400–600 |
+
+CSS variables: `--font-work-sans`, `--font-jetbrains-mono`
+
+### Colors
+
+Only 3 brand colors. All neutrals are derived tints of the primary.
+
+| Token | Hex | Role |
+|-------|-----|------|
+| `--color-primary` / `--color-fire` | `#0C526D` | Brand anchor · actions · dark surfaces |
+| `--color-secondary` | `#61D4FB` | Live data · selected states · highlights |
+| `--color-accent` | `#F7998D` | Alerts · warnings · below-goal states |
+| `--color-ink` | `#081E28` | Primary text |
+| `--color-mid` / `--color-ink-2` | `#4A7A8A` | Secondary text · labels · borders |
+| `--color-subtle` / `--color-line` | `#C5DDE4` | Tracks · dividers · hover fills |
+| `--color-bg` | `#EDEDED` | App/page background |
+| `--color-surface` | `#F2F2F2` | Card surfaces |
+
+**Risk semantic tokens:** `--color-critical: #C45347` · `--color-warn: #D4783C` · `--color-safe: #097BA0`
+
+### Type Scale
+
+| Name | Size | Weight | Usage |
+|------|------|--------|-------|
+| Display | clamp(40–56px) | 800 | Hero headlines |
+| Headline | clamp(22–30px) | 700 | Section titles |
+| Title | 20px | 600 | Card titles |
+| Body | 15px | 400 | Paragraphs |
+| Caption | 12px | 600 (labels) / 400 (meta) | ALL CAPS labels |
+| Mono | varies | 500–600 | Live data, scores, clocks |
+
+- Display: `letter-spacing: -2px` · ALL CAPS labels: `letter-spacing: 0.08–0.12em`
+- Data readouts always use `font-jetbrains-mono` at `--color-primary` or `--color-secondary`
+
+### Spacing & Radius
+
+Base unit: **4px** — `xs:4` `sm:8` `md:16` `lg:24` `xl:40` `2xl:64`
+
+Radius: `sm:6px` · `md:12px` · `lg:20px` · `pill:9999px`
+
+### Shadows
+
+`--shadow-low: 0 1px 4px rgba(8,30,40,0.08)` — cards
+`--shadow-mid: 0 4px 16px rgba(8,30,40,0.10)` — modals/dropdowns
+`--shadow-high: 0 12px 40px rgba(8,30,40,0.16)` — toasts
+
+### Pixel Perfection (Non-Negotiable)
+
+Every implementation must be exact. Small details matter — alignment, spacing, font size, border radius, color values, icon size, line height. Before marking any UI task done, verify that every visible element matches the spec precisely. Nothing ships with misaligned text, wrong spacing, or approximate colors.
+
+### Rules
+
+- Icons: Lucide React only, `strokeWidth={1.5}`, always `currentColor`
 - **No emojis anywhere** — not in UI, copy, data files, or AI prompts. Use Lucide icons or platform favicons instead.
 - Course thumbnails: use `https://www.google.com/s2/favicons?domain={hostname}&sz=64` derived from the course URL — never emoji icons.
-- Cards: `bg-surface`, 1px border, `rounded-xl`, no shadows
+- Cards: `bg-surface`, 1px `border-line`, `rounded-xl`, `shadow-low` on hover
 - Risk display: large editorial number + animated bar — no circular gauges
-- Spacing: 4px base unit (all spacing multiples of 4)
-- Animations: minimal — count-up for risk score, opacity+translateY for sections
-- No dark mode, no gradients, no glassmorphism, no box shadows
+- Buttons: `--radius-pill` shape, Work Sans 600, `letter-spacing: 0.04em`, `padding: 10px 22px`
+- Badges/chips: `--radius-pill`, Work Sans 600, 11px, ALL CAPS, `letter-spacing: 0.06em`
+- Inputs: focus border `--color-primary` + `box-shadow: 0 0 0 3px rgba(12,82,109,0.10)`
+- Never combine two brand colors in a fill — no gradients
+- Motion: `cubic-bezier(0.22, 1, 0.36, 1)` easing — mechanical deceleration, not bouncy
+- Always respect `prefers-reduced-motion`
+- **Never use pure `#FFFFFF` or `#000000`** — use `#F2F2F2` for near-white surfaces and `#081E28` for near-black text
+- No dark mode, no gradients, no glassmorphism
 
 ---
 

@@ -11,8 +11,8 @@ interface RiskResult {
 }
 
 function scoreColor(s: number): string {
-  if (s >= 70) return '#DC2626';
-  if (s >= 40) return '#B45309';
+  if (s >= 70) return '#C45347';
+  if (s >= 40) return '#D4783C';
   return '#0369A1';
 }
 
@@ -198,8 +198,8 @@ export default function RiskEngine() {
                 onDrop={handleDrop}
                 className="border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-150"
                 style={{
-                  borderColor: dragOver ? '#0C526D' : '#D1D5DB',
-                  background:  dragOver ? 'rgba(12,82,109,0.06)' : '#F4F6F8',
+                  borderColor: dragOver ? '#0C526D' : '#C5DDE4',
+                  background:  dragOver ? 'rgba(12,82,109,0.06)' : '#EEF5F7',
                 }}
               >
                 <FileUp size={36} strokeWidth={1.5} className="mx-auto mb-4 text-ink-3" />
@@ -251,8 +251,8 @@ export default function RiskEngine() {
                     <motion.span
                       className="w-4 h-4 rounded-full border border-line-2 flex items-center justify-center text-[10px] text-ink-3"
                       animate={{
-                        borderColor: ['#D1D5DB', '#0C526D'],
-                        color: ['#9CA3AF', '#0C526D'],
+                        borderColor: ['#C5DDE4', '#0C526D'],
+                        color: ['#4A7A8A', '#0C526D'],
                       }}
                       transition={{ delay: 0.8 + i * 0.6, duration: 0.3 }}
                     >

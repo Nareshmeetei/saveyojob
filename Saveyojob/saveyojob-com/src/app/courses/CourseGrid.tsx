@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Star, Clock, Search, X } from 'lucide-react';
 import { AI_COURSES, type AiCourse, type JobCategory } from '../../data/ai-courses';
@@ -19,6 +19,12 @@ const JOB_FILTERS: { label: string; value: JobFilter }[] = [
 ];
 
 const LEVEL_ORDER: Record<string, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+
+const LEVEL_STYLE: Record<string, React.CSSProperties> = {
+  Beginner:     { color: '#16A34A', background: 'rgba(22,163,74,0.10)'   },
+  Intermediate: { color: '#A37F0A', background: 'rgba(163,127,10,0.10)'  },
+  Advanced:     { color: '#C45347', background: 'rgba(196,83,71,0.10)'   },
+};
 
 export default function CourseGrid() {
   const [job, setJob]       = useState<JobFilter>('All Jobs');
@@ -84,7 +90,7 @@ export default function CourseGrid() {
             <button
               key={value}
               onClick={() => setJob(value)}
-              className={`px-3.5 py-1.5 text-[12px] font-medium rounded-full border transition-all duration-150 ${
+              className={`inline-flex items-center justify-center px-3.5 py-1.5 text-[12px] font-medium rounded-full border transition-all duration-150 leading-none ${
                 job === value
                   ? 'bg-fire text-bg border-fire'
                   : 'bg-surface border-line text-ink-2 hover:border-fire hover:text-ink'
@@ -194,7 +200,7 @@ function CourseCard({ course }: { course: AiCourse }) {
         </span>
         <span
           className="font-semibold"
-          style={{ color: course.isFree ? '#16A34A' : 'var(--color-ink-2)' }}
+          style={{ color: course.isFree ? '#097BA0' : 'var(--color-ink-2)' }}
         >
           {course.price}
         </span>
@@ -202,14 +208,15 @@ function CourseCard({ course }: { course: AiCourse }) {
 
       <div className="flex flex-wrap gap-1.5">
         <span
-          className="text-[10px] px-2 py-0.5 border border-line rounded-full text-ink-3"
+          className="inline-flex items-center text-[11px] font-semibold uppercase tracking-[0.06em] px-[10px] py-[4px] rounded-full"
+          style={LEVEL_STYLE[course.educationalLevel] ?? { color: '#7AAAB8', background: 'rgba(122,170,184,0.10)' }}
         >
           {course.educationalLevel}
         </span>
         {course.jobCategories.map(cat => (
           <span
             key={cat}
-            className="text-[10px] px-2 py-0.5 rounded-full text-ink-3"
+            className="inline-flex items-center text-[10px] px-2 py-0.5 rounded-full"
             style={{ background: 'rgba(12,82,109,0.07)', color: 'var(--color-fire)' }}
           >
             {cat}

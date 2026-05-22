@@ -292,7 +292,7 @@ function ScoreRing({ score, color }: { score: number; color: string }) {
     <div className="relative shrink-0" style={{ width: SIZE, height: SIZE }}>
       <svg width={SIZE} height={SIZE} style={{ transform: 'rotate(-90deg)' }}>
         <circle cx={SIZE / 2} cy={SIZE / 2} r={R}
-          fill="none" stroke="#D1D5DB" strokeWidth={SW} />
+          fill="none" stroke="#C5DDE4" strokeWidth={SW} />
         <motion.circle cx={SIZE / 2} cy={SIZE / 2} r={R}
           fill="none" stroke={color} strokeWidth={SW}
           strokeLinecap="round"
@@ -318,12 +318,12 @@ function riskLevel(score: number): 'high' | 'medium' | 'low' {
 }
 
 function riskDisplay(score: number) {
-  if (score >= 70) return { text: 'High Risk',    color: '#DC2626', bg: 'rgba(220,38,38,0.09)'   };
-  if (score >= 40) return { text: 'Medium Risk',  color: '#D97706', bg: 'rgba(217,119,6,0.08)'   };
-  return                   { text: 'Lower Risk',  color: '#16A34A', bg: 'rgba(22,163,74,0.08)'   };
+  if (score >= 70) return { text: 'High Risk',    color: '#C45347', bg: 'rgba(196,83,71,0.09)'   };
+  if (score >= 40) return { text: 'Medium Risk',  color: '#D4783C', bg: 'rgba(212,120,60,0.08)'   };
+  return                   { text: 'Lower Risk',  color: '#097BA0', bg: 'rgba(9,123,160,0.08)'   };
 }
 
-const PHASE_COLORS = ['#0C526D', '#D97706', '#16A34A'];
+const PHASE_COLORS = ['#0C526D', '#D4783C', '#097BA0'];
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -366,25 +366,25 @@ export default function RoadmapClient() {
         >
           {score >= 70 && (
             <div className="px-6 py-3 flex items-center gap-2"
-              style={{ background: 'rgba(220,38,38,0.07)', borderBottom: '1px solid rgba(220,38,38,0.15)' }}>
+              style={{ background: 'rgba(196,83,71,0.07)', borderBottom: '1px solid rgba(196,83,71,0.15)' }}>
               <div className="relative w-3 h-3 flex items-center justify-center shrink-0">
                 <motion.div className="absolute w-3 h-3 rounded-full"
-                  style={{ background: '#DC2626' }}
+                  style={{ background: '#C45347' }}
                   animate={{ scale: [0.4, 1, 2.2], opacity: [0, 0.55, 0] }}
                   transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', times: [0, 0.25, 1] }}
                 />
                 <motion.div className="absolute w-3 h-3 rounded-full"
-                  style={{ background: '#DC2626' }}
+                  style={{ background: '#C45347' }}
                   animate={{ scale: [0.4, 1, 2.2], opacity: [0, 0.55, 0] }}
                   transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', times: [0, 0.25, 1], delay: 1.1 }}
                 />
                 <motion.div className="w-2 h-2 rounded-full"
-                  style={{ background: '#DC2626' }}
+                  style={{ background: '#C45347' }}
                   animate={{ opacity: [1, 0.65, 1] }}
                   transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
                 />
               </div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: '#DC2626' }}>
+              <span className="text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: '#C45347' }}>
                 High Risk — Immediate Action Required
               </span>
             </div>

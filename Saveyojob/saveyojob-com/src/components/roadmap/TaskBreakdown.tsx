@@ -30,7 +30,7 @@ export default function TaskBreakdown({ tasks }: TaskBreakdownProps) {
                 </span>
               </div>
             </div>
-            <div className="h-[3px] bg-line rounded-full overflow-hidden mb-1.5">
+            <div className="h-[10px] bg-line rounded-full overflow-hidden mb-3">
               <div
                 className="h-full rounded-full transition-all duration-1000 ease-out"
                 style={{ width: `${t.percentAutomatable}%`, background: s.bar }}

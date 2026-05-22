@@ -16,7 +16,7 @@ export default function NewsletterCTA() {
     <section className="py-16 px-5 sm:px-8 border-t border-line bg-surface-2">
       <div className="max-w-[560px] mx-auto text-center">
 
-        <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-surface-3 mb-6">
+        <div className="inline-flex items-center justify-center w-11 h-11 rounded-[20px] bg-surface-3 mb-6">
           <Mail size={20} strokeWidth={2.5} className="text-fire" />
         </div>
 
@@ -42,11 +42,11 @@ export default function NewsletterCTA() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="Your work email"
-              className="flex-1 px-[18px] py-[13px] text-[15px] bg-surface border border-line rounded-lg outline-none focus:border-fire text-ink placeholder:text-ink-3 transition-colors duration-150"
+              className="flex-1 px-[18px] py-[13px] text-[15px] bg-surface border border-line rounded-xl outline-none focus:border-fire focus:shadow-[0_0_0_3px_rgba(12,82,109,0.10)] text-ink placeholder:text-ink-3 transition-all duration-150"
             />
             <button
               type="submit"
-              className="shrink-0 px-6 py-[13px] bg-fire text-bg font-bold text-[15px] rounded-lg hover:brightness-110 hover:-translate-y-px transition-all duration-150"
+              className="shrink-0 px-[22px] py-[10px] bg-fire text-bg font-semibold text-[13px] rounded-full tracking-[0.04em] hover:brightness-110 hover:-translate-y-px transition-all duration-150"
             >
               Get Free Weekly Updates
             </button>

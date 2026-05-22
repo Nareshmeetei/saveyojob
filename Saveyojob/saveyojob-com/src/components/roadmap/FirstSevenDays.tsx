@@ -4,7 +4,7 @@
 
 export default function FirstSevenDays({ days }: FirstSevenDaysProps) {
   return (
-    <div className="flex flex-col gap-0 border border-line rounded-xl overflow-hidden">
+    <div className="flex flex-col gap-0 border border-line rounded-[20px] overflow-hidden">
       {days.map((d, i) => (
         <div
           key={d.day}

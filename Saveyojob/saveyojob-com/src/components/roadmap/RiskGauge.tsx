@@ -6,21 +6,21 @@ interface RiskGaugeProps {
 }
 
 function riskBarColor(score: number): string {
-  if (score > 70) return '#DC2626';
+  if (score > 70) return '#C45347';
   if (score > 50) return '#EA580C';
-  if (score > 30) return '#B45309';
+  if (score > 30) return '#D4783C';
   return '#0369A1';
 }
 
 function riskTextColor(score: number): string {
-  if (score > 70) return '#DC2626';
+  if (score > 70) return '#C45347';
   if (score > 50) return '#EA580C';
-  if (score > 30) return '#B45309';
+  if (score > 30) return '#D4783C';
   return '#0369A1';
 }
 
 function riskBg(score: number): string {
-  if (score > 70) return 'rgba(220,38,38,0.10)';
+  if (score > 70) return 'rgba(196,83,71,0.10)';
   if (score > 50) return 'rgba(234,88,12,0.10)';
   if (score > 30) return 'rgba(180,83,9,0.10)';
   return 'rgba(3,105,161,0.10)';

@@ -265,11 +265,11 @@ function riskColor(level: string | null) {
 
 function riskBorderColor(level: string | null): string {
   switch (level) {
-    case 'Very High': return '#DC2626';
-    case 'High':      return '#B45309';
-    case 'Moderate':  return '#D97706';
-    case 'Low':       return '#0C526D';
-    default:          return '#6B7280';
+    case 'Very High': return '#C45347';
+    case 'High':      return '#D4783C';
+    case 'Moderate':  return '#D4783C';
+    case 'Low':       return '#097BA0';
+    default:          return '#7AAAB8';
   }
 }
 
