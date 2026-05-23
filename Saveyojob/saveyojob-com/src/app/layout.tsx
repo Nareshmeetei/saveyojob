@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Work_Sans, JetBrains_Mono } from 'next/font/google';
 import Footer from '../components/layout/Footer';
+import CareerChatWidget from '../components/chat/CareerChatWidget';
 import './globals.css';
 
 const workSans = Work_Sans({
@@ -123,6 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
         {children}
         <Footer />
+        <CareerChatWidget />
       </body>
     </html>
   );

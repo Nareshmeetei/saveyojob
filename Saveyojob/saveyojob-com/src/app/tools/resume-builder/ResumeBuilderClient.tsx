@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Printer, Plus, Trash2, FileText, Upload, FileDown } from 'lucide-react';
+import { Printer, Plus, Trash2, FileText, Upload, FileDown, Sparkles, Loader2 } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -314,6 +314,37 @@ function toHTML(f: Fields, layout: Layout): string {
 export default function ResumeBuilderClient() {
   const [f, setF] = useState<Fields>(INIT);
   const [layout, setLayout] = useState<Layout>('classic');
+  const [aiFeedback, setAiFeedback]   = useState<string | null>(null);
+  const [aiLoading,  setAiLoading]    = useState(false);
+  const [aiError,    setAiError]      = useState<string | null>(null);
+
+  async function handleAIReview() {
+    const resumeText = toPlainText(f);
+    if (!resumeText.trim()) return;
+    setAiLoading(true);
+    setAiFeedback(null);
+    setAiError(null);
+    try {
+      const res = await fetch('/api/career-chat', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: 'Please review my resume and give me specific feedback.' }],
+          context:  { resumeText },
+        }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setAiError(data.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setAiFeedback(data.reply ?? null);
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   function setC(k: keyof Contact, v: string) {
     setF(s => ({ ...s, contact: { ...s.contact, [k]: v } }));
@@ -573,6 +604,44 @@ export default function ResumeBuilderClient() {
         <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
           "PDF" opens the print dialog — choose "Save as PDF". "Word" downloads a .doc file for Word or Google Docs.
         </p>
+
+        {/* AI Review */}
+        {hasContent && (
+          <div className="mt-5">
+            <button
+              onClick={handleAIReview}
+              disabled={aiLoading}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-fire/[0.07] border border-fire/30 text-fire text-[13px] font-semibold rounded-xl hover:bg-fire/[0.12] transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {aiLoading
+                ? <><Loader2 size={14} strokeWidth={1.5} className="animate-spin" /> Reviewing your resume...</>
+                : <><Sparkles size={14} strokeWidth={1.5} /> Get AI feedback on this resume</>
+              }
+            </button>
+
+            {aiError && (
+              <p className="mt-3 text-[12px] text-accent leading-relaxed">{aiError}</p>
+            )}
+
+            {aiFeedback && (
+              <div className="mt-4 p-4 bg-bg border border-line rounded-xl">
+                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-line">
+                  <Sparkles size={12} strokeWidth={1.5} className="text-fire shrink-0" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-ink-3">AI Feedback</span>
+                </div>
+                <p className="text-[13px] text-ink leading-relaxed" style={{ whiteSpace: 'pre-wrap' }}>
+                  {aiFeedback}
+                </p>
+                <button
+                  onClick={() => setAiFeedback(null)}
+                  className="mt-3 text-[11px] text-ink-3 hover:text-ink transition-colors"
+                >
+                  Dismiss
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
     </div>
