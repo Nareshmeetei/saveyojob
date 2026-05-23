@@ -283,7 +283,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!occ) return {};
   const score = occ.automation_probability ? Math.round(occ.automation_probability * 100) : null;
   const year  = new Date().getFullYear();
-  const url   = `${siteUrl}/jobs/${slug}/`;
+  const url   = `${siteUrl}/jobs-at-risk/${slug}/`;
   return {
     title: `Will AI Replace ${occ.title}s? ${score}% Risk Score + Career Roadmap (${year})`,
     description: `${occ.title}s face a ${score}% AI automation risk (Oxford University research). See which tasks AI automates first, the tools driving it, skills to build, ${year} salary data ($${occ.median_annual_wage?.toLocaleString()}), and a free personalised reskilling plan.`,
@@ -341,8 +341,8 @@ export default async function OccupationPage({ params }: Props) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home',        item: `${siteUrl}/` },
-          { '@type': 'ListItem', position: 2, name: 'Browse Jobs', item: `${siteUrl}/jobs/` },
-          { '@type': 'ListItem', position: 3, name: `${occ.title} AI Risk`, item: `${siteUrl}/jobs/${occ.slug}/` },
+          { '@type': 'ListItem', position: 2, name: 'Browse Jobs', item: `${siteUrl}/jobs-at-risk/` },
+          { '@type': 'ListItem', position: 3, name: `${occ.title} AI Risk`, item: `${siteUrl}/jobs-at-risk/${occ.slug}/` },
         ],
       },
       {
@@ -390,7 +390,7 @@ export default async function OccupationPage({ params }: Props) {
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[12px] text-ink-3 mb-4">
             <Link href="/" className="hover:text-ink-2 transition-colors">Home</Link>
             <span>/</span>
-            <Link href="/jobs/" className="hover:text-ink-2 transition-colors">Browse Jobs</Link>
+            <Link href="/jobs-at-risk/" className="hover:text-ink-2 transition-colors">Browse Jobs</Link>
             <span>/</span>
             <span className="text-ink-2">{occ.title}</span>
           </nav>
@@ -794,7 +794,7 @@ export default async function OccupationPage({ params }: Props) {
                   return (
                     <Link
                       key={r.slug}
-                      href={`/jobs/${r.slug}/`}
+                      href={`/jobs-at-risk/${r.slug}/`}
                       className="flex flex-col p-4 bg-surface border border-line rounded-xl hover:border-fire hover:bg-surface-2 transition-all duration-150 group"
                     >
                       <div className="text-[14px] font-semibold text-ink group-hover:text-fire transition-colors mb-2">

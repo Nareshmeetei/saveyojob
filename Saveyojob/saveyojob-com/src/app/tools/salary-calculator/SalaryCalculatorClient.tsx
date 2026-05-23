@@ -370,7 +370,7 @@ export default function SalaryCalculatorClient() {
                 ))}
               </div>
               <a
-                href={`/jobs/${occupation.slug}#courses`}
+                href={`/jobs-at-risk/${occupation.slug}#courses`}
                 className="inline-flex items-center gap-1.5 mt-4 text-[12px] text-ink-3 hover:text-ink transition-colors"
               >
                 <BookOpen size={12} strokeWidth={1.5} />

@@ -6,7 +6,7 @@ import { Menu, X } from 'lucide-react';
 import LogoLink from '../ui/LogoLink';
 
 const NAV_LINKS = [
-  { label: 'Jobs at Risk', href: '/jobs' },
+  { label: 'Jobs at Risk', href: '/jobs-at-risk' },
   { label: 'AI Courses',   href: '/courses' },
 ];
 

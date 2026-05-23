@@ -8,12 +8,12 @@ export const metadata: Metadata = {
   title: 'Which Jobs Are Most at Risk from AI? Automation Scores for 800+ Occupations',
   description:
     'Browse AI automation risk scores for 800+ occupations. See median salary, employment count, 10-year job growth, and the task most exposed to AI — based on Oxford University research and BLS data.',
-  alternates: { canonical: `${siteUrl}/jobs/` },
+  alternates: { canonical: `${siteUrl}/jobs-at-risk/` },
   openGraph: {
     title: 'Which Jobs Are Most at Risk from AI? Automation Scores for 800+ Occupations',
     description:
       'Automation probability scores for 800+ jobs. Salary data, 10-year projections, and task-level AI exposure — based on Oxford University and BLS research.',
-    url: `${siteUrl}/jobs/`,
+    url: `${siteUrl}/jobs-at-risk/`,
     type: 'website',
   },
 };
@@ -54,7 +54,7 @@ export default async function JobsPage() {
     itemListElement: occupations.slice(0, 50).map((o: any, i: number) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `https://saveyojob.com/jobs/${o.slug}/`,
+      url: `https://saveyojob.com/jobs-at-risk/${o.slug}/`,
       name: o.title,
     })),
   };
@@ -93,7 +93,7 @@ export default async function JobsPage() {
             return (
               <Link
                 key={o.slug}
-                href={`/jobs/${o.slug}/`}
+                href={`/jobs-at-risk/${o.slug}/`}
                 className="flex flex-col gap-3 p-4 bg-surface border border-line rounded-xl hover:border-fire hover:bg-surface-2 transition-all duration-150 group"
               >
                 {/* Row 1 — title + score */}

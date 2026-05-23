@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:        1.0,
     },
     {
-      url:             `${siteUrl}/jobs/`,
+      url:             `${siteUrl}/jobs-at-risk/`,
       lastModified:    NOW,
       changeFrequency: 'weekly',
       priority:        0.9,
@@ -28,16 +28,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Tier 2 — supporting pages
     {
+      url:             `${siteUrl}/roadmap/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.8,
+    },
+    {
       url:             `${siteUrl}/courses/`,
       lastModified:    NOW,
       changeFrequency: 'weekly',
       priority:        0.8,
-    },
-    {
-      url:             `${siteUrl}/blog/`,
-      lastModified:    NOW,
-      changeFrequency: 'weekly',
-      priority:        0.7,
     },
     {
       url:             `${siteUrl}/about/`,
@@ -52,9 +52,53 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:        0.3,
     },
 
+    // Tier 2 — tools
+    {
+      url:             `${siteUrl}/tools/resume-builder/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
+      url:             `${siteUrl}/tools/salary-calculator/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
+      url:             `${siteUrl}/tools/job-tracker/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
+      url:             `${siteUrl}/tools/raise-email/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.6,
+    },
+    {
+      url:             `${siteUrl}/tools/resignation-letter/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.6,
+    },
+    {
+      url:             `${siteUrl}/tools/thank-you-email/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.6,
+    },
+    {
+      url:             `${siteUrl}/tools/tmay/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.6,
+    },
+
     // Tier 3 — 800+ occupation pages
     ...slugs.map(slug => ({
-      url:             `${siteUrl}/jobs/${slug}/`,
+      url:             `${siteUrl}/jobs-at-risk/${slug}/`,
       lastModified:    NOW,
       changeFrequency: 'monthly' as const,
       priority:        0.8,

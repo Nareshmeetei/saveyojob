@@ -93,7 +93,7 @@ const WEBSITE_SCHEMA = {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: `${siteUrl}/jobs/?q={search_term_string}`,
+      urlTemplate: `${siteUrl}/jobs-at-risk/?q={search_term_string}`,
     },
     'query-input': 'required name=search_term_string',
   },
