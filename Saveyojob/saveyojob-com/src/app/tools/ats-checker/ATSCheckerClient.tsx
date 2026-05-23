@@ -26,22 +26,54 @@ export default function ATSCheckerClient() {
     setFileLoading(true);
     setFileError(null);
     setFileName(file.name);
+    setResult(null);
 
-    const form = new FormData();
-    form.append('file', file);
+    const ext = file.name.split('.').pop()?.toLowerCase();
 
     try {
-      const res  = await fetch('/api/extract-resume', { method: 'POST', body: form });
-      const data = await res.json() as { text?: string; error?: string };
-      if (!res.ok || data.error) {
-        setFileError(data.error ?? 'Could not read this file. Try pasting your resume text.');
-        setFileName(null);
+      if (ext === 'pdf') {
+        // Extract PDF text in the browser — avoids serverless canvas/worker issues
+        const pdfjsLib = await import('pdfjs-dist');
+        // Load worker from jsDelivr CDN matching the installed version
+        pdfjsLib.GlobalWorkerOptions.workerSrc =
+          `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+
+        const pages: string[] = [];
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page    = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const text    = content.items
+            .map(item => ('str' in item ? (item as { str: string }).str : ''))
+            .join(' ');
+          pages.push(text);
+        }
+
+        const extracted = pages.join('\n\n').trim();
+        if (!extracted) {
+          setFileError('This PDF has no selectable text (it may be scanned). Try pasting your resume text instead.');
+          setFileName(null);
+        } else {
+          setResumeText(extracted);
+        }
       } else {
-        setResumeText(data.text ?? '');
-        setResult(null);
+        // DOCX / TXT — handled server-side
+        const form = new FormData();
+        form.append('file', file);
+        const res  = await fetch('/api/extract-resume', { method: 'POST', body: form });
+        const data = await res.json() as { text?: string; error?: string };
+        if (!res.ok || data.error) {
+          setFileError(data.error ?? 'Could not read this file. Try pasting your resume text.');
+          setFileName(null);
+        } else {
+          setResumeText(data.text ?? '');
+        }
       }
-    } catch {
-      setFileError('Upload failed. Try pasting your resume text instead.');
+    } catch (err) {
+      console.error('[handleFile]', err);
+      setFileError('Could not read this file. Try pasting your resume text instead.');
       setFileName(null);
     } finally {
       setFileLoading(false);

@@ -1,33 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mammoth from 'mammoth';
 
+// PDF extraction is handled client-side (pdfjs-dist in browser).
+// This endpoint only handles DOCX and TXT uploads.
+
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-
-async function extractPDFText(buffer: Buffer): Promise<string> {
-  // Dynamic import keeps pdfjs-dist out of the initial bundle
-  const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
-
-  // Disable worker — runs in the Node.js main thread (fine for server-side)
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
-
-  const pdf = await pdfjsLib.getDocument({
-    data: new Uint8Array(buffer),
-    verbosity: 0,
-  }).promise;
-
-  const pages: string[] = [];
-
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page   = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    const text = content.items
-      .map(item => ('str' in item ? (item as { str: string }).str : ''))
-      .join(' ');
-    pages.push(text);
-  }
-
-  return pages.join('\n\n').trim();
-}
 
 export async function POST(req: NextRequest) {
   let formData: FormData;
@@ -50,11 +27,6 @@ export async function POST(req: NextRequest) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   try {
-    if (ext === 'pdf') {
-      const text = await extractPDFText(buffer);
-      return NextResponse.json({ text });
-    }
-
     if (ext === 'docx' || ext === 'doc') {
       const result = await mammoth.extractRawText({ buffer });
       return NextResponse.json({ text: result.value });
@@ -65,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: 'Unsupported file type. Upload a PDF, DOCX, or TXT file.' },
+      { error: 'Unsupported file type. Upload a DOCX or TXT file.' },
       { status: 400 },
     );
   } catch (err) {
