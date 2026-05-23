@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Copy, Check, FileText, RotateCcw } from 'lucide-react';
+import { Copy, Check, FileText, RotateCcw, Sparkles, Loader2 } from 'lucide-react';
 
 const REASONS: { value: string; label: string }[] = [
   { value: 'new_opportunity', label: 'Accepting a new opportunity' },
@@ -74,18 +74,69 @@ function isComplete(f: Fields): boolean {
 export default function ResignationLetterClient() {
   const [fields, setFields] = useState<Fields>(EMPTY);
   const [copied, setCopied] = useState(false);
+  const [aiLetter, setAiLetter] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [showAI, setShowAI] = useState(false);
 
-  const letter = buildLetter(fields);
+  const templateLetter = buildLetter(fields);
+  const displayLetter = showAI && aiLetter ? aiLetter : templateLetter;
   const ready = isComplete(fields);
 
   function set(key: keyof Fields, value: string) {
     setFields(prev => ({ ...prev, [key]: value }));
+    setAiLetter(null);
+    setShowAI(false);
   }
 
   async function copy() {
-    await navigator.clipboard.writeText(letter);
+    await navigator.clipboard.writeText(displayLetter);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function improveWithAI() {
+    if (!ready) return;
+    setAiLoading(true);
+    setAiError(null);
+
+    const reasonLabel = REASONS.find(r => r.value === fields.reason)?.label ?? fields.reason;
+    const lastDayFormatted = fields.lastDay
+      ? new Date(fields.lastDay + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : '';
+
+    const prompt = [
+      'Write a professional resignation letter using these details:',
+      '',
+      `Name: ${fields.yourName}`,
+      `Job title: ${fields.jobTitle}`,
+      `Manager: ${fields.managerName}`,
+      `Company: ${fields.companyName}`,
+      lastDayFormatted ? `Last working day: ${lastDayFormatted}` : null,
+      `Reason for leaving: ${reasonLabel}`,
+      fields.positiveNote.trim() ? `Personal note: ${fields.positiveNote.trim()}` : null,
+      '',
+      'Requirements: warm and genuine (not a template), include a date header and formal salutation, under 200 words, start directly with the letter, no clichés.',
+    ].filter(l => l !== null).join('\n');
+
+    try {
+      const res = await fetch('/api/career-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setAiError(data.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setAiLetter(data.reply ?? null);
+        setShowAI(true);
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
   }
 
   return (
@@ -165,7 +216,27 @@ export default function ResignationLetterClient() {
       </div>
 
       {/* Output */}
-      <div className="lg:sticky lg:top-8">
+      <div className="lg:sticky lg:top-8 space-y-3">
+
+        {/* Version toggle — only shown once AI letter exists */}
+        {aiLetter && (
+          <div className="flex items-center gap-1 p-1 bg-surface border border-line rounded-xl">
+            <button
+              onClick={() => setShowAI(false)}
+              className={`flex-1 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${!showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+            >
+              Template
+            </button>
+            <button
+              onClick={() => setShowAI(true)}
+              className={`flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+            >
+              <Sparkles size={11} strokeWidth={1.5} />
+              AI-Written
+            </button>
+          </div>
+        )}
+
         <div className={`bg-surface border border-line rounded-xl overflow-hidden transition-opacity duration-200 ${ready ? 'opacity-100' : 'opacity-40'}`}>
           <div className="flex items-center justify-between px-5 py-3 border-b border-line">
             <div className="flex items-center gap-2 text-[13px] font-semibold text-ink">
@@ -174,7 +245,7 @@ export default function ResignationLetterClient() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                onClick={() => setFields(EMPTY)}
+                onClick={() => { setFields(EMPTY); setAiLetter(null); setShowAI(false); }}
                 className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors"
                 title="Start over"
               >
@@ -192,11 +263,25 @@ export default function ResignationLetterClient() {
             </div>
           </div>
           <pre className="px-5 py-5 text-[13px] leading-relaxed text-ink-2 whitespace-pre-wrap font-[inherit] overflow-auto max-h-[600px]">
-            {letter}
+            {displayLetter}
           </pre>
         </div>
 
-        <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
+        {/* AI improve button */}
+        <button
+          onClick={improveWithAI}
+          disabled={!ready || aiLoading}
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-fire/[0.07] border border-fire/30 text-fire text-[13px] font-semibold rounded-xl hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {aiLoading
+            ? <><Loader2 size={14} strokeWidth={1.5} className="animate-spin" />Writing AI letter...</>
+            : <><Sparkles size={14} strokeWidth={1.5} />{aiLetter ? 'Regenerate AI version' : 'Improve with AI'}</>
+          }
+        </button>
+
+        {aiError && <p className="text-[12px] text-accent">{aiError}</p>}
+
+        <p className="text-[11px] text-ink-3 leading-relaxed">
           Review before sending. You may want to personalise the tone to match your relationship with your manager.
         </p>
       </div>

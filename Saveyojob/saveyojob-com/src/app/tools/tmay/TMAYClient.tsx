@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Copy, Check, Mic, RotateCcw, ChevronRight } from 'lucide-react';
+import { Copy, Check, Mic, RotateCcw, ChevronRight, Sparkles, Loader2 } from 'lucide-react';
 
 interface Fields {
   currentRole: string;
@@ -63,13 +63,20 @@ export default function TMAYClient() {
   const [step, setStep] = useState(0);
   const [copied, setCopied] = useState(false);
   const [showFull, setShowFull] = useState(false);
+  const [aiPitch, setAiPitch] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [showAI, setShowAI] = useState(false);
 
-  const pitch = buildPitch(fields);
+  const templatePitch = buildPitch(fields);
+  const displayPitch = showAI && aiPitch ? aiPitch : templatePitch;
   const ready = isComplete(fields);
   const currentStep = STEPS[step];
 
   function set(key: StepKey, value: string) {
     setFields(prev => ({ ...prev, [key]: value }));
+    setAiPitch(null);
+    setShowAI(false);
   }
 
   function next() {
@@ -81,12 +88,52 @@ export default function TMAYClient() {
     setFields(EMPTY);
     setStep(0);
     setShowFull(false);
+    setAiPitch(null);
+    setShowAI(false);
   }
 
   async function copy() {
-    await navigator.clipboard.writeText(pitch);
+    await navigator.clipboard.writeText(displayPitch);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function improveWithAI() {
+    setAiLoading(true);
+    setAiError(null);
+
+    const prompt = [
+      'Write a compelling "Tell me about yourself" interview pitch using these details:',
+      '',
+      `Current/most recent role: ${fields.currentRole}`,
+      `Years of experience: ${fields.yearsExp}`,
+      `Top skill: ${fields.topSkill1}`,
+      `Second skill: ${fields.topSkill2}`,
+      `Biggest win: ${fields.biggestWin}`,
+      `Target role: ${fields.targetRole}`,
+      `Why this role: ${fields.whyThisRole}`,
+      '',
+      'Requirements: confident and natural (not a template), 60–90 seconds when spoken (around 150 words), conversational tone, no clichés like "I\'m a passionate team player", start directly with the pitch.',
+    ].join('\n');
+
+    try {
+      const res = await fetch('/api/career-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setAiError(data.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setAiPitch(data.reply ?? null);
+        setShowAI(true);
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
   }
 
   const currentValue = fields[currentStep.key];
@@ -118,7 +165,27 @@ export default function TMAYClient() {
         </div>
 
         {/* Pitch output */}
-        <div className="lg:sticky lg:top-8">
+        <div className="lg:sticky lg:top-8 space-y-3">
+
+          {/* Version toggle — only shown once AI pitch exists */}
+          {aiPitch && (
+            <div className="flex items-center gap-1 p-1 bg-surface border border-line rounded-xl">
+              <button
+                onClick={() => setShowAI(false)}
+                className={`flex-1 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${!showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+              >
+                Template
+              </button>
+              <button
+                onClick={() => setShowAI(true)}
+                className={`flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+              >
+                <Sparkles size={11} strokeWidth={1.5} />
+                AI-Written
+              </button>
+            </div>
+          )}
+
           <div className="bg-surface border border-line rounded-xl overflow-hidden">
             <div className="flex items-center justify-between px-5 py-3 border-b border-line">
               <div className="flex items-center gap-2 text-[13px] font-semibold text-ink">
@@ -132,10 +199,25 @@ export default function TMAYClient() {
               </button>
             </div>
             <pre className="px-5 py-5 text-[14px] leading-relaxed text-ink whitespace-pre-wrap font-[inherit]">
-              {pitch}
+              {displayPitch}
             </pre>
           </div>
-          <div className="mt-4 p-4 bg-surface border border-line rounded-xl">
+
+          {/* AI improve button */}
+          <button
+            onClick={improveWithAI}
+            disabled={aiLoading}
+            className="w-full flex items-center justify-center gap-2 py-2.5 bg-fire/[0.07] border border-fire/30 text-fire text-[13px] font-semibold rounded-xl hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {aiLoading
+              ? <><Loader2 size={14} strokeWidth={1.5} className="animate-spin" />Writing AI pitch...</>
+              : <><Sparkles size={14} strokeWidth={1.5} />{aiPitch ? 'Regenerate AI version' : 'Improve with AI'}</>
+            }
+          </button>
+
+          {aiError && <p className="text-[12px] text-accent">{aiError}</p>}
+
+          <div className="p-4 bg-surface border border-line rounded-xl">
             <p className="text-[13px] font-semibold text-ink mb-2">Tips for delivery</p>
             <ul className="space-y-1.5 text-[12px] text-ink-2 leading-relaxed">
               <li>Keep it to 60–90 seconds when spoken aloud</li>

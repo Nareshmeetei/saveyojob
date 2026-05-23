@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Plus, X, ChevronRight, ChevronLeft, ExternalLink, Trash2, FileText } from 'lucide-react';
+import { Plus, X, ChevronRight, ChevronLeft, ExternalLink, Trash2, Sparkles, Loader2 } from 'lucide-react';
 
 type Status = 'wishlist' | 'applied' | 'interview' | 'offer' | 'rejected';
 
@@ -42,13 +42,47 @@ function fmt(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+const STATUS_PROMPTS: Record<Status, (company: string, role: string) => string> = {
+  wishlist:  (c, r) => `I'm considering applying to ${c} for a ${r || 'role'} and want to prepare well. Give me 3 specific things I should do before applying — research, tailoring my application, or anything else that would give me an edge. Be brief and practical.`,
+  applied:   (c, r) => `I've just applied to ${c} for a ${r || 'role'}. Give me 3 concise tips for what to do now — follow-up timing, LinkedIn research, interview prep to start. No generic advice.`,
+  interview: (c, r) => `I have an interview coming up at ${c} for a ${r || 'role'}. Give me 3 focused things to prepare — research, common questions, or anything specific to this stage. Be practical, not generic.`,
+  offer:     (c, r) => `I have a job offer from ${c} for a ${r || 'role'}. Give me 3 things I should think through or negotiate before accepting. Keep it short and actionable.`,
+  rejected:  (c, r) => `I was rejected from ${c} for a ${r || 'role'}. Give me 3 constructive next steps — whether to follow up, what to improve, or how to move on productively.`,
+};
+
 export default function JobTrackerClient() {
   const [apps, setApps] = useState<Application[]>([]);
   const [hydrated, setHydrated] = useState(false);
   const [addingIn, setAddingIn] = useState<Status | null>(null);
   const [addForm, setAddForm] = useState({ company: '', role: '' });
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [aiTips, setAiTips] = useState<Record<string, string>>({});
+  const [aiLoading, setAiLoading] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
   const addInputRef = useRef<HTMLInputElement>(null);
+
+  async function getCardTips(app: Application) {
+    setAiLoading(app.id);
+    setAiError(null);
+    const prompt = STATUS_PROMPTS[app.status](app.company, app.role);
+    try {
+      const res = await fetch('/api/career-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setAiError(data.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setAiTips(prev => ({ ...prev, [app.id]: data.reply ?? '' }));
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(null);
+    }
+  }
 
   useEffect(() => {
     setApps(load());
@@ -252,6 +286,40 @@ export default function JobTrackerClient() {
                                 className="w-full bg-bg border border-line rounded-lg px-2 py-1 text-[11px] text-ink outline-none focus:border-fire resize-none"
                               />
                             </div>
+
+                            {/* AI tips */}
+                            {aiTips[app.id] ? (
+                              <div className="pt-1">
+                                <div className="flex items-center justify-between mb-1.5">
+                                  <p className="text-[10px] font-semibold text-fire uppercase tracking-[0.1em] flex items-center gap-1">
+                                    <Sparkles size={10} strokeWidth={1.5} />
+                                    AI tips
+                                  </p>
+                                  <button
+                                    onClick={() => getCardTips(app)}
+                                    disabled={aiLoading === app.id}
+                                    className="text-[10px] text-ink-3 hover:text-ink transition-colors"
+                                  >
+                                    Refresh
+                                  </button>
+                                </div>
+                                <p className="text-[11px] text-ink-2 leading-relaxed whitespace-pre-wrap">{aiTips[app.id]}</p>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => getCardTips(app)}
+                                disabled={aiLoading === app.id}
+                                className="w-full flex items-center justify-center gap-1.5 py-1.5 text-[11px] font-semibold text-fire bg-fire/[0.07] border border-fire/20 rounded-lg hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                              >
+                                {aiLoading === app.id
+                                  ? <><Loader2 size={11} strokeWidth={1.5} className="animate-spin" />Getting tips...</>
+                                  : <><Sparkles size={11} strokeWidth={1.5} />Get AI tips for this stage</>
+                                }
+                              </button>
+                            )}
+                            {aiError && aiLoading === null && (
+                              <p className="text-[10px] text-accent">{aiError}</p>
+                            )}
                           </div>
                         )}
 

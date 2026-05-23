@@ -54,6 +54,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Tier 2 — tools
     {
+      url:             `${siteUrl}/tools/ats-checker/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
       url:             `${siteUrl}/tools/resume-builder/`,
       lastModified:    NOW,
       changeFrequency: 'monthly',
