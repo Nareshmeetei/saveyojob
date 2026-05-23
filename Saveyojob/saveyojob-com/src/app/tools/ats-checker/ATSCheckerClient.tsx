@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
-import { Upload, X, Loader2, RotateCcw, FileCheck, ChevronRight } from 'lucide-react';
+import { Upload, X, Loader2, RotateCcw, FileCheck, ChevronRight, Sparkles, Copy, Check } from 'lucide-react';
 import type { ATSResult } from '@/app/api/ats-check/route';
 
 function scoreLabel(score: number): { label: string; color: string; bg: string; bar: string } {
@@ -18,6 +18,10 @@ export default function ATSCheckerClient() {
   const [checking,       setChecking]       = useState(false);
   const [result,         setResult]         = useState<ATSResult | null>(null);
   const [error,          setError]          = useState<string | null>(null);
+  const [fixedResume,    setFixedResume]    = useState<string | null>(null);
+  const [fixLoading,     setFixLoading]     = useState(false);
+  const [fixError,       setFixError]       = useState<string | null>(null);
+  const [fixCopied,      setFixCopied]      = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const ready = resumeText.trim().length >= 50 && jobDescription.trim().length >= 50;
@@ -80,11 +84,49 @@ export default function ATSCheckerClient() {
     }
   }
 
+  async function fixResume() {
+    if (!result) return;
+    setFixLoading(true);
+    setFixError(null);
+
+    const missingList = result.missing.join(', ');
+    const fixList = result.fixes.map((f, i) => `${i + 1}. ${f.issue}: ${f.fix}`).join('\n');
+
+    const prompt = [
+      'Rewrite this resume to maximize its ATS score for the job description below.',
+      missingList ? `\nIncorporate these missing keywords naturally where truthful: ${missingList}` : '',
+      fixList ? `\nApply these specific improvements:\n${fixList}` : '',
+      '\nCURRENT RESUME:\n' + resumeText,
+      '\nJOB DESCRIPTION:\n' + jobDescription,
+      '\nRequirements: return only the rewritten resume text, ready to copy and paste. Keep all facts accurate — only rephrase and add relevant keywords naturally. Do not invent skills or experience the person does not have.',
+    ].filter(Boolean).join('\n');
+
+    try {
+      const res = await fetch('/api/career-chat', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setFixError(data.error ?? 'Something went wrong — please try again.');
+      } else {
+        setFixedResume(data.reply ?? null);
+      }
+    } catch {
+      setFixError('Your internet connection dropped — please check your connection and try again.');
+    } finally {
+      setFixLoading(false);
+    }
+  }
+
   async function check() {
     if (!ready) return;
     setChecking(true);
     setError(null);
     setResult(null);
+    setFixedResume(null);
+    setFixError(null);
 
     try {
       const res  = await fetch('/api/ats-check', {
@@ -105,6 +147,13 @@ export default function ATSCheckerClient() {
     }
   }
 
+  async function copyFixed() {
+    if (!fixedResume) return;
+    await navigator.clipboard.writeText(fixedResume);
+    setFixCopied(true);
+    setTimeout(() => setFixCopied(false), 2000);
+  }
+
   function reset() {
     setResumeText('');
     setJobDescription('');
@@ -112,6 +161,9 @@ export default function ATSCheckerClient() {
     setResult(null);
     setError(null);
     setFileError(null);
+    setFixedResume(null);
+    setFixError(null);
+    setFixCopied(false);
     if (fileInputRef.current) fileInputRef.current.value = '';
   }
 
@@ -218,7 +270,20 @@ export default function ATSCheckerClient() {
         {error && <p className="text-[13px] text-accent">{error}</p>}
 
         {/* Results */}
-        {result && <ATSResults result={result} onReset={reset} onRecheck={check} rechecking={checking} />}
+        {result && (
+          <ATSResults
+            result={result}
+            onReset={reset}
+            onRecheck={check}
+            rechecking={checking}
+            fixedResume={fixedResume}
+            fixLoading={fixLoading}
+            fixError={fixError}
+            fixCopied={fixCopied}
+            onFix={fixResume}
+            onCopyFixed={copyFixed}
+          />
+        )}
       </div>
 
     </div>
@@ -230,11 +295,23 @@ function ATSResults({
   onReset,
   onRecheck,
   rechecking,
+  fixedResume,
+  fixLoading,
+  fixError,
+  fixCopied,
+  onFix,
+  onCopyFixed,
 }: {
   result: ATSResult;
   onReset: () => void;
   onRecheck: () => void;
   rechecking: boolean;
+  fixedResume: string | null;
+  fixLoading: boolean;
+  fixError: string | null;
+  fixCopied: boolean;
+  onFix: () => void;
+  onCopyFixed: () => void;
 }) {
   const { label, color, bg, bar } = scoreLabel(result.score);
 
@@ -342,6 +419,41 @@ function ATSResults({
           Start over
         </button>
       </div>
+
+      {/* Fix my resume */}
+      <button
+        onClick={onFix}
+        disabled={fixLoading}
+        className="w-full flex items-center justify-center gap-2 py-3 bg-fire text-bg text-[14px] font-bold rounded-xl hover:brightness-105 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        {fixLoading
+          ? <><Loader2 size={16} strokeWidth={1.5} className="animate-spin" />Rewriting your resume…</>
+          : <><Sparkles size={16} strokeWidth={1.5} />{fixedResume ? 'Rewrite again' : 'Fix my resume for this job'}</>
+        }
+      </button>
+
+      {fixError && <p className="text-[13px] text-accent">{fixError}</p>}
+
+      {fixedResume && (
+        <div className="bg-surface border border-line rounded-xl overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-line">
+            <div className="flex items-center gap-2 text-[13px] font-semibold text-ink">
+              <Sparkles size={13} strokeWidth={1.5} className="text-fire" />
+              Optimised Resume
+            </div>
+            <button
+              onClick={onCopyFixed}
+              className="flex items-center gap-1.5 text-[12px] font-medium text-fire hover:brightness-110 transition-colors"
+            >
+              {fixCopied ? <Check size={13} strokeWidth={1.5} /> : <Copy size={13} strokeWidth={1.5} />}
+              {fixCopied ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+          <pre className="px-4 py-4 text-[12px] leading-relaxed text-ink-2 whitespace-pre-wrap font-[inherit] overflow-auto max-h-[480px]">
+            {fixedResume}
+          </pre>
+        </div>
+      )}
 
     </div>
   );
