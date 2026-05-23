@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Copy, Check, MailOpen, RotateCcw } from 'lucide-react';
+import { Copy, Check, MailOpen, RotateCcw, Sparkles, Loader2 } from 'lucide-react';
 
 interface Fields {
   yourName: string;
@@ -75,20 +75,71 @@ function isComplete(f: Fields): boolean {
 }
 
 export default function RaiseEmailClient() {
-  const [fields, setFields] = useState<Fields>(EMPTY);
-  const [copied, setCopied] = useState(false);
+  const [fields,  setFields]  = useState<Fields>(EMPTY);
+  const [copied,  setCopied]  = useState(false);
+  const [aiEmail, setAiEmail] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError,   setAiError]   = useState<string | null>(null);
+  const [showAI,  setShowAI]  = useState(false);
 
-  const email = buildEmail(fields);
+  const templateEmail = buildEmail(fields);
+  const displayEmail  = showAI && aiEmail ? aiEmail : templateEmail;
   const ready = isComplete(fields);
 
   function set(key: keyof Fields, value: string) {
     setFields(prev => ({ ...prev, [key]: value }));
+    // Reset AI email when inputs change so it doesn't show stale output
+    setAiEmail(null);
+    setShowAI(false);
   }
 
   async function copy() {
-    await navigator.clipboard.writeText(email);
+    await navigator.clipboard.writeText(displayEmail);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function improveWithAI() {
+    if (!ready) return;
+    setAiLoading(true);
+    setAiError(null);
+
+    const wins = [fields.win1, fields.win2, fields.win3].filter(w => w.trim());
+    const prompt = [
+      'Write a salary raise request email using these details:',
+      '',
+      `Name: ${fields.yourName}`,
+      `Manager: ${fields.managerName}`,
+      `Job title: ${fields.role}`,
+      fields.timeInRole  ? `Time in role: ${fields.timeInRole}`        : null,
+      fields.currentSalary ? `Current salary: ${fields.currentSalary}` : null,
+      fields.targetSalary  ? `Target salary: ${fields.targetSalary}`   : null,
+      '',
+      'Accomplishments:',
+      ...wins.map(w => `- ${w}`),
+      fields.marketNote ? `\nMarket context: ${fields.marketNote}` : null,
+      '',
+      'Requirements: natural and persuasive (not a template), include a subject line, under 200 words, start directly with the email, no clichés.',
+    ].filter(l => l !== null).join('\n');
+
+    try {
+      const res  = await fetch('/api/career-chat', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setAiError(data.error ?? 'Something went wrong. Please try again.');
+      } else {
+        setAiEmail(data.reply ?? null);
+        setShowAI(true);
+      }
+    } catch {
+      setAiError('Connection error. Please try again.');
+    } finally {
+      setAiLoading(false);
+    }
   }
 
   return (
@@ -156,7 +207,27 @@ export default function RaiseEmailClient() {
       </div>
 
       {/* Output */}
-      <div className="lg:sticky lg:top-8">
+      <div className="lg:sticky lg:top-8 space-y-3">
+
+        {/* Version toggle — only shown once AI email exists */}
+        {aiEmail && (
+          <div className="flex items-center gap-1 p-1 bg-surface border border-line rounded-xl">
+            <button
+              onClick={() => setShowAI(false)}
+              className={`flex-1 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${!showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+            >
+              Template
+            </button>
+            <button
+              onClick={() => setShowAI(true)}
+              className={`flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold py-1.5 rounded-lg transition-colors ${showAI ? 'bg-fire text-bg' : 'text-ink-3 hover:text-ink'}`}
+            >
+              <Sparkles size={11} strokeWidth={1.5} />
+              AI-Written
+            </button>
+          </div>
+        )}
+
         <div className={`bg-surface border border-line rounded-xl overflow-hidden transition-opacity duration-200 ${ready ? 'opacity-100' : 'opacity-40'}`}>
           <div className="flex items-center justify-between px-5 py-3 border-b border-line">
             <div className="flex items-center gap-2 text-[13px] font-semibold text-ink">
@@ -164,7 +235,7 @@ export default function RaiseEmailClient() {
               Raise Request Email
             </div>
             <div className="flex items-center gap-3">
-              <button onClick={() => setFields(EMPTY)}
+              <button onClick={() => { setFields(EMPTY); setAiEmail(null); setShowAI(false); }}
                 className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors">
                 <RotateCcw size={12} strokeWidth={1.5} />
                 Reset
@@ -172,15 +243,30 @@ export default function RaiseEmailClient() {
               <button onClick={copy} disabled={!ready}
                 className="flex items-center gap-1.5 text-[12px] font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-fire hover:brightness-110">
                 {copied ? <Check size={13} strokeWidth={1.5} /> : <Copy size={13} strokeWidth={1.5} />}
-                {copied ? 'Copied!' : 'Copy email'}
+                {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
           </div>
-          <pre className="px-5 py-5 text-[13px] leading-relaxed text-ink-2 whitespace-pre-wrap font-[inherit] overflow-auto max-h-[600px]">
-            {email}
+          <pre className="px-5 py-5 text-[13px] leading-relaxed text-ink-2 whitespace-pre-wrap font-[inherit] overflow-auto max-h-[560px]">
+            {displayEmail}
           </pre>
         </div>
-        <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
+
+        {/* AI improve button */}
+        <button
+          onClick={improveWithAI}
+          disabled={!ready || aiLoading}
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-fire/[0.07] border border-fire/30 text-fire text-[13px] font-semibold rounded-xl hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {aiLoading
+            ? <><Loader2 size={14} strokeWidth={1.5} className="animate-spin" />Writing AI email...</>
+            : <><Sparkles size={14} strokeWidth={1.5} />{aiEmail ? 'Regenerate AI version' : 'Improve with AI'}</>
+          }
+        </button>
+
+        {aiError && <p className="text-[12px] text-accent">{aiError}</p>}
+
+        <p className="text-[11px] text-ink-3 leading-relaxed">
           Send this to request a meeting — don&apos;t use it as a final ask. Follow up in person or on a call.
         </p>
       </div>
