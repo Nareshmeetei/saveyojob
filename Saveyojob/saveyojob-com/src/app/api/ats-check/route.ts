@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
   if (!checkRate(ip)) {
     return NextResponse.json(
-      { error: 'You have reached the limit of 10 ATS checks per hour. Try again later.' },
+      { error: "You've run 10 checks this hour. Come back in a little while to run more." },
       { status: 429 },
     );
   }
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { error: 'Resume and job description are required (minimum 50 characters each).' },
+      { error: 'Please add your resume and the job description — both need to be at least a few sentences long.' },
       { status: 400 },
     );
   }
@@ -106,15 +106,15 @@ Return a JSON object with exactly these fields:
     console.error('[ats-check]', msg);
 
     if (msg.includes('API key') || msg.includes('GEMINI_API_KEY')) {
-      return NextResponse.json({ error: 'AI service is not configured.' }, { status: 503 });
+      return NextResponse.json({ error: "The ATS checker isn't available right now. Please try again later." }, { status: 503 });
     }
     if (msg.includes('quota') || msg.includes('rate')) {
       return NextResponse.json(
-        { error: 'AI service is temporarily busy. Please try again in a moment.' },
+        { error: 'The checker is busy at the moment — please wait a few seconds and try again.' },
         { status: 503 },
       );
     }
 
-    return NextResponse.json({ error: 'Analysis failed. Please try again.' }, { status: 500 });
+    return NextResponse.json({ error: "The check didn't finish — please try again." }, { status: 500 });
   }
 }

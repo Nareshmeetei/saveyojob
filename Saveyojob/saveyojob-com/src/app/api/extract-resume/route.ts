@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    return NextResponse.json({ error: 'File too large. Maximum size is 5 MB.' }, { status: 400 });
+    return NextResponse.json({ error: 'Your file is over 5 MB, which is too large to upload. Try saving a smaller version, or paste your resume text directly instead.' }, { status: 400 });
   }
 
   const ext    = file.name.split('.').pop()?.toLowerCase();
@@ -37,13 +37,13 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: 'Unsupported file type. Upload a DOCX or TXT file.' },
+      { error: 'We can only read Word documents (.docx) and plain text files (.txt). Please save your resume in one of those formats, or paste the text directly.' },
       { status: 400 },
     );
   } catch (err) {
     console.error('[extract-resume]', err);
     return NextResponse.json(
-      { error: 'Could not read this file. Try pasting your resume text instead.' },
+      { error: "We weren't able to read that file — it might be in a format we don't support. Try pasting your resume text directly instead." },
       { status: 422 },
     );
   }

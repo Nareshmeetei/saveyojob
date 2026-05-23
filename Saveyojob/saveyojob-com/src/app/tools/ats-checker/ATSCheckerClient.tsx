@@ -53,7 +53,7 @@ export default function ATSCheckerClient() {
 
         const extracted = pages.join('\n\n').trim();
         if (!extracted) {
-          setFileError('This PDF has no selectable text (it may be scanned). Try pasting your resume text instead.');
+          setFileError('This PDF looks like a scanned image — there is no readable text in it. Please paste your resume text directly instead.');
           setFileName(null);
         } else {
           setResumeText(extracted);
@@ -65,7 +65,7 @@ export default function ATSCheckerClient() {
         const res  = await fetch('/api/extract-resume', { method: 'POST', body: form });
         const data = await res.json() as { text?: string; error?: string };
         if (!res.ok || data.error) {
-          setFileError(data.error ?? 'Could not read this file. Try pasting your resume text.');
+          setFileError(data.error ?? 'We had trouble reading that file. Try pasting your resume text directly instead.');
           setFileName(null);
         } else {
           setResumeText(data.text ?? '');
@@ -73,7 +73,7 @@ export default function ATSCheckerClient() {
       }
     } catch (err) {
       console.error('[handleFile]', err);
-      setFileError('Could not read this file. Try pasting your resume text instead.');
+      setFileError('We had trouble reading that file. Try pasting your resume text directly instead.');
       setFileName(null);
     } finally {
       setFileLoading(false);
@@ -94,12 +94,12 @@ export default function ATSCheckerClient() {
       });
       const data = await res.json() as ATSResult & { error?: string };
       if (!res.ok || data.error) {
-        setError(data.error ?? 'Analysis failed. Please try again.');
+        setError(data.error ?? 'The check didn\'t finish — please try again.');
       } else {
         setResult(data);
       }
     } catch {
-      setError('Connection error. Please try again.');
+      setError('Your internet connection dropped — please check your connection and try again.');
     } finally {
       setChecking(false);
     }

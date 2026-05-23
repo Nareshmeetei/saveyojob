@@ -335,12 +335,12 @@ export default function ResumeBuilderClient() {
       });
       const data = await res.json() as { reply?: string; error?: string };
       if (!res.ok || data.error) {
-        setAiError(data.error ?? 'Something went wrong. Please try again.');
+        setAiError(data.error ?? 'Something went wrong — please try again.');
       } else {
         setAiFeedback(data.reply ?? null);
       }
     } catch {
-      setAiError('Connection error. Please try again.');
+      setAiError('Your internet connection dropped — please check your connection and try again.');
     } finally {
       setAiLoading(false);
     }

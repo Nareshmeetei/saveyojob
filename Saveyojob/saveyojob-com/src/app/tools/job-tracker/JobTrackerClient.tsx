@@ -73,12 +73,12 @@ export default function JobTrackerClient() {
       });
       const data = await res.json() as { reply?: string; error?: string };
       if (!res.ok || data.error) {
-        setAiError(data.error ?? 'Something went wrong. Please try again.');
+        setAiError(data.error ?? 'Something went wrong — please try again.');
       } else {
         setAiTips(prev => ({ ...prev, [app.id]: data.reply ?? '' }));
       }
     } catch {
-      setAiError('Connection error. Please try again.');
+      setAiError('Your internet connection dropped — please check your connection and try again.');
     } finally {
       setAiLoading(null);
     }

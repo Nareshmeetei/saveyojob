@@ -227,6 +227,16 @@ Every word on this site — UI labels, headings, body copy, tooltips, error mess
 - Active voice. "AI will replace this task" not "this task is susceptible to automation."
 - When in doubt, ask: would a 45-year-old truck driver understand this immediately? If not, rewrite it.
 
+**Error messages:**
+- Say what went wrong in plain terms, and what to do next. No tech terms like "connection error", "invalid input", "500", or "request failed".
+- Good pattern: "[What happened] — [what to do]." Examples:
+  - "Your internet connection dropped — please check your connection and try again."
+  - "The check didn't finish — please try again."
+  - "We had trouble reading that file. Try pasting your resume text directly instead."
+  - "This PDF looks like a scanned image — there is no readable text in it. Please paste your resume text directly instead."
+- For server-side errors that the API already returns, pass `data.error` through to the user rather than replacing it with a generic fallback — the API routes already have plain-language messages.
+- Never show raw error objects, stack traces, HTTP status codes, or technical identifiers to users.
+
 ---
 
 ## Code Standards

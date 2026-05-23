@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
   if (!checkRate(ip)) {
     return NextResponse.json(
-      { error: 'You have reached the limit of 20 messages per hour. Try again later.' },
+      { error: "You've used up your 20 messages for this hour. Come back in a little while and you'll be able to chat again." },
       { status: 429 },
     );
   }
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid request format.' }, { status: 400 });
+    return NextResponse.json({ error: 'Something went wrong sending your message. Please refresh the page and try again.' }, { status: 400 });
   }
 
   const { messages, context } = parsed.data;
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
   // Block empty or whitespace-only last messages
   const lastMessage = messages[messages.length - 1];
   if (!lastMessage?.content?.trim()) {
-    return NextResponse.json({ error: 'Message cannot be empty.' }, { status: 400 });
+    return NextResponse.json({ error: 'Please type a message before sending.' }, { status: 400 });
   }
 
   // Inject any context the tool pages pass in (resume text, job description)
@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
         toolResult = dispatchTool(name, (args ?? {}) as Record<string, unknown>);
       } catch {
         return NextResponse.json({
-          reply: 'I ran into a problem with that request. Please try describing what you need in more detail.',
+          reply: 'I had trouble with that one — try asking in a different way or with a bit more detail.',
         });
       }
 
@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
     // No function call — direct answer
     const reply = firstResult.response.text();
     return NextResponse.json({
-      reply: reply || 'I could not generate a response. Please try rephrasing.',
+      reply: reply || "I wasn't able to come up with an answer — try asking in a different way.",
     });
 
   } catch (err) {
@@ -171,20 +171,20 @@ export async function POST(req: NextRequest) {
 
     if (msg.includes('API key') || msg.includes('GEMINI_API_KEY')) {
       return NextResponse.json(
-        { error: 'AI service is not configured. Please add GEMINI_API_KEY.' },
+        { error: "The AI assistant isn't available right now. Please try again later." },
         { status: 503 },
       );
     }
 
     if (msg.includes('quota') || msg.includes('rate')) {
       return NextResponse.json(
-        { error: 'AI service is temporarily busy. Please try again in a moment.' },
+        { error: 'The AI assistant is busy at the moment — please wait a few seconds and try again.' },
         { status: 503 },
       );
     }
 
     return NextResponse.json({
-      reply: 'Something went wrong on my end. Please try again.',
+      reply: 'Something went wrong — please try again.',
     });
   }
 }

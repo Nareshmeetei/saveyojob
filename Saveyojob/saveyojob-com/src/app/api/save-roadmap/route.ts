@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const parsed = Schema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
+      return NextResponse.json({ error: 'Something went wrong saving your roadmap. Please try again.' }, { status: 400 });
     }
 
     const { nanoid } = await import('nanoid');
@@ -26,16 +26,16 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ shareId });
   } catch {
-    return NextResponse.json({ error: 'Save failed.' }, { status: 500 });
+    return NextResponse.json({ error: "We weren't able to save your roadmap — please try again." }, { status: 500 });
   }
 }
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id');
-  if (!id) return NextResponse.json({ error: 'Missing id.' }, { status: 400 });
+  if (!id) return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 400 });
 
   const entry = store.get(id);
-  if (!entry) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
+  if (!entry) return NextResponse.json({ error: "We couldn't find that roadmap — the link may have expired." }, { status: 404 });
 
   return NextResponse.json({ roadmapData: entry.data });
 }

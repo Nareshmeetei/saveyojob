@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const parsed = Schema.safeParse(body);
-    if (!parsed.success) return NextResponse.json({ error: 'Invalid email.' }, { status: 400 });
+    if (!parsed.success) return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
     const { email } = parsed.data;
 
     if (process.env.RESEND_API_KEY) {
@@ -25,6 +25,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: 'Subscribe failed.' }, { status: 500 });
+    return NextResponse.json({ error: "We weren't able to sign you up — please try again." }, { status: 500 });
   }
 }

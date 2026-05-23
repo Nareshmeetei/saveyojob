@@ -76,7 +76,7 @@ export default function CareerChatWidget() {
       if (!res.ok || data.error) {
         setMessages(prev => [
           ...prev,
-          { role: 'model', content: data.error ?? 'Something went wrong. Please try again.' },
+          { role: 'model', content: data.error ?? 'Something went wrong — please try again.' },
         ]);
         return;
       }
@@ -88,7 +88,7 @@ export default function CareerChatWidget() {
     } catch {
       setMessages(prev => [
         ...prev,
-        { role: 'model', content: 'Connection error. Please check your connection and try again.' },
+        { role: 'model', content: 'Your internet connection dropped — please check your connection and try again.' },
       ]);
     } finally {
       setLoading(false);

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const parsed = GenerateRequestSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
+      return NextResponse.json({ error: 'Something went wrong with your request. Please go back and try again.' }, { status: 400 });
     }
 
     const prompt = buildUserPrompt(parsed.data);
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   } catch (e: any) {
     console.error('[generate-roadmap]', e);
     return NextResponse.json(
-      { error: 'Generation failed. Please try again.' },
+      { error: 'Something went wrong generating your roadmap — please try again.' },
       { status: 500 }
     );
   }
