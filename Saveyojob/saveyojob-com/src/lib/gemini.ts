@@ -8,8 +8,7 @@ export function getGeminiClient(): GoogleGenerativeAI {
   return _client;
 }
 
-// Use gemini-2.5-flash-lite once GA; fall back to preview ID if this fails
-export const GEMINI_MODEL = 'gemini-2.5-flash-lite-preview-06-17';
+export const GEMINI_MODEL = 'gemini-2.5-flash-lite';
 
 export const CAREER_SYSTEM_PROMPT = `You are a career advisor helping workers understand how AI affects their jobs and how to stay employable.
 
