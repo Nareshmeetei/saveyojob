@@ -1,10 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mammoth from 'mammoth';
-// pdf-parse is CJS-only; require avoids ESM default-export mismatch
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const pdfParse = require('pdf-parse') as (buf: Buffer) => Promise<{ text: string }>;
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+async function extractPDFText(buffer: Buffer): Promise<string> {
+  // Dynamic import keeps pdfjs-dist out of the initial bundle
+  const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
+
+  // Disable worker — runs in the Node.js main thread (fine for server-side)
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+
+  const pdf = await pdfjsLib.getDocument({
+    data: new Uint8Array(buffer),
+    verbosity: 0,
+  }).promise;
+
+  const pages: string[] = [];
+
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page   = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text = content.items
+      .map(item => ('str' in item ? (item as { str: string }).str : ''))
+      .join(' ');
+    pages.push(text);
+  }
+
+  return pages.join('\n\n').trim();
+}
 
 export async function POST(req: NextRequest) {
   let formData: FormData;
@@ -23,13 +46,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'File too large. Maximum size is 5 MB.' }, { status: 400 });
   }
 
-  const ext = file.name.split('.').pop()?.toLowerCase();
+  const ext    = file.name.split('.').pop()?.toLowerCase();
   const buffer = Buffer.from(await file.arrayBuffer());
 
   try {
     if (ext === 'pdf') {
-      const data = await pdfParse(buffer);
-      return NextResponse.json({ text: data.text });
+      const text = await extractPDFText(buffer);
+      return NextResponse.json({ text });
     }
 
     if (ext === 'docx' || ext === 'doc') {
