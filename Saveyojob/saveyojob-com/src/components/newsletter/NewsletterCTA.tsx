@@ -41,7 +41,7 @@ export default function NewsletterCTA() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="Your work email"
+              placeholder="Your email"
               className="flex-1 px-[18px] py-[13px] text-[15px] bg-surface border border-line rounded-xl outline-none focus:border-fire focus:shadow-[0_0_0_3px_rgba(12,82,109,0.10)] text-ink placeholder:text-ink-3 transition-all duration-150"
             />
             <button
