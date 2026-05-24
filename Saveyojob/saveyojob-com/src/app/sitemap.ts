@@ -91,6 +91,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:        0.7,
     },
     {
+      url:             `${siteUrl}/tools/cover-letter/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
       url:             `${siteUrl}/tools/resume-builder/`,
       lastModified:    NOW,
       changeFrequency: 'monthly',
