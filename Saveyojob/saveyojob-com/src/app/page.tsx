@@ -6,14 +6,14 @@ import ToolsDirectory from '../components/tools/ToolsDirectory';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 
 export const metadata: Metadata = {
-  title: 'Check How Risky Your Job Is — Free AI Risk Score + Reskilling Roadmap',
+  title: { absolute: 'Will AI Replace Your Job? | AI Risk Score & Career Tools – Saveyojob' },
   description:
-    'Get a free AI job risk score in 60 seconds. See which tasks in your role are being automated, get a task-by-task breakdown, and receive a personalized reskilling roadmap. No signup.',
+    'Check how exposed your job is to AI in 60 seconds. Get a personalized AI Risk Score, future-proof career roadmap, and the best AI courses for your industry.',
   alternates: { canonical: `${siteUrl}/` },
   openGraph: {
-    title: 'Check How Risky Your Job Is — Free AI Risk Score + Reskilling Roadmap',
+    title: 'Will AI Replace Your Job? | AI Risk Score & Career Tools – Saveyojob',
     description:
-      'Task-level AI automation risk scores for 800+ occupations. Free personalized reskilling roadmap in 60 seconds. Based on Oxford University and BLS research.',
+      'Check how exposed your job is to AI in 60 seconds. Get a personalized AI Risk Score, future-proof career roadmap, and the best AI courses for your industry.',
     url: `${siteUrl}/`,
     type: 'website',
   },

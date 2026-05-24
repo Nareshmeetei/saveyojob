@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import RoadmapClient from './RoadmapClient';
 
 export const metadata = {
-  title: 'Your AI Career Roadmap — Saveyojob.com',
-  description: 'Your personalized 6-month plan to stay employable as AI reshapes your industry.',
+  title: { absolute: 'Weekly AI Job Market Digest | AI Career Trends & Future-Proof Skills' },
+  description: 'Get weekly insights on AI job trends, high-income skills, career changes, and practical AI tools to stay employable and competitive.',
 };
 
 export default function RoadmapPage() {

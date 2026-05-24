@@ -5,14 +5,14 @@ import Header from '../../components/layout/Header';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 
 export const metadata: Metadata = {
-  title: 'About Saveyojob.com — Free AI Job Risk Tool, Methodology & Data Sources',
+  title: { absolute: 'About Saveyojob | AI Career Risk Analysis & Future-Proof Career Tools' },
   description:
-    'Saveyojob.com scores any job\'s AI automation risk using Oxford University research and BLS data, then generates a free personalized reskilling roadmap. No signup. Built for the 83 million workers at risk of displacement by 2027.',
+    'Learn how Saveyojob analyzes AI automation risk using labor market data, job trends, and AI research to help professionals stay competitive and future-ready.',
   alternates: { canonical: `${siteUrl}/about/` },
   openGraph: {
-    title: 'About Saveyojob.com — How We Calculate AI Job Risk',
+    title: 'About Saveyojob | AI Career Risk Analysis & Future-Proof Career Tools',
     description:
-      'We use Oxford University automation research, BLS occupational data, and O*NET task databases to score AI displacement risk for 800+ jobs — then generate a free personalized reskilling roadmap.',
+      'Learn how Saveyojob analyzes AI automation risk using labor market data, job trends, and AI research to help professionals stay competitive and future-ready.',
     url: `${siteUrl}/about/`,
     type: 'website',
   },

@@ -5,14 +5,14 @@ import Header from '../../components/layout/Header';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 
 export const metadata: Metadata = {
-  title: 'Which Jobs Are Most at Risk from AI? Automation Scores for 800+ Occupations',
+  title: { absolute: 'Which Jobs Are Most at Risk From AI? | AI Automation Risk Database' },
   description:
-    'Browse AI automation risk scores for 800+ occupations. See median salary, employment count, 10-year job growth, and the task most exposed to AI — based on Oxford University research and BLS data.',
+    'Browse AI automation risk scores for hundreds of jobs and careers. Discover which roles are safest, most exposed, and how to stay ahead with AI skills.',
   alternates: { canonical: `${siteUrl}/jobs-at-risk/` },
   openGraph: {
-    title: 'Which Jobs Are Most at Risk from AI? Automation Scores for 800+ Occupations',
+    title: 'Which Jobs Are Most at Risk From AI? | AI Automation Risk Database',
     description:
-      'Automation probability scores for 800+ jobs. Salary data, 10-year projections, and task-level AI exposure — based on Oxford University and BLS research.',
+      'Browse AI automation risk scores for hundreds of jobs and careers. Discover which roles are safest, most exposed, and how to stay ahead with AI skills.',
     url: `${siteUrl}/jobs-at-risk/`,
     type: 'website',
   },

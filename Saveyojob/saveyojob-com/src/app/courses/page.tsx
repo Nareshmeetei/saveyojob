@@ -6,14 +6,14 @@ import CourseGrid from './CourseGrid';
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 
 export const metadata: Metadata = {
-  title: 'Learn the AI Skills That Keep You Ahead — Best AI Courses',
+  title: { absolute: 'Best AI Courses & Certifications for Beginners and Professionals | Saveyojob' },
   description:
-    'The best beginner-to-advanced AI courses, curated to help you stay relevant and grow in the AI era. From Google, Stanford, IBM, DeepLearning.AI, and Microsoft.',
+    'Explore top-rated AI courses, certifications, and beginner-friendly programs from Google, IBM, Stanford, Microsoft, and DeepLearning.AI to build in-demand AI skills.',
   alternates: { canonical: `${siteUrl}/courses/` },
   openGraph: {
-    title: 'Learn the AI Skills That Keep You Ahead | Saveyojob.com',
+    title: 'Best AI Courses & Certifications for Beginners and Professionals | Saveyojob',
     description:
-      'The best beginner-to-advanced AI courses from Google, Stanford, IBM, and DeepLearning.AI — curated for workers who want to stay relevant in the AI era.',
+      'Explore top-rated AI courses, certifications, and beginner-friendly programs from Google, IBM, Stanford, Microsoft, and DeepLearning.AI to build in-demand AI skills.',
     url: `${siteUrl}/courses/`,
     type: 'website',
   },

@@ -23,11 +23,11 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saveyojob.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Saveyojob.com — Free AI Job Risk Assessment & Reskilling Roadmap',
-    template: '%s | Saveyojob.com',
+    default: 'Will AI Replace Your Job? | AI Risk Score & Career Tools – Saveyojob',
+    template: '%s – Saveyojob',
   },
   description:
-    'Find out if AI will replace your job. Get a free, task-level automation risk score and a personalized reskilling roadmap — built to your role, timeline, and goals. No signup.',
+    'Check how exposed your job is to AI in 60 seconds. Get a personalized AI Risk Score, future-proof career roadmap, and the best AI courses for your industry.',
   keywords: [
     'will AI replace my job',
     'AI job automation risk',
@@ -50,6 +50,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "The Job Market Is Changing Fast. Don't Get Left Behind.",
     description: 'See how AI could impact your role and learn the skills professionals are using to stay employable and grow faster.',
+  },
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
   },
   robots: { index: true, follow: true },
   alternates: { canonical: siteUrl },
