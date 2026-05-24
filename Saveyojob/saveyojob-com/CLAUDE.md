@@ -239,6 +239,58 @@ Every word on this site — UI labels, headings, body copy, tooltips, error mess
 
 ---
 
+## SEO & GEO Strategy (Non-Negotiable)
+
+### Target Keywords
+
+**Core keywords** — use naturally in page titles, meta descriptions, H1s, and body copy:
+- AI job risk · AI automation risk · will AI replace my job · jobs at risk from AI
+- AI-proof jobs · future-proof career · AI career tools · AI skills for work
+- best AI courses · AI certifications
+
+**Long-tail keywords** — easier to rank for, very high intent. Weave into page copy and FAQ answers:
+- how to future-proof your career from AI
+- how safe is my job from AI
+- careers least likely to be replaced by AI
+- best AI courses for working professionals
+- AI skills employers want
+- free AI courses with certificates
+- AI upskilling roadmap
+- jobs most affected by AI
+- how to stay relevant in the age of AI
+
+**Placement rules:**
+- Each keyword must appear where it fits the content naturally. Never repeat a keyword more than once in the same paragraph or in the same H-tag chain.
+- Long-tail phrases belong in FAQ answers, section intros, and page descriptions — not shoehorned into H1s.
+- The `/jobs-at-risk/[slug]/` occupation pages already target "will AI replace [job]" and are the primary SEO moat. Do not dilute that pattern.
+
+### Programmatic SEO — URL Architecture
+
+The biggest growth opportunity is programmatic pages targeting high-intent, specific queries. Build these as the occupation database grows:
+
+| Route pattern | Target query intent | Example |
+|---|---|---|
+| `/jobs-at-risk/[slug]/` | "Will AI replace [job]?" | Already built — 800+ pages |
+| `/careers/[industry]/` | "AI-proof jobs in [industry]" | `/careers/healthcare/` |
+| `/courses/best-for/[role]/` | "Best AI courses for [role]" | `/courses/best-for/nurses/` |
+| `/skills/[role]/` | "AI skills for [role]" | `/skills/project-managers/` |
+
+**Rules for programmatic pages:**
+- Every page must have unique, substantive content — not just a filtered list. Add a 2–3 sentence industry-specific intro, a FAQ, and a clear CTA.
+- URL slugs must match how people search: `ai-proof-jobs-in-healthcare`, `will-ai-replace-accountants`, `best-ai-courses-for-marketers`.
+- `generateStaticParams` must be used so all programmatic pages pre-render at build time.
+- When adding new occupations to `data/seed-data.ts`, assign an `industry` field so `/careers/[industry]/` pages stay accurate without code changes.
+
+### GEO (Generative Engine Optimization)
+
+When AI systems (ChatGPT, Perplexity, Gemini) answer questions like "will AI replace nurses?", they pull from authoritative pages. To be cited:
+- Each occupation page must have a direct, quotable answer in the first paragraph (the `verdictText` function already does this).
+- FAQ schema (`@type: FAQPage`) is already implemented on occupation pages — keep it on all new programmatic pages too.
+- The `@type: Organization` schema in layout.tsx establishes site authority — keep it current.
+- Write answers that are specific, data-backed (cite Oxford research, BLS), and quantified (percentages, dollar figures, time horizons). Vague answers are never cited.
+
+---
+
 ## Code Standards
 
 - Write minimal code — no abstractions beyond what the task requires

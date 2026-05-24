@@ -8,6 +8,11 @@ async function getOccupationSlugs(): Promise<string[]> {
   return SEED_OCCUPATIONS.map(o => o.slug);
 }
 
+const INDUSTRY_SLUGS = [
+  'finance', 'legal', 'admin', 'sales',
+  'technology', 'human-resources', 'design-creative', 'marketing-research',
+];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const slugs = await getOccupationSlugs();
 
@@ -51,6 +56,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority:        0.3,
     },
+
+    // Tier 2 — careers by industry (programmatic SEO)
+    {
+      url:             `${siteUrl}/careers/`,
+      lastModified:    NOW,
+      changeFrequency: 'weekly',
+      priority:        0.8,
+    },
+    ...INDUSTRY_SLUGS.map(slug => ({
+      url:             `${siteUrl}/careers/${slug}/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly' as const,
+      priority:        0.7,
+    })),
 
     // Tier 2 — tools
     {

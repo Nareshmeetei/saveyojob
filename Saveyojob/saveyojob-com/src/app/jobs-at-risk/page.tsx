@@ -73,9 +73,10 @@ export default async function JobsPage() {
             Which Jobs Are Most at Risk from AI?
           </h1>
           <p className="text-[16px] text-ink-2 leading-relaxed max-w-[640px]">
-            Automation probability scores for {occupations.length} occupations, based on Oxford University
-            research and Bureau of Labor Statistics data. Each card shows salary, employment outlook,
-            10-year job growth, and the task most exposed to AI — so you can see the real picture, fast.
+            AI automation risk scores for {occupations.length} jobs, based on Oxford University research
+            and Bureau of Labor Statistics data. Each card shows salary, 10-year employment outlook,
+            and the task AI will replace first — so you can see exactly how exposed your career is.
+            Looking for AI-proof jobs? Sort by risk level to see which careers are safest.
           </p>
         </div>
 

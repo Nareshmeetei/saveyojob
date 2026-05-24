@@ -62,13 +62,17 @@ export default function CoursesPage() {
 
         <div className="mb-10">
           <h1 className="text-[34px] sm:text-[42px] font-bold text-ink tracking-[-0.03em] leading-tight mb-4">
-            Learn the AI Skills That Keep You Ahead
+            Best AI Courses & Certifications for Working Professionals
           </h1>
-          <p className="text-[16px] text-ink-2 leading-relaxed max-w-[640px] mb-5">
-            The best beginner-to-advanced AI courses, curated to help you stay relevant and grow in the AI era.
+          <p className="text-[16px] text-ink-2 leading-relaxed max-w-[640px] mb-3">
+            The AI skills employers want most — curated from Google, Stanford, IBM, Microsoft, and DeepLearning.AI.
+            Every course is free to start or free to audit, rated 4.6 stars or higher, and built to help you
+            stay relevant as AI reshapes your industry.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-ink-3">
             <span>4.6★ minimum rating</span>
+            <span>·</span>
+            <span>Free to start or audit</span>
             <span>·</span>
             <span>Google · Stanford · IBM · Microsoft · DeepLearning.AI</span>
           </div>
