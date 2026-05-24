@@ -70,7 +70,6 @@ export default function TMAYClient() {
 
   const templatePitch = buildPitch(fields);
   const displayPitch = showAI && aiPitch ? aiPitch : templatePitch;
-  const ready = isComplete(fields);
   const currentStep = STEPS[step];
 
   function set(key: StepKey, value: string) {
@@ -138,7 +137,7 @@ export default function TMAYClient() {
 
   const currentValue = fields[currentStep.key];
 
-  if (showFull || ready) {
+  if (showFull) {
     return (
       <div className="grid lg:grid-cols-[1fr_1fr] gap-8 items-start">
         {/* All answers */}
