@@ -7,7 +7,7 @@ import {
   MessageSquare, Mic, Send,
   TrendingUp, BarChart3, MailOpen,
   Layers, FileSearch, LogOut,
-  Shield, Map,
+  Shield,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -201,20 +201,8 @@ const CATEGORIES: Category[] = [
         name: 'AI Job Risk Scanner',
         tagline: 'Enter job title → task-by-task automation risk score, AI tools doing your work, salary projection',
         tag: 'AI Career',
-
         Icon: Shield,
         href: '/#hero',
-
-      },
-      {
-        id: 'reskilling-roadmap',
-        name: 'Reskilling Roadmap Generator',
-        tagline: 'Job title + goal + time available → week-by-week reskilling plan with courses and salary targets',
-        tag: 'AI Career',
-
-        Icon: Map,
-        href: '/roadmap',
-
       },
     ],
   },
