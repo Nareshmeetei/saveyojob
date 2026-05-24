@@ -317,6 +317,10 @@ export default function ResumeBuilderClient() {
   const [aiFeedback, setAiFeedback]   = useState<string | null>(null);
   const [aiLoading,  setAiLoading]    = useState(false);
   const [aiError,    setAiError]      = useState<string | null>(null);
+  const [summaryAiLoading,   setSummaryAiLoading]   = useState(false);
+  const [summaryRefineError, setSummaryRefineError] = useState<string | null>(null);
+  const [allBulletsLoading,  setAllBulletsLoading]  = useState<string | null>(null);
+  const [bulletRefineError,  setBulletRefineError]  = useState<string | null>(null);
 
   async function handleAIReview() {
     const resumeText = toPlainText(f);
@@ -325,7 +329,7 @@ export default function ResumeBuilderClient() {
     setAiFeedback(null);
     setAiError(null);
     try {
-      const res = await fetch('/api/career-chat', {
+      const res = await fetch('/api/ai-generate', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -343,6 +347,64 @@ export default function ResumeBuilderClient() {
       setAiError('Your internet connection dropped — please check your connection and try again.');
     } finally {
       setAiLoading(false);
+    }
+  }
+
+  async function refineSummary() {
+    if (!summary.trim()) return;
+    setSummaryAiLoading(true);
+    setSummaryRefineError(null);
+    try {
+      const res = await fetch('/api/ai-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{
+            role: 'user',
+            content: `Rewrite this resume professional summary to be more impactful. Use confident, specific professional language. Eliminate clichés like "results-driven", "passionate", or "team player". Keep it 2–4 sentences. Return only the improved summary text, nothing else.\n\n${summary}`,
+          }],
+        }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setSummaryRefineError(data.error ?? 'Something went wrong — please try again.');
+      } else if (data.reply) {
+        setF(s => ({ ...s, summary: data.reply!.trim() }));
+      }
+    } catch {
+      setSummaryRefineError('Your connection dropped — please try again.');
+    } finally {
+      setSummaryAiLoading(false);
+    }
+  }
+
+  async function refineAllBullets(expId: string, bullets: [string, string, string, string]) {
+    const filled = bullets.map((b, i) => ({ idx: i, text: b.trim() })).filter(b => b.text);
+    if (!filled.length) return;
+    setAllBulletsLoading(expId);
+    setBulletRefineError(null);
+    try {
+      const res = await fetch('/api/ai-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{
+            role: 'user',
+            content: `Rewrite these resume bullet points to be stronger. Lead each with a powerful action verb. Include specific quantified results where possible. Be concise — one line per bullet. Return exactly ${filled.length} improved bullet${filled.length > 1 ? 's' : ''}, one per line, with no numbers, dashes, bullet symbols, or labels.\n\n${filled.map(b => b.text).join('\n')}`,
+          }],
+        }),
+      });
+      const data = await res.json() as { reply?: string; error?: string };
+      if (!res.ok || data.error) {
+        setBulletRefineError(data.error ?? 'Something went wrong — please try again.');
+      } else if (data.reply) {
+        const lines = data.reply.trim().split('\n').map(l => l.replace(/^[•\-*\d.)\s]+/, '').trim()).filter(Boolean);
+        filled.forEach((b, i) => { if (lines[i]) setBullet(expId, b.idx, lines[i]); });
+      }
+    } catch {
+      setBulletRefineError('Your connection dropped — please try again.');
+    } finally {
+      setAllBulletsLoading(null);
     }
   }
 
@@ -459,6 +521,22 @@ export default function ResumeBuilderClient() {
               placeholder="Results-driven Marketing Manager with 8+ years in B2B SaaS. Specialise in demand generation programs that consistently exceed pipeline targets. Known for turning data into decisions that reduce CAC and accelerate revenue growth."
             />
           </Field>
+          <div className="flex items-center justify-between mt-3">
+            <button
+              type="button"
+              onClick={refineSummary}
+              disabled={!summary.trim() || summaryAiLoading}
+              className="inline-flex items-center gap-2 px-[22px] py-[10px] bg-fire/[0.07] border border-fire/25 text-fire text-[13px] font-semibold rounded-full tracking-[0.04em] hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {summaryAiLoading
+                ? <><Loader2 size={13} strokeWidth={1.5} className="animate-spin" />Refining...</>
+                : <><Sparkles size={13} strokeWidth={1.5} />Refine with AI</>
+              }
+            </button>
+            {summaryRefineError && (
+              <p className="text-[11px] text-accent leading-relaxed">{summaryRefineError}</p>
+            )}
+          </div>
         </FormSection>
 
         <FormSection title="Work Experience">
@@ -504,6 +582,22 @@ export default function ResumeBuilderClient() {
                       <input value={b} onChange={e => setBullet(exp.id, i, e.target.value)} placeholder={BULLET_HINTS[i]} />
                     </Field>
                   ))}
+                  <div className="flex items-center justify-between pt-1">
+                    <button
+                      type="button"
+                      onClick={() => refineAllBullets(exp.id, exp.bullets)}
+                      disabled={!exp.bullets.some(b => b.trim()) || allBulletsLoading !== null}
+                      className="inline-flex items-center gap-2 px-[22px] py-[10px] bg-fire/[0.07] border border-fire/25 text-fire text-[13px] font-semibold rounded-full tracking-[0.04em] hover:bg-fire/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {allBulletsLoading === exp.id
+                        ? <><Loader2 size={13} strokeWidth={1.5} className="animate-spin" />Refining...</>
+                        : <><Sparkles size={13} strokeWidth={1.5} />Refine with AI</>
+                      }
+                    </button>
+                    {bulletRefineError && allBulletsLoading === null && (
+                      <p className="text-[11px] text-accent leading-relaxed">{bulletRefineError}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

@@ -151,6 +151,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:        0.6,
     },
     {
+      url:             `${siteUrl}/tools/salary-negotiation/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
+      url:             `${siteUrl}/tools/jd-decoder/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
       url:             `${siteUrl}/tools/tmay/`,
       lastModified:    NOW,
       changeFrequency: 'monthly',

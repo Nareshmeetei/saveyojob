@@ -21,10 +21,10 @@ export default function NewsletterCTA() {
         </div>
 
         <h2 className="text-[24px] sm:text-[28px] font-bold tracking-[-0.03em] text-ink mb-3 leading-tight">
-          Weekly AI Job Market Digest
+          Get Ahead Before Your Industry Changes
         </h2>
         <p className="text-[15px] text-ink-2 leading-relaxed mb-8">
-          Stay valuable. Stay employable. Stay ahead of AI.
+          Weekly updates on AI job trends, in-demand skills, practical AI tools, career opportunities, how professionals are using AI to stay ahead at work.
         </p>
 
         {submitted ? (

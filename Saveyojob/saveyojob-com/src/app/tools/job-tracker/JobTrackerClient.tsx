@@ -66,7 +66,7 @@ export default function JobTrackerClient() {
     setAiError(null);
     const prompt = STATUS_PROMPTS[app.status](app.company, app.role);
     try {
-      const res = await fetch('/api/career-chat', {
+      const res = await fetch('/api/ai-generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
