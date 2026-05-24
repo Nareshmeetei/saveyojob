@@ -1,9 +1,64 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   MessageCircle, X, Send, Loader2, ChevronDown, Briefcase, Wrench,
 } from 'lucide-react';
+
+// ── Markdown renderer ──────────────────────────────────────────
+
+function parseInline(text: string) {
+  const regex = /\*\*([^*]+)\*\*|\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = regex.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    if (m[1] !== undefined) {
+      parts.push(<strong key={m.index} className="font-semibold">{m[1]}</strong>);
+    } else {
+      parts.push(
+        <a key={m.index} href={m[3]} target="_blank" rel="noopener noreferrer"
+           className="text-fire underline underline-offset-2 hover:opacity-75 transition-opacity break-all">
+          {m[2]}
+        </a>
+      );
+    }
+    last = regex.lastIndex;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
+function renderMarkdown(text: string) {
+  const lines = text.split('\n');
+  return (
+    <div className="space-y-1">
+      {lines.map((line, i) => {
+        const t = line.trim();
+        if (!t) return <div key={i} className="h-1" />;
+
+        const bullet = t.match(/^[-•*]\s+(.*)/);
+        if (bullet) return (
+          <div key={i} className="flex gap-1.5 items-baseline">
+            <span className="text-fire shrink-0">•</span>
+            <span>{parseInline(bullet[1])}</span>
+          </div>
+        );
+
+        const numbered = t.match(/^(\d+)\.\s+(.*)/);
+        if (numbered) return (
+          <div key={i} className="flex gap-1.5 items-baseline">
+            <span className="text-fire font-semibold shrink-0">{numbered[1]}.</span>
+            <span>{parseInline(numbered[2])}</span>
+          </div>
+        );
+
+        return <div key={i}>{parseInline(t)}</div>;
+      })}
+    </div>
+  );
+}
 
 interface Message {
   role:     'user' | 'model';
@@ -175,14 +230,13 @@ export default function CareerChatWidget() {
               <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
                 <div
                   className={[
-                    'max-w-[88%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed',
+                    'max-w-[88%] px-3.5 py-2.5 rounded-2xl text-[13px] leading-relaxed break-words',
                     m.role === 'user'
-                      ? 'bg-fire text-bg rounded-br-sm'
+                      ? 'bg-fire text-bg rounded-br-sm whitespace-pre-wrap'
                       : 'bg-bg border border-line text-ink rounded-bl-sm',
                   ].join(' ')}
-                  style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
                 >
-                  {m.content}
+                  {m.role === 'user' ? m.content : renderMarkdown(m.content)}
                 </div>
                 {m.toolLabel && (
                   <div className="flex items-center gap-1 mt-1 px-1">
