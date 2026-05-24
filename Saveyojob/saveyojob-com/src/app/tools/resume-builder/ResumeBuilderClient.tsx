@@ -658,18 +658,10 @@ export default function ResumeBuilderClient() {
       <div className="lg:sticky lg:top-8">
 
         {/* Header row */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center mb-3">
           <div className="flex items-center gap-2 text-[13px] font-semibold text-ink">
             <FileText size={14} strokeWidth={1.5} />
             Live Preview
-          </div>
-          <div className="flex items-center gap-3">
-            <button onClick={handleDownloadPDF} disabled={!hasContent} className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <Printer size={12} strokeWidth={1.5} /> PDF
-            </button>
-            <button onClick={handleDownloadWord} disabled={!hasContent} className="flex items-center gap-1.5 text-[12px] text-ink-3 hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <FileDown size={12} strokeWidth={1.5} /> Word
-            </button>
           </div>
         </div>
 
@@ -693,6 +685,24 @@ export default function ResumeBuilderClient() {
               <ExecutivePreview f={hasContent ? f : SAMPLE} />
             )}
           </div>
+        </div>
+
+        {/* Download buttons */}
+        <div className="flex gap-3 mt-4">
+          <button
+            onClick={handleDownloadPDF}
+            disabled={!hasContent}
+            className="flex-1 flex items-center justify-center gap-2 px-[22px] py-[11px] bg-fire text-white text-[13px] font-semibold rounded-full tracking-[0.04em] hover:brightness-110 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <Printer size={15} strokeWidth={1.5} /> Download PDF
+          </button>
+          <button
+            onClick={handleDownloadWord}
+            disabled={!hasContent}
+            className="flex-1 flex items-center justify-center gap-2 px-[22px] py-[11px] border border-fire text-fire text-[13px] font-semibold rounded-full tracking-[0.04em] hover:bg-fire/[0.07] transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <FileDown size={15} strokeWidth={1.5} /> Download Word
+          </button>
         </div>
 
         <p className="text-[11px] text-ink-3 mt-3 leading-relaxed">
