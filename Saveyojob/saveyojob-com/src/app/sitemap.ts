@@ -85,6 +85,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:        0.7,
     },
     {
+      url:             `${siteUrl}/tools/resume-summary/`,
+      lastModified:    NOW,
+      changeFrequency: 'monthly',
+      priority:        0.7,
+    },
+    {
       url:             `${siteUrl}/tools/resume-builder/`,
       lastModified:    NOW,
       changeFrequency: 'monthly',

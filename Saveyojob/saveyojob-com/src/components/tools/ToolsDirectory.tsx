@@ -55,7 +55,7 @@ const CATEGORIES: Category[] = [
         tag: 'Resume',
 
         Icon: Zap,
-        href: '/tools/resume-bullets',
+        href: '/tools/resume-bullet-rewriter',
       },
       {
         id: 'resume-summary',
