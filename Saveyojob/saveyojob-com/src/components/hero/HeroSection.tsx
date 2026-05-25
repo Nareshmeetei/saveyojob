@@ -54,9 +54,9 @@ export default async function HeroSection() {
             <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">jobs displaced by 2027</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6 border-x border-line">
-            {/* Pew Research 2024: 52% more concerned than excited about AI at work */}
-            <div className="text-[22px] sm:text-[28px] font-extrabold font-mono text-ink leading-none tracking-tight">+52%</div>
-            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">worried than excited about AI</div>
+            {/* LinkedIn Economic Graph 2024: 74% of executives believe GAI will benefit employees */}
+            <div className="text-[22px] sm:text-[28px] font-extrabold font-mono text-ink leading-none tracking-tight">74%</div>
+            <div className="text-[10px] sm:text-[11px] text-ink-3 mt-1 leading-snug">of execs say AI benefits staff</div>
           </div>
           <div className="py-3 sm:py-4 px-3 sm:px-6">
             {/* LinkedIn Economic Graph 2024: AI skills command 25%+ salary premium */}
@@ -67,9 +67,9 @@ export default async function HeroSection() {
 
         {/* Footnotes */}
         <p className="text-[10px] text-ink-3 mt-3 leading-relaxed max-w-[780px] mx-auto">
-          World Economic Forum, Future of Jobs Report 2023 &nbsp;·&nbsp;
-          Pew Research Center, 2024 &nbsp;·&nbsp;
-          LinkedIn Economic Graph, 2024
+          <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2023/" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors underline underline-offset-2">World Economic Forum, Future of Jobs Report 2023</a>
+          &nbsp;·&nbsp;
+          <a href="https://economicgraph.linkedin.com/research/future-of-work-report-ai" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors underline underline-offset-2">LinkedIn Economic Graph, 2024</a>
         </p>
 
       </div>
