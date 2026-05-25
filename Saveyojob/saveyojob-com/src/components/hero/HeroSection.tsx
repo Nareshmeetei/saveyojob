@@ -67,9 +67,9 @@ export default async function HeroSection() {
 
         {/* Footnotes */}
         <p className="text-[10px] text-ink-3 mt-3 leading-relaxed max-w-[780px] mx-auto">
-          <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2023/" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors underline underline-offset-2">World Economic Forum, Future of Jobs Report 2023</a>
+          <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2023/" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">World Economic Forum, Future of Jobs Report 2023</a>
           &nbsp;·&nbsp;
-          <a href="https://economicgraph.linkedin.com/research/future-of-work-report-ai" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors underline underline-offset-2">LinkedIn Economic Graph, 2024</a>
+          <a href="https://economicgraph.linkedin.com/research/future-of-work-report-ai" target="_blank" rel="noopener noreferrer" className="hover:text-ink transition-colors">LinkedIn Economic Graph, 2024</a>
         </p>
 
       </div>
